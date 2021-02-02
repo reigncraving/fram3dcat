@@ -243,7 +243,10 @@ handleChange = info => {
               <br/>
               <hr style={{borderColor : '#ffffff', height:"0.5px"}}/>
               <Link to="/update/password">
-                    <Button icon={<KeyOutlined />}type="primary" style={{float:"left"}}>Change Password</Button>
+                    <Button icon={<KeyOutlined />}type="primary" style={{float:"left", marginRight:"20px"}}>Change Password</Button>
+              </Link>
+              <Link to="/delete/account">
+                    <Button icon={<UserOutlined />}type="danger" style={{float:"left"}}>Delete account</Button>
               </Link>
 
 

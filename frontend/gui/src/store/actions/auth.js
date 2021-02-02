@@ -144,7 +144,30 @@ export const updatePassword = ({ old_password, new_password,}) => (dispatch, get
 };
 
 
+// DELETE Account
+export const deleteAccount = ({ passWord}) => (dispatch, getState) => {
+  // User Loading
+  dispatch({ type: UPDATE_SUCCESS });
 
+  // Request Body
+  const body = JSON.stringify({ passWord });
+
+  axios
+    .patch('http://127.0.0.1:8000/accounts/auth/delete/user/', body, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: UPDATE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: UPDATE_FAIL,
+      });
+    });
+
+};
 
 
 

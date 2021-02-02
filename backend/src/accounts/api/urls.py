@@ -12,6 +12,7 @@ LocationInfoUpdateAPI,
 AllDesignersAPIView,
 UserAvatarUploadAPIview,
 CompanyInfoUpdateAPI,
+DestroyUserAPIview,
 
 )
 from .views import ChangePasswordView, AllUsersAPIView, UserDetail
@@ -34,6 +35,7 @@ urlpatterns = [
     path('auth/update/location-info/<int:pk>', LocationInfoUpdateAPI.as_view()),
     path('auth/update/avatar/<int:pk>', UserAvatarUploadAPIview.as_view()),
     path('auth/update/company-info/<int:pk>', CompanyInfoUpdateAPI.as_view()),
+    path('auth/destroy/user/<int:pk>/', DestroyUserAPIview.as_view()),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
