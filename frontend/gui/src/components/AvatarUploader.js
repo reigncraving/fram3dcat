@@ -6,9 +6,9 @@ const AvatarUploader = (props) => {
   const [fileList, setFileList] = useState([
     {
       uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: `{this.props.url}`,
+      name: '',
+      status: 'removed',
+      url: 'http://127.0.0.1:8000/media/default.png',
     },
   ]);
 

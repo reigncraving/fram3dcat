@@ -6,6 +6,9 @@ import {
   Input,
   Upload,
   Select,
+  Checkbox,
+  Row,
+  Col
 } from 'antd';
 import {
    UploadOutlined
@@ -176,6 +179,9 @@ class UpdateCompanyInfo extends React.Component {
         }, 6000);
       };
 
+    onCheckBoxChange = (checkedValues) => {
+    console.log('checked = ', checkedValues);
+    }
 
     onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
@@ -227,7 +233,69 @@ class UpdateCompanyInfo extends React.Component {
                />
             </Form.Item>
 
-          
+            <Form.Item
+              name={['work_fields', 'name']}
+              label="Work fields:"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+            <Checkbox.Group style={{ width: '100%' }} onChange={this.onCheckBoxChange}>
+                <Row>
+                  <Col span={8}>
+                    <Checkbox value="RIGGING">Rigging</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="MODELLING">Modeling</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="VFX">Visual effects</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="TEXTURING">Texturing</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="ANIMATION">Animation</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="FILM">Film and Media Arts</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="RENDERING">Rendering</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="LIGHTNING">Lightning</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="BACKGROUND">Background production</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="GRAPHIC_DESING">Graphic design</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="GAME_DESIGN">Games design</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="PRODUCT_DESIGN">Product design</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="CHARACTER_DESIGN">Character design</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="WEBSITE_DESIGNER">3D website design</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="INTERACTIVE_DESIGN">Interactive design</Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox value="CHARACTER_ANIMATATION">Character Animation</Checkbox>
+                  </Col>
+                </Row>
+            </Checkbox.Group>
+
+            </Form.Item>
 
             <Form.Item
               name={['website', 'name']}
