@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { update_Location, auth, loadUser } from '../store/actions/auth';
 import { withRouter } from 'react-router-dom';
+import { createMessage } from '../store/actions/messages';
 
 
 
@@ -142,16 +143,17 @@ class UpdateLocation extends React.Component {
              country,
         };
         this.props.update_Location(update);
-        this.props.history.push('/dashboard/');
-        this.props.loadUser();
-      
+        this.props.createMessage({ updateSuccesfull: 'Password updated succesfully' });
+        //this.props.history.push('/dashboard/');
+        //this.props.loadUser();
+
       };
-   
+
       enterLoading = index => {
         this.setState(({ loadings }) => {
           const newLoadings = [...loadings];
           newLoadings[index] = true;
-      
+
           return {
             loadings: newLoadings,
           };
@@ -160,7 +162,7 @@ class UpdateLocation extends React.Component {
           this.setState(({ loadings }) => {
             const newLoadings = [...loadings];
             newLoadings[index] = false;
-      
+
             return {
               loadings: newLoadings,
             };
@@ -219,7 +221,7 @@ class UpdateLocation extends React.Component {
 
                />
             </Form.Item>
-           
+
             <Form.Item
               name={['zip_code', 'name']}
               label="Zip code"
@@ -296,13 +298,13 @@ class UpdateLocation extends React.Component {
       );
     };
 }
-  
-  
+
+
   const mapStateToProps = (state) => ({
     userData: state.auth,
 
   });
-  
-  
+
+
 //export default UpdatePersonalInfo;
-export default withRouter(connect(mapStateToProps, { update_Location, loadUser })(UpdateLocation));
+export default withRouter(connect(mapStateToProps, { update_Location, createMessage })(UpdateLocation));

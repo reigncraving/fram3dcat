@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
-  
+
   class Meta:
     model = User
     fields = ('id', 'username', 'password', 'email', 'is_designer',
@@ -96,6 +96,14 @@ class AllPublicDesignersSerializer(serializers.ModelSerializer):
     'address_line','zip_code','state','country',
     'date_joined', 'last_logged_in', 'is_available', 'company_name', 'position',
     'website','tools', 'work_fields', 'skills', 'is_staff', 'is_designer', 'is_admin', 'is_active' )
+
+
+#CompanyInfoSerializer
+class CompanyInfoSerializer(serializers.ModelSerializer):
+   class Meta:
+        model = User
+        fields = ('company_name', 'website', 'website', 'work_fields', 'address_line','zip_code','state','country')
+
 
 #Avatar
 class UserAvatarSerializer(serializers.ModelSerializer):

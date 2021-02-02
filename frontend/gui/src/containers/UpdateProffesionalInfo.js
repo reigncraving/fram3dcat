@@ -67,7 +67,7 @@ class UpdateProffesionalInfo extends React.Component {
     super(props);
     this.handleWorkSelectChange = this.handleWorkSelectChange.bind(this);
     this.handleSkillSelectChange = this.handleSkillSelectChange.bind(this);
-    
+
   };
 
   static propTypes = {
@@ -80,7 +80,7 @@ class UpdateProffesionalInfo extends React.Component {
       ModalText: 'PersonalInfo',
       visible: false,
       confirmLoading: false,
-       
+
        done: false,
        user_ID:"",
        work_fields:"",
@@ -150,17 +150,14 @@ class UpdateProffesionalInfo extends React.Component {
           skills,
         };
         this.props.update_ProffesionalInfo(update);
-        this.props.loadUser();
-        this.setState({done:true});
-        this.props.history.push('/dashboard/');
-        
+      //  this.setState({done:true});
       };
-   
+
       enterLoading = index => {
         this.setState(({ loadings }) => {
           const newLoadings = [...loadings];
           newLoadings[index] = true;
-      
+
           return {
             loadings: newLoadings,
           };
@@ -169,7 +166,7 @@ class UpdateProffesionalInfo extends React.Component {
           this.setState(({ loadings }) => {
             const newLoadings = [...loadings];
             newLoadings[index] = false;
-      
+
             return {
               loadings: newLoadings,
             };
@@ -179,7 +176,7 @@ class UpdateProffesionalInfo extends React.Component {
 
 
     onChange = (e) => this.setState({ [e.target.name]: e.target.value });
-    
+
     handleWorkSelectChange(value) {
         console.log(`selected ${value}`);
         this.setState({
@@ -205,7 +202,7 @@ class UpdateProffesionalInfo extends React.Component {
     };
 
     render() {
-      
+
       if(this.state.done){
         return <Redirect to="/dashboard" />
 
@@ -276,7 +273,7 @@ class UpdateProffesionalInfo extends React.Component {
                     <Option value="CHARACTER_ANIMATATION">Character Animation</Option>
                 </Select>
             </Form.Item>
-           
+
 
 
 
@@ -348,7 +345,7 @@ class UpdateProffesionalInfo extends React.Component {
                     <Option value="TEAMWORK">Teamwork</Option>
                     <Option value="COMMUNICATION">Communication</Option>
                     <Option value="ENGINEERING">Engineering</Option>
-        
+
                 </Select>
             </Form.Item>
 
@@ -367,13 +364,13 @@ class UpdateProffesionalInfo extends React.Component {
       );
     };
 }
-  
-  
+
+
   const mapStateToProps = (state) => ({
     userData: state.auth,
 
   });
-  
-  
+
+
 //export default UpdatePersonalInfo;
 export default withRouter(connect(mapStateToProps, { update_ProffesionalInfo, loadUser, createMessage })(UpdateProffesionalInfo));

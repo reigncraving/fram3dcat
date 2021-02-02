@@ -58,17 +58,23 @@ class UpdatePass extends Component {
     const {
       old_password,
       new_password,
+      new_password2,
       token, } = this.state;
     if (old_password == new_password) {
-      this.props.createMessage({ passwordNotMatch: 'Passwords are the same match' });
-    } else {
+      this.props.createMessage({ passwordNotMatch: 'New password and old passwords are the same!' });
+    } else if ( new_password != new_password2){
+
+      this.props.createMessage({ passwordNotMatch: 'Please confirm new password!' });
+    }
+
+      else {
       const updateUser = {
         old_password,
         new_password,
         token,
       };
       this.props.updatePassword(updateUser);
-      alert("Success")
+      this.props.createMessage({ updateSuccesfull: 'Password updated succesfully' });
       this.props.history.push('/dashboard/');
     }
   };

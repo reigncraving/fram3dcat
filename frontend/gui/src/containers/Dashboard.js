@@ -37,6 +37,7 @@ import AvatarUploader from '../components/AvatarUploader'
 import UpdatePersonalInfo from '../containers/UpdatePersonalInfo'
 import UpdateProffesionalInfo from '../containers/UpdateProffesionalInfo'
 import UpdateLocation from '../containers/UpdateLocation'
+import UpdateCompanyInfo from '../containers/UpdateCompanyInfo'
 import MyFrames from '../containers/MyFrames'
 import { Link, withRouter, Redirect } from 'react-router-dom';
 
@@ -66,12 +67,6 @@ function beforeUpload(file) {
 //avatar/
 
 class Dashboard extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.LoadUser = this.LoadUser.bind(this)
-  }
-
 
 
   static propTypes = {
@@ -104,9 +99,6 @@ handleChange = info => {
     }
   };
 
-  LoadUser() {
-    this.props.loadUser()
-  };
   // static getDerivedStateFromProps(props, state) {
   //     // return an object to update the state.
   //     return props.auth;
@@ -142,7 +134,7 @@ handleChange = info => {
               size={128}
               shape="circle"
               src={user.avatar}
-              backgroundColor='#87d068' />
+            />
             </span>
           </div>
           <div style={{fontSize:"16pt", marginTop:'8px', }}>
@@ -171,11 +163,11 @@ handleChange = info => {
           >
             <span name="UpdatePersonalInfo" style={{float:"right"}} >
               <UpdatePersonalInfo
-                loadUser = {this.LoadUser}
                 userID = {user.id}
                 firstName = {user.first_name}
                 lastName = {user.last_name}
                 website = {user.website}
+                is_designer= {user.is_designer}
                 />
             </span>
             <InfoCircleOutlined /> Information:
@@ -237,7 +229,7 @@ handleChange = info => {
                 country = {user.country}
                 />
               </span>
-    
+
               <EnvironmentOutlined />
               Location:
               <br/>
@@ -273,7 +265,7 @@ handleChange = info => {
               <Button>Clear</Button>
             </form>
           </TabPane>
-          
+
           <TabPane
             tab={
               <span>
@@ -313,7 +305,7 @@ handleChange = info => {
           </TabPane>
         </Tabs>
         </Card>
-        
+
       </>
      );
 
@@ -326,7 +318,7 @@ handleChange = info => {
             size={128}
             shape="circle"
             src={user.avatar}
-            backgroundColor='#87d068' />
+            />
           </span>
         </div>
         <div style={{fontSize:"16pt", marginTop:'8px', }}>
@@ -355,11 +347,11 @@ handleChange = info => {
         >
           <span name="UpdatePersonalInfo" style={{float:"right"}} >
             <UpdatePersonalInfo
-              id = {user.id}
+              userID = {user.id}
+              firstName = {user.first_name}
+              lastName = {user.last_name}
               website = {user.website}
-              first_name = {user.first_name}
-              last_name = {user.last_name}
-          
+              is_designer= {user.is_designer}
               />
           </span>
           <InfoCircleOutlined /> Information:
@@ -379,10 +371,10 @@ handleChange = info => {
           <b style={{marginLeft:"5px"}}>{user.date_joined}</b>
             <br/>
             <br/>
-           
+
             <br/>
-   
-      
+
+
             <Link to="/update/password">
                   <Button icon={<KeyOutlined />}type="primary" style={{float:"left"}}>Change Password</Button>
             </Link>
@@ -414,7 +406,7 @@ handleChange = info => {
             <Button>Clear</Button>
           </form>
         </TabPane>
-        
+
         <TabPane
           tab={
             <span>
@@ -424,7 +416,18 @@ handleChange = info => {
           }
           key="3"
         >
-          <div style={{float:"right"}}><Button>Add Comapny</Button></div>
+          <div style={{float:"right"}}>
+          <UpdateCompanyInfo
+              userID = {user.id}
+              company_name = {user.company_name}
+              website = {user.website}
+              work_fields = {user.work_fields}
+              address_line = {user.address_line}
+              zip_code = {user.zip_code}
+              state = {user.state}
+              country = {user.country}
+          />
+          </div>
           <p>My Comapny:</p>
           <RocketOutlined/>
             <b>Profesional: </b>
@@ -440,7 +443,7 @@ handleChange = info => {
                 <b style={{marginLeft:"5px"}}>{user.work_fields}</b>
                 <br/>
                 <br/>
-      
+
           <EnvironmentOutlined />
             <b>Location:</b>
             <br/>
@@ -452,12 +455,11 @@ handleChange = info => {
             <br/>
             <br/>
             <br/>
-            
 
         </TabPane>
       </Tabs>
       </Card>
-      
+
     </>
 
      );

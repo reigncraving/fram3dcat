@@ -16,7 +16,7 @@ const initialState = {
   isAuthenticated: null,
   isLoading: false,
   user: [
-    {username: '', 
+    {username: '',
     email: '',
     first_name: '',
     last_name: '',

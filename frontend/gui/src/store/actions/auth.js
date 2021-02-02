@@ -127,7 +127,7 @@ export const updatePassword = ({ old_password, new_password,}) => (dispatch, get
   const body = JSON.stringify({ new_password, old_password });
 
   axios
-    .put('http://127.0.0.1:8000/accounts/auth/update/password/', body, tokenConfig(getState))
+    .patch('http://127.0.0.1:8000/accounts/auth/update/password/', body, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: UPDATE_SUCCESS,
@@ -140,6 +140,7 @@ export const updatePassword = ({ old_password, new_password,}) => (dispatch, get
         type: UPDATE_FAIL,
       });
     });
+
 };
 
 
@@ -148,7 +149,7 @@ export const updatePassword = ({ old_password, new_password,}) => (dispatch, get
 
 
 //UPDATE PersonalInfo:
-export const update_PersonalInfo = ({user_ID, first_name, last_name, website }) => (dispatch) => {
+export const update_PersonalInfo = ({user_ID, first_name, last_name, website }) => (dispatch, getState ) => {
   // Headers
   const config = {
     headers: {
@@ -167,10 +168,12 @@ export const update_PersonalInfo = ({user_ID, first_name, last_name, website }) 
         payload: res.data,
       });
     })
+    .then(() => { dispatch(loadUser());})
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: UPDATE_FAIL,
+        payload: err.data,
       });
     });
 };
@@ -195,6 +198,7 @@ export const update_ProffesionalInfo = ({user_ID, work_fields, company_name, pos
         payload: res.data,
       });
     })
+    .then(() => { dispatch(loadUser());})
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -223,6 +227,7 @@ export const update_Location = ({user_ID, address_line, zip_code, state, country
         payload: res.data,
       });
     })
+    .then(() => { dispatch(loadUser());})
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -253,6 +258,35 @@ export const MyFrames = () => (dispatch, getState) => {
 };
 
 
+//UPDATE CompanyInfo:
+export const update_CompanyInfo = ({user_ID, website, company_name, work_fields, address_line, zip_code, state, country }) => (dispatch, getState ) => {
+  // Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  // Request Body
+  const body = JSON.stringify({ company_name, website, work_fields, address_line, zip_code, state, country });
+
+  axios
+    .put('http://127.0.0.1:8000/accounts/auth/update/company-info/' + user_ID, body, config)
+    .then((res) => {
+      dispatch({
+        type: UPDATE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .then(() => { dispatch(loadUser());})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: UPDATE_FAIL,
+        payload: err.data,
+      });
+    });
+};
 
 
 

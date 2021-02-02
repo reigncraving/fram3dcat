@@ -14,6 +14,7 @@ ProfessionalInfoSerializer,
 LocationInfoSerializer,
 AllPublicDesignersSerializer,
 UserAvatarSerializer,
+CompanyInfoSerializer,
 )
 
 from rest_framework.permissions import IsAuthenticated
@@ -67,7 +68,7 @@ class PersonalInfoUpdateAPI(generics.RetrieveUpdateAPIView):
     # ]
       queryset = User.objects.all()
       serializer_class = PersonalInfoSerializer
-    
+
 #update professional info
 class ProfessionalInfoUpdateAPI(generics.RetrieveUpdateAPIView):
     # permission_classes = [
@@ -75,6 +76,15 @@ class ProfessionalInfoUpdateAPI(generics.RetrieveUpdateAPIView):
     # ]
       queryset = User.objects.all()
       serializer_class = ProfessionalInfoSerializer
+
+#update Company info
+class CompanyInfoUpdateAPI(generics.RetrieveUpdateAPIView):
+    # permission_classes = [
+    #   permissions.IsAuthenticated,
+    # ]
+      queryset = User.objects.all()
+      serializer_class = CompanyInfoSerializer
+
 
 class LocationInfoUpdateAPI(generics.RetrieveUpdateAPIView):
     # permission_classes = [
@@ -88,7 +98,7 @@ class AllDesignersAPIView(generics.ListAPIView):
 
     serializer_class = AllPublicDesignersSerializer
     queryset = User.objects.filter(is_designer=True)
-    
+
 #changePassword api
 # class PasswordChangeAPI(generics.RetrieveUpdateAPIView):
 #     serializer_class = ChangePasswordSerializer
@@ -96,7 +106,7 @@ class AllDesignersAPIView(generics.ListAPIView):
 #     permission_classes = [
 #       permissions.IsAuthenticated,
 #     ]
-    
+
 #     def Post(self, request):
 #         serializer = self.get_serializer(data=request.data)
 #         serializer.is_valid(raise_exception=True)

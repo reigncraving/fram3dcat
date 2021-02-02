@@ -119,13 +119,13 @@ handleResize = (e) => {
     const minHeight = this.state.windowHeight - 0;
     //display links for user login status
     const { isAuthenticated, user } = this.props.auth;
-    
+
     const authLinks = (
       <>
-        
+
         <a onClick={this.showAccDrawer}>
           <Badge count={2} style={{ backgroundColor: 'gray' }} offset={[6, -8]} title="new activities">
-            <span classname='username' style={{fontSize:"12pt"}}> { user ? ` ${user.username}  ` : '' } </span>
+            <span className='username' style={{fontSize:"12pt", color:"white"}}> { user ? ` ${user.username}  ` : '' } </span>
           </Badge>
         </a>
         <Drawer
@@ -146,7 +146,7 @@ handleResize = (e) => {
                   mode="inline"
                 >
                   <Menu.Item key="1" title="dashboard" style={{height:"80px"}} onClick={this.onCloseAccDrawer}>
-                  
+
                    <Link to="/dashboard/">
                      <div id="avatar" style={{marginTop:'8px'}} >
                        <span className="avatar-item">
@@ -165,7 +165,7 @@ handleResize = (e) => {
                   </Menu.Item>
                   <Menu.Item key="2" tittle="Upload" icon={<CloudUploadOutlined />} onClick={this.onCloseAccDrawer}>
                     <div style={{float:"right"}}>
-                      <AddFrame/>
+                        {user.is_designer ? <AddFrame/> : "Add Job"}
                     </div>
                   </Menu.Item>
                     <SubMenu key="sub2" title="Navigation Two">
