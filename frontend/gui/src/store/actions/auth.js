@@ -14,6 +14,10 @@ import {
   UPDATE_FAIL,
   GET_FRAMES_SUCCCESS,
   GET_FRAMES_FAIL,
+  DELETE_SUCCESS,
+  DELETE_FAIL,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAIL,
 } from './types';
 
 // CHECK TOKEN & LOAD USER
@@ -144,26 +148,29 @@ export const updatePassword = ({ old_password, new_password,}) => (dispatch, get
 };
 
 
-// DELETE Account
-export const deleteAccount = ({ passWord}) => (dispatch, getState) => {
-  // User Loading
-  dispatch({ type: UPDATE_SUCCESS });
+// DELETE Account email username password is req...
+export const deleteAccount = ({password}) => (dispatch, getState) => {
+
+    const username = getState().auth.username;
+    const email = getState().auth.email;
+    const user_ID = getState().auth.id;
 
   // Request Body
-  const body = JSON.stringify({ passWord });
+  const body = JSON.stringify({ username, email, password });
 
   axios
-    .patch('http://127.0.0.1:8000/accounts/auth/delete/user/', body, tokenConfig(getState))
+    .delete('http://127.0.0.1:8000/accounts/auth/destroy/user/' + user_ID, body, tokenConfig(getState) )
     .then((res) => {
       dispatch({
-        type: UPDATE_SUCCESS,
+        type: DELETE_SUCCESS,
         payload: res.data,
       });
     })
+    .then(() => { dispatch(logout());})
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
-        type: UPDATE_FAIL,
+        type: DELETE_FAIL,
       });
     });
 
@@ -260,7 +267,7 @@ export const update_Location = ({user_ID, address_line, zip_code, state, country
 };
 
 //Get Framews
-export const MyFrames = () => (dispatch, getState) => {
+export const myFrames = () => (dispatch, getState) => {
   // User Loading
   dispatch({ type: USER_LOADING });
 
@@ -311,6 +318,27 @@ export const update_CompanyInfo = ({user_ID, website, company_name, work_fields,
     });
 };
 
+//UPLOAD IMAGE FILE
+export const uploadFile = (url,form_data) => (dispatch, getState) => {
+  // User Loading
+  dispatch({ type: UPLOAD_SUCCESS });
+
+  axios
+    .put(url, form_data, tokenConfigUpload(getState))
+    .then((res) => {
+      dispatch({
+        type: UPLOAD_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .then(() => { dispatch(loadUser());})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: UPLOAD_FAIL,
+      });
+    });
+};
 
 
 // Setup config with token - helper function
@@ -322,6 +350,26 @@ export const tokenConfig = (getState) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
+    },
+  };
+
+  // If token, add to headers config
+  if (token) {
+    config.headers['Authorization'] = `Token ${token}`;
+  }
+
+  return config;
+};
+
+
+export const tokenConfigUpload = (getState) => {
+  // Get token from state
+  const token = getState().auth.token;
+
+  // Headers
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data',
     },
   };
 

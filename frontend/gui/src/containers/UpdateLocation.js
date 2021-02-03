@@ -143,7 +143,7 @@ class UpdateLocation extends React.Component {
              country,
         };
         this.props.update_Location(update);
-        this.props.createMessage({ updateSuccesfull: 'Password updated succesfully' });
+        this.props.createMessage({ updateSuccesfull: 'Location updated succesfully' });
         //this.props.history.push('/dashboard/');
         //this.props.loadUser();
 

@@ -1,4 +1,5 @@
 from rest_framework import generics, mixins, permissions, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
@@ -15,6 +16,7 @@ LocationInfoSerializer,
 AllPublicDesignersSerializer,
 UserAvatarSerializer,
 CompanyInfoSerializer,
+DestroyUserSerializer,
 )
 
 from rest_framework.permissions import IsAuthenticated
@@ -150,15 +152,14 @@ class ChangePasswordAPIView(generics.UpdateAPIView):
 
 
 
-
-class UserAvatarUploadAPIview(generics.RetrieveUpdateAPIView):
+#avatar
+class UserAvatarUploadAPIview(generics.UpdateAPIView):
     parser_classes = [MultiPartParser, FormParser]
-    #permission_classes = [IsAuthenticated]
-    queryset = User.objects.all()
+    permission_classes = [IsAuthenticated]
     serializer_class = UserAvatarSerializer
-
-    def post(self, request, format=None):
-        serializer = UserAvatarSerializer(data=request.data, instance=request.user)
+    queryset = User.objects.all()
+    def patch(self, request, pk, format=None,):
+        serializer = UserAvatarSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -167,8 +168,8 @@ class UserAvatarUploadAPIview(generics.RetrieveUpdateAPIView):
 
 
 class DestroyUserAPIview(generics.DestroyAPIView):
-    serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    serializer_class = DestroyUserSerializer
+    #permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
 
     def delete(self, request, *args, **kwargs):

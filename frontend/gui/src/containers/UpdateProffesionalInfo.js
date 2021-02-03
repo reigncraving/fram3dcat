@@ -150,6 +150,7 @@ class UpdateProffesionalInfo extends React.Component {
           skills,
         };
         this.props.update_ProffesionalInfo(update);
+        this.props.createMessage({ updateSuccesfull: 'Update succesfull' });
       //  this.setState({done:true});
       };
 

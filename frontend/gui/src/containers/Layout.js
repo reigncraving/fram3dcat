@@ -287,7 +287,7 @@ handleResize = (e) => {
           <Footer
           style={{ textAlign: 'center', color:"white", backgroundColor:"#22232B"}}
           >
-          Fram3dcat ©2020 Created by Reigncraving
+          Fram3dcat ©2020 - 2021 Created by Teodor Raychev
           </Footer>
       </Layout>
    );

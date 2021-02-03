@@ -38,7 +38,10 @@ class DeleteAccount extends Component {
 
   state = {
     deleteWord: '',
-    token: ' ',
+    //user_ID: ' ',
+    password: ' ',
+    //username: ' ',
+    //email: ' ',
   };
 
   static propTypes = {
@@ -50,21 +53,30 @@ class DeleteAccount extends Component {
     //e.preventDefault();
     this.setState(
       {
-        token: this.props.auth.token,
+        user_ID: this.props.auth.id,
+        //username: this.props.auth.username,
+        //email: this.props.auth.email,
       });
-    console.log(this.state.token);
+    //console.log(this.state.id);
     const {
       deleteWord,
-      token, } = this.state;
+    //  user_ID,
+    //  username,
+    //  email,
+      password,
+      } = this.state;
+  //  const { user_ID } = this.props.auth.id
     if (deleteWord != "DELETE") {
       this.props.createMessage({ passwordNotMatch: 'Please confirm by typing DELETE!' });
+    //  alert(this.state.user_ID)
     } else{
       const deleteUser = {
-        deleteWord,
-        token,
+      //  user_ID,
+      //  username,
+    //    email,
+        password,
       };
       this.props.deleteAccount(deleteUser);
-      this.props.logout();
       this.props.createMessage({ updateSuccesfull: 'Account deleted succesfully' });
       this.props.history.push('/designers/');
     }
@@ -76,7 +88,7 @@ class DeleteAccount extends Component {
   render() {
 
     const { isAuthenticated, user } = this.props.auth;
-    const { deleteWord} = this.state;
+    const { deleteWord, password} = this.state;
     return (
       <Form {...layout} onFinish={this.onSubmit}>
         <Card
@@ -107,6 +119,26 @@ class DeleteAccount extends Component {
                 />
               </Form.Item>
 
+              <Form.Item
+                 style={{marginTop:"30px"}}
+                 label="Password"
+                 name="password"
+                 rules={[
+                     {
+                       required: true,
+                       message: 'Please input your password!',
+                     },
+                   ]}
+                  >
+                  <Input.Password
+                    size="large" placeholder="password"
+                    iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                    type="password"
+                    name="password"
+                    onChange={this.onChange}
+                    value={password}
+                  />
+                </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>
             <Button type="danger" htmlType="submit" style={{ marginBottom: "20px"}} onClick ={this.onSubmit}>

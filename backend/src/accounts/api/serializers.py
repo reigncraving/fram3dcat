@@ -107,11 +107,21 @@ class CompanyInfoSerializer(serializers.ModelSerializer):
 
 #Avatar
 class UserAvatarSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ["avatar"]
 
-    def save(self, *args, **kwargs):
+    def patch(self, *args, **kwargs):
         if self.instance.avatar:
             self.instance.avatar.delete()
         return super().save(*args, **kwargs)
+
+
+#destroy user
+class DestroyUserSerializer(serializers.Serializer):
+    model = User
+
+    username = serializers.CharField(required=True)
+    email = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)

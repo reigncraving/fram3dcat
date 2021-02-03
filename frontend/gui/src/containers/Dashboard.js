@@ -33,7 +33,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout, auth, loadUser } from '../store/actions/auth';
 import AddFrame from '../containers/AddFrame'
-import AvatarUploader from '../components/AvatarUploader'
+import ImageUploader from '../components/ImageUploader'
 import UpdatePersonalInfo from '../containers/UpdatePersonalInfo'
 import UpdateProffesionalInfo from '../containers/UpdateProffesionalInfo'
 import UpdateLocation from '../containers/UpdateLocation'
@@ -78,9 +78,9 @@ class Dashboard extends React.Component {
     work_fields: [],
   };
 
-onImageUploadFinish = e => {
-  this.props.auth.user.avatar = this.state.avatar;
-};
+// onImageUploadFinish = e => {
+//   this.props.auth.user.avatar = this.state.avatar;
+// };
 
 //avatar: magic here....
 handleChange = info => {
@@ -261,12 +261,10 @@ handleChange = info => {
             key="2"
           >
             <p>Avatar</p>
-            <form method="Post" enctype="multipart/form-data">
-                <AvatarUploader url = {user.avatar}/>
-              <Button type="submit">Update</Button>
 
-              <Button>Clear</Button>
-            </form>
+            <ImageUploader id={user.id}/>
+
+
           </TabPane>
 
           <TabPane
@@ -391,23 +389,10 @@ handleChange = info => {
           }
           key="2"
         >
-          <p>Avatar</p>
-          <form method="Post" enctype="multipart/form-data">
-            <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList= { false | {showRemoveIcon : true} }
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={this.handleChange}
-              >
-                  {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-            </Upload>
-            <Button type="submit">Update</Button>
+        <p>Avatar</p>
 
-            <Button>Clear</Button>
-          </form>
+        <ImageUploader id={user.id}/>
+
         </TabPane>
 
         <TabPane

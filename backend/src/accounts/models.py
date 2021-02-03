@@ -21,7 +21,7 @@ class User (AbstractUser):
     last_name = models.CharField(max_length=100, default=' ', blank=True)
     date_joined =  models.DateTimeField(auto_now_add=True)
     last_logged_in = models.DateField(null=True, blank=True)
-    avatar = models.ImageField(default='default.png', blank=True, null=True, upload_to=upload_path)
+    avatar = models.ImageField(default='default.png', blank=True, null=True, upload_to='avatar', max_length=255)
     skills = MultiSelectField(choices=Skills.SKILL_CHOICES, default=' ', blank=True)
     work_fields = MultiSelectField(choices=Field_of_work.FIELD_CHOICES, default=' ', blank=True)
     tools = MultiSelectField(choices=Tools.TOOL_CHOICES, default=' ', blank=True)

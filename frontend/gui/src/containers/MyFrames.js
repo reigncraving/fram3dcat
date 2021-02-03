@@ -1,7 +1,7 @@
 import React from 'react';
 import FrameList from '../components/frameList'
 import { connect } from 'react-redux';
-import {loadUser, MyFrames } from '../store/actions/auth';
+import {loadUser, myFrames } from '../store/actions/auth';
 import FrameViewer from '../containers/FrameViewer'
 import Axios from 'axios';
 
@@ -15,7 +15,7 @@ class MyFramesList extends React.Component {
   }
 
 
-  
+
 
   //Get the data from django
   componentDidMount(){
@@ -33,6 +33,7 @@ class MyFramesList extends React.Component {
       Axios.get(`http://127.0.0.1:8000/global/frames/by/${username}/`)
       .then(res => {
           this.setState({Frame: res.data}); //res = response data
+          
       })
   }
 
@@ -40,7 +41,6 @@ class MyFramesList extends React.Component {
     render(){
         return(
           <>
-
             <FrameList data={this.state.Frame} />
           </>
         );
@@ -54,4 +54,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, {loadUser, MyFrames})(MyFramesList);
+export default connect(mapStateToProps, {loadUser, myFrames})(MyFramesList);

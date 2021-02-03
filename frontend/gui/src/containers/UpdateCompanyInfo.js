@@ -423,5 +423,5 @@ class UpdateCompanyInfo extends React.Component {
   });
 
 
-//export default UpdatePersonalInfo;
+
 export default withRouter(connect(mapStateToProps, { update_CompanyInfo, createMessage })(UpdateCompanyInfo));
