@@ -9,10 +9,26 @@ import {
   UPDATE_SUCCESS,
   UPDATE_FAIL,
   REGISTER_FAIL,
+  GET_FRAMES_SUCCCESS,
+  GET_FRAMES_FAIL,
 } from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
+  frame: [
+    {title: '',
+    description: '',
+    author: '',
+    rating: '',
+    number_of_comments: '',
+    likes: '',
+    views: '',
+    frameFile: '',
+    frame_picture: '',
+    date_uploaded: '',
+    last_moddified: '',
+  }
+],
   isAuthenticated: null,
   isLoading: false,
   user: [
@@ -40,7 +56,7 @@ const initialState = {
     is_active: false,
     password: '',
   }
-  ]
+],
 };
 
 export default function (state = initialState, action) {
@@ -59,6 +75,14 @@ export default function (state = initialState, action) {
         isLoading: false,
         user: action.payload,
       };
+    case GET_FRAMES_SUCCCESS:
+        localStorage.setItem('frame', action.payload)
+        return {
+          ...state,
+          ...action.payload,
+          isLoading: false,
+          frame: action.payload,
+        };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       localStorage.setItem('token', action.payload.token);

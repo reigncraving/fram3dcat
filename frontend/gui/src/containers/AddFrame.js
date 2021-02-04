@@ -8,8 +8,17 @@ import {
   Select
 } from 'antd';
 import {
-   UploadOutlined
+   UploadOutlined,
+   WarningTwoTone,
  } from '@ant-design/icons';
+
+ import PropTypes from 'prop-types';
+ import { useDispatch } from "react-redux";
+ import { connect } from 'react-redux';
+ import { auth, createFrame } from '../store/actions/auth';
+ import { withRouter } from 'react-router-dom';
+ import { createMessage } from '../store/actions/messages';
+ import ImageUploader from '../components/ImageUploader'
 
 const layout = {
   labelCol: {
@@ -44,51 +53,28 @@ for (let i = 10; i < 36; i++) {
 
 const validateMessages = {
   required: '${label} is required!',
-  types: {
-    email: '${label} is not validate email!',
-    number: '${label} is not a validate number!',
-  },
-  number: {
-    range: '${label} must be between ${min} and ${max}',
-  },
+
 };
 
 
 class AddFrame extends React.Component {
+  static propTypes = {
+    update_PersonalInfo: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
+  };
+
     state = {
-      ModalText: 'Add Frame',
+      loadings: [],
+      ModalText: 'PersonalInfo',
       visible: false,
       confirmLoading: false,
-        //upload
-          fileList: [
-         {
-           uid: '-1',
-           name: '',
-           status: 'removed',
-           url: '',
-         },
-       ],
 
+       title:"",
+       description:"",
+       user_ID:"",
+       frameFile:" ",
+       framePicture: " ",
     };
-
-      handleUpload = info => {
-         let fileList = [...info.fileList];
-
-         // 1. Limit the number of uploaded files
-         // Only to show two recent uploaded files, and old ones will be replaced by the new
-         fileList = fileList.slice(-1);
-
-         // 2. Read from response and show file link
-         fileList = fileList.map(file => {
-           if (file.response) {
-             // Component will show file.url as link
-             file.url = file.response.url;
-           }
-           return file;
-         });
-
-         this.setState({ fileList });
-       };
 
 
     showModal = () => {
@@ -99,7 +85,7 @@ class AddFrame extends React.Component {
 
     handleOk = () => {
       this.setState({
-        ModalText: 'The modal will be closed after two seconds',
+
         confirmLoading: true,
       });
       setTimeout(() => {
@@ -120,137 +106,204 @@ class AddFrame extends React.Component {
 
     onSubmit = (e) => {
       //e.preventDefault();
-      // const {
-      //   old_password,
-      //   new_password } = this.state;
-      // if (old_password == new_password) {
-      //   this.props.createMessage({ passwordNotMatch: 'Passwords are the same match' });
-      // } else {
-      //   const updateUser = {
-      //     old_password,
-      //     new_password,
-      //   };
-      //   this.props.updatePassword(updateUser);
-      // }
-    };
+      this.setState({
+        confirmLoading: true,
+        user_ID: this.props.userData.id
+      });
+      setTimeout(() => {
+        this.setState({
+          visible: false,
+          confirmLoading: false,
+        });
+      }, 2000);
+      const {
+          title,
+          description,
+          user_ID,
+          frameFile,
+          framePicture,
+        } = this.state;
+
+        let form_data = new FormData();
+        form_data.append('title', this.state.title);
+        form_data.append('description', this.state.description);
+        form_data.append('author', this.state.user_ID);
+        form_data.append('frameFile', this.state.frameFile);
+        form_data.append('frame_picture', this.state.framePicture);
+
+
+        this.props.createFrame(form_data);
+        this.props.createMessage({ updateSuccesfull: 'Frame Created' });
+        //this.props.history.push('/dashboard/');
+        //this.props.loadUser();
+
+      };
+
+      enterLoading = index => {
+        this.setState(({ loadings }) => {
+          const newLoadings = [...loadings];
+          newLoadings[index] = true;
+
+          return {
+            loadings: newLoadings,
+          };
+        });
+        setTimeout(() => {
+          this.setState(({ loadings }) => {
+            const newLoadings = [...loadings];
+            newLoadings[index] = false;
+
+            return {
+              loadings: newLoadings,
+            };
+          });
+        }, 6000);
+      };
+
 
     onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
 //for multiselect
     handleChange = (value) => {
       console.log(`selected ${value}`);
-    }
+    };
+
+
+    handleImageChange = (e) => {
+    this.setState({
+      framePicture: e.target.files[0],
+    })
+    };
+
+    handleFileChange = (e) => {
+    this.setState({
+      frameFile: e.target.files[0],
+    })
+    };
+
 
     render() {
       const { visible, confirmLoading, ModalText } = this.state;
-      const props = {
-          action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-          onChange: this.handleUpload,
-          multiple: true,
-        };
+      const { loadings } = this.state;
       return (
         <>
           <Button type="primary" onClick={this.showModal}>
-            New frame
+            Add Frame
           </Button>
           <Modal
-            title="New frame"
+            title="New Frame"
             visible={visible}
-            onOk={this.handleOk}
-            width="85%"
-            confirmLoading={confirmLoading}
             onCancel={this.handleCancel}
+            onOk={this.handleOk}
+            width="70%"
+            confirmLoading={confirmLoading}
             footer=" "
           >
 
-          <Form {...layout} name="nest-messages" onFinish={this.onSubmit} validateMessages={this.validateMessages}>
+          <Form
+          {...layout}
+          name="nest-messages"
+          onFinish={this.onSubmit}
+          validateMessages={this.validateMessages}>
+
             <Form.Item
-              name={['user', 'name']}
-              label="Name"
+              name={['title']}
+              label="Title "
               rules={[
                 {
                   required: true,
                 },
               ]}
             >
-              <Input />
-            </Form.Item>
-
-            <Form.Item name={['user', 'description']} label="description">
-            <Input.TextArea />
-            </Form.Item>
-
-            <Form.Item
-            name={['tools', 'name']}
-            label="Tools"
-            rules={[
-              {
-                required: false,
-              },
-            ]}
-            >
-              <Select
-               mode="multiple"
-               allowClear
-               style={{ width: '100%' }}
-               placeholder="Please select"
-               defaultValue={['a10', 'c12']}
-               onChange={this.handleChange}
-             >
-               {children}
-             </Select>
+              <Input
+                size="large"
+                type="text"
+                name="title"
+                className="form-control"
+                onChange={this.onChange}
+               />
             </Form.Item>
 
             <Form.Item
-            name={['field_Of_Work', 'name']}
-            label="Field of work"
-            rules={[
-              {
-                required: false,
-              },
-            ]}
+              name={['description']}
+              label="Short description "
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
             >
-              <Select
-               mode="multiple"
-               allowClear
-               style={{ width: '100%' }}
-               placeholder="Please select"
-               defaultValue={['a10', 'c12']}
-               onChange={this.handleChange}
-             >
-               {children}
-             </Select>
+              <Input
+                size="large"
+                type="text"
+                name="description"
+                className="form-control"
+                onChange={this.onChange}
+               />
             </Form.Item>
 
 
             <Form.Item
-            name={['uploadField', 'name']}
-            label="File"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
+              name={['frameFile']}
+              label="Frame file "
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
             >
-                <Upload {...props} fileList={this.state.fileList}>
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
+              <input type="file"
+                     id="frameFile"
+                     onChange={this.handleFileChange} required
+                     style={{color: "blue",  }}
+                     />
+              <span style={{color:'#8D8BFF'}}>
+              <WarningTwoTone/>
+              <b Style={{color:"#8BC7FF"}}>Only glTF-Binary files supported (*.glb)</b>
+              </span>
             </Form.Item>
+
+            <Form.Item
+              name={['framePicture']}
+              label="Frame Screenshot "
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <input type="file"
+                     id="framePicture"
+                     accept="image/png, image/jpeg"  onChange={this.handleImageChange} required
+                     style={{color: "blue",  }}
+                     />
+
+            </Form.Item>
+
+
 
             <Form.Item {...tailFormItemLayout}>
-              <Button style={{marginRight:"10px"}} type="primary" htmlType="submit">
+              <Button style={{marginRight:"10px"}} type="primary" htmlType="submit" loading={loadings[0]} onClick={() => this.enterLoading(0)}>
                 Update
               </Button>
               <Button onClick={this.handleCancel}>
                 Cancel
               </Button>
             </Form.Item>
-          </Form>
+            </Form>
 
           </Modal>
         </>
       );
-    }
-  }
+    };
+}
 
-export default AddFrame;
+
+  const mapStateToProps = (state) => ({
+    userData: state.auth,
+
+  });
+
+
+//export default UpdatePersonalInfo;
+export default withRouter(connect(mapStateToProps,  { createFrame, createMessage })(AddFrame));

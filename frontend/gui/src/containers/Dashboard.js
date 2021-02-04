@@ -278,7 +278,7 @@ handleChange = info => {
           >
             <div style={{float:"right"}}><AddFrame/></div>
             <p>My Frames:</p>
-            <MyFrames></MyFrames>
+            <MyFrames username={user.username}></MyFrames>
           </TabPane>
 
 

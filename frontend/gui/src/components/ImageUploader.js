@@ -95,7 +95,7 @@ this.props.createMessage({ updateSuccesfull: 'Avatar updated succesfully' });
     const { loadings } = this.state;
     return (
 
-            <div className="App">
+            <div className="Uploader">
             <Form onFinish={this.handleSubmit}>
               <p>
                 <input type="file"

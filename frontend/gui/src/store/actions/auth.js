@@ -18,6 +18,8 @@ import {
   DELETE_FAIL,
   UPLOAD_SUCCESS,
   UPLOAD_FAIL,
+  ADD_FRAME_SUCCESS,
+  ADD_FRAME_FAIL,
 } from './types';
 
 // CHECK TOKEN & LOAD USER
@@ -267,12 +269,18 @@ export const update_Location = ({user_ID, address_line, zip_code, state, country
 };
 
 //Get Framews
-export const myFrames = () => (dispatch, getState) => {
+export const getMyFrames = (username) => (dispatch, getState) => {
   // User Loading
   dispatch({ type: USER_LOADING });
 
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
   axios
-    .get('http://127.0.0.1:8000/global/frames/author/', tokenConfig(getState))
+    .get(`http://127.0.0.1:8000/global/frame_author/?author__username=${username}`, config)
     .then((res) => {
       dispatch({
         type: GET_FRAMES_SUCCCESS,
@@ -285,7 +293,35 @@ export const myFrames = () => (dispatch, getState) => {
         type: GET_FRAMES_FAIL,
       });
     });
+
+
 };
+
+// export function fetchMyFrames(username) {
+//     const config = {
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//     };
+//   return function(dispatch) {
+//     return axios.get(`http://127.0.0.1:8000/global/frame_author/?author__username=${username}`, config).then(({ data }) => {
+//       dispatch(setMyFrames(data));
+//     });
+//   };
+// }
+//
+// function setMyFrames(data) {
+//   return {
+//     type: GET_FRAMES_SUCCCESS,
+//     payload: data
+//   };
+// }
+
+
+
+
+
+
 
 
 //UPDATE CompanyInfo:
@@ -339,6 +375,31 @@ export const uploadFile = (url,form_data) => (dispatch, getState) => {
       });
     });
 };
+
+
+//Create Frame
+export const createFrame = (form_data) => (dispatch, getState) => {
+  // User Loading
+  dispatch({ type: ADD_FRAME_SUCCESS });
+
+  axios
+    .post('http://127.0.0.1:8000/global/frames/', form_data, tokenConfigUpload(getState))
+    .then((res) => {
+      dispatch({
+        type: ADD_FRAME_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .then(() => { dispatch(loadUser());})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: ADD_FRAME_FAIL,
+      });
+    });
+};
+
+
 
 
 // Setup config with token - helper function

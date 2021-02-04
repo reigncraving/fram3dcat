@@ -7,8 +7,9 @@ import {
   Card,
   Avatar,
   Space,
+  Button,
 } from 'antd';
-import { Collapse } from 'antd';
+
 
 const FrameList = (props) => {
   const action = props.action
@@ -24,10 +25,12 @@ const FrameList = (props) => {
       dataSource={props.data}
       renderItem={item => (
         <List.Item>
-   
+
               <>
                 <FrameModal data={item} action={action}>
                 </FrameModal>
+                <Button >Edit   </Button>
+                <Button type="danger" style={{marginLeft:"70px"}}>Delete</Button>
               </>
 
 
