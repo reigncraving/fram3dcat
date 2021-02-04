@@ -1,5 +1,5 @@
 import React from 'react';
-import FrameList from '../components/frameList'
+import MyFrameList from '../components/myFrameList'
 import { connect } from 'react-redux';
 import {loadUser, getMyFrames } from '../store/actions/auth';
 import FrameViewer from '../containers/FrameViewer'
@@ -43,7 +43,7 @@ class MyFramesList extends React.Component {
     render(){
         return(
           <>
-             <FrameList data={this.props.frames} />
+             <MyFrameList data={this.props.frames} />
           </>
         );
     }

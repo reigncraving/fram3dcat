@@ -29,8 +29,6 @@ const FrameList = (props) => {
               <>
                 <FrameModal data={item} action={action}>
                 </FrameModal>
-                <Button >Edit   </Button>
-                <Button type="danger" style={{marginLeft:"70px"}}>Delete</Button>
               </>
 
 

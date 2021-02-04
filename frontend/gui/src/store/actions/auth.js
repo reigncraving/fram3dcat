@@ -391,6 +391,8 @@ export const createFrame = (form_data) => (dispatch, getState) => {
       });
     })
     .then(() => { dispatch(loadUser());})
+    //update state on my framelist
+    .then(() => { dispatch(getMyFrames(getState().auth.username));})
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
