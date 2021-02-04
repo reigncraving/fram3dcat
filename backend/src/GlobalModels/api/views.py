@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import generics
+import django_filters
 from django.contrib.auth import get_user_model
 from .serializers import (
 LocationSerializer,
@@ -7,7 +8,9 @@ SkillsSerializer,
 FieldOfWorkSerializer,
 ToolsSerializer,
 FrameSerializer,
-FrameCommentSerializer
+FrameCommentSerializer,
+AuthorSerializer,
+FrameGetAuthorSerializer,
 )
 from GlobalModels.models import (
 Location,
@@ -46,12 +49,58 @@ class FrameListView(generics.ListAPIView):
     serializer_class = FrameSerializer
     queryset = Frame.objects.all()
 
-#get all frames by author
-class FrameByAuthor(generics.ListAPIView):
+class FrameDetailView(generics.UpdateAPIView):
     serializer_class = FrameSerializer
-    def get_queryset(self):
-        username = self.kwargs['username']
-        return Frame.objects.filter(author__username=username)
+    queryset = Frame.objects.all()
+
+#CREATE frame
+class FrameCreateView(generics.CreateAPIView):
+    serializer_class = FrameSerializer
+    class Meta:
+      model = Frame
+      fields = (
+      'id',
+      'title',
+      'description',
+      'author',
+      'frameFile',
+      'frame_picture',
+      'date_uploaded',
+      'last_moddified',)
+
+
+    def create(self, validated_data):
+      return Frame.objects.create(
+        title=validated_data['title'],
+        description=validated_data['description'],
+        author = validated_data['author'],
+        frameFile = validated_data['frameFile'],
+        frame_picture = validated_data['frame_picture'],
+      )
+
+
+#get all frames by author
+# class FrameByAuthor(generics.ListAPIView):
+#     serializer_class = FrameSerializer
+#     def get_queryset(self):
+#         username = self.kwargs['username']
+#         return Frame.objects.filter(author__username=username)
+
+
+class FrameByAuthor(viewsets.ModelViewSet):
+    serializer_class = FrameGetAuthorSerializer
+    queryset = Frame.objects.all()
+    filterset_fields = ('author__username', )
+
+
+
+class FrameViewSet(viewsets.ModelViewSet):
+    serializer_class = FrameSerializer
+    queryset = Frame.objects.all()
+    filterset_fields = ('author__id', )
+
+
+
 
 
 class FrameCommentViewSet(viewsets.ModelViewSet):
@@ -61,4 +110,3 @@ class FrameCommentViewSet(viewsets.ModelViewSet):
 def delete(self, request, format=None):
     Frame.frameFile.delete(save=True)
     return Response(status=status.HTTP_204_NO_CONTENT)
-

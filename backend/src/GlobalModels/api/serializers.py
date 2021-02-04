@@ -60,6 +60,26 @@ class ToolsSerializer(serializers.ModelSerializer):
 
 class FrameSerializer(serializers.ModelSerializer):
         #user = serializers.RelatedField(source=get_user_model(), read_only=True)
+        #author = AuthorSerializer()
+        class Meta:
+            model = Frame
+            fields = (
+            'id',
+            'title',
+            'description',
+            'author',
+            'frameFile',
+            'frame_picture',
+            'rating',
+            'number_of_comments',
+            'likes',
+            'views',
+            'date_uploaded',
+            'last_moddified',
+            )
+
+class FrameGetAuthorSerializer(serializers.ModelSerializer):
+        #user = serializers.RelatedField(source=get_user_model(), read_only=True)
         author = AuthorSerializer(read_only=True)
         class Meta:
             model = Frame
@@ -77,7 +97,8 @@ class FrameSerializer(serializers.ModelSerializer):
             'date_uploaded',
             'last_moddified',
             )
-    
+
+
 
 class FrameCommentSerializer(serializers.ModelSerializer):
         author = AuthorSerializer(read_only=True)

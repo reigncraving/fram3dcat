@@ -124,7 +124,7 @@ handleResize = (e) => {
       <>
 
         <a onClick={this.showAccDrawer}>
-          <Badge count={2} style={{ backgroundColor: 'gray' }} offset={[6, -8]} title="new activities">
+          <Badge count={0} style={{ backgroundColor: 'gray' }} offset={[6, -8]} title="new activities">
             <span className='username' style={{fontSize:"12pt", color:"white"}}> { user ? ` ${user.username}  ` : '' } </span>
           </Badge>
         </a>

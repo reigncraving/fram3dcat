@@ -31,7 +31,7 @@ class FramesListView extends React.Component {
 
   //Get the data from django
   componentDidMount(){
-      Axios.get(`http://127.0.0.1:8000/global/frames/`)
+      Axios.get(`http://127.0.0.1:8000/global/frame_author/`)
       .then(res => {
           this.setState({Frame: res.data}); //res = response data
       })

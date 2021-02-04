@@ -30,10 +30,10 @@ class MyFramesList extends React.Component {
     //   },
     // };
      const username = this.props.userData.username;
-      Axios.get(`http://127.0.0.1:8000/global/frames/by/${username}/`)
+      Axios.get(`http://127.0.0.1:8000/global/frame_author/?author__username=${username}`)
       .then(res => {
           this.setState({Frame: res.data}); //res = response data
-          
+
       })
   }
 
