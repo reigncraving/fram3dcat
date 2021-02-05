@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework import generics
+from rest_framework import generics, permissions
 import django_filters
 from django.contrib.auth import get_user_model
 from .serializers import (
@@ -95,6 +95,9 @@ class FrameByAuthor(viewsets.ModelViewSet):
 
 
 class FrameViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+      permissions.IsAuthenticated,
+    ]
     serializer_class = FrameSerializer
     queryset = Frame.objects.all()
     filterset_fields = ('author__id', )

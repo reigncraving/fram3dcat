@@ -20,6 +20,7 @@ import {
   UPLOAD_FAIL,
   ADD_FRAME_SUCCESS,
   ADD_FRAME_FAIL,
+  FRAMES_LOADING,
 } from './types';
 
 // CHECK TOKEN & LOAD USER
@@ -268,60 +269,6 @@ export const update_Location = ({user_ID, address_line, zip_code, state, country
     });
 };
 
-//Get Framews
-export const getMyFrames = (username) => (dispatch, getState) => {
-  // User Loading
-  dispatch({ type: USER_LOADING });
-
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  axios
-    .get(`http://127.0.0.1:8000/global/frame_author/?author__username=${username}`, config)
-    .then((res) => {
-      dispatch({
-        type: GET_FRAMES_SUCCCESS,
-        payload: res.data,
-      });
-    })
-    .catch((err) => {
-      dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({
-        type: GET_FRAMES_FAIL,
-      });
-    });
-
-
-};
-
-// export function fetchMyFrames(username) {
-//     const config = {
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     };
-//   return function(dispatch) {
-//     return axios.get(`http://127.0.0.1:8000/global/frame_author/?author__username=${username}`, config).then(({ data }) => {
-//       dispatch(setMyFrames(data));
-//     });
-//   };
-// }
-//
-// function setMyFrames(data) {
-//   return {
-//     type: GET_FRAMES_SUCCCESS,
-//     payload: data
-//   };
-// }
-
-
-
-
-
-
 
 
 //UPDATE CompanyInfo:
@@ -377,6 +324,35 @@ export const uploadFile = (url,form_data) => (dispatch, getState) => {
 };
 
 
+//Get MyFramews be username
+export const getMyFrames = (username) => (dispatch, getState) => {
+  // User Loading
+  dispatch({ type: FRAMES_LOADING });
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  axios
+    .get(`http://127.0.0.1:8000/global/frame_author/?author__username=${username}`, config)
+    .then((res) => {
+      dispatch({
+        type: GET_FRAMES_SUCCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: GET_FRAMES_FAIL,
+      });
+    });
+
+};
+
+
 //Create Frame
 export const createFrame = (form_data) => (dispatch, getState) => {
   // User Loading
@@ -401,6 +377,75 @@ export const createFrame = (form_data) => (dispatch, getState) => {
     });
 };
 
+export const updateFrame = (form_data, frame_ID) => (dispatch, getState) => {
+
+  axios
+    .patch('http://127.0.0.1:8000/global/frames/' + frame_ID +'/', form_data, tokenConfigUpload(getState))
+    .then((res) => {
+      dispatch({
+        type: UPDATE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .then(() => { dispatch(loadUser());})
+    //update state on my framelist
+    .then(() => { dispatch(getMyFrames(getState().auth.username));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: UPDATE_FAIL,
+      });
+    });
+};
+
+//DeleteFrame
+export const deleteFrame = (frame_ID) => (dispatch, getState) => {
+
+  axios
+    .delete('http://127.0.0.1:8000/global/frames/' + frame_ID +'/', tokenConfigUpload(getState))
+    .then((res) => {
+      dispatch({
+        type: DELETE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .then(() => { dispatch(loadUser());})
+    //update state on my framelist
+    .then(() => { dispatch(getMyFrames(getState().auth.username));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: DELETE_FAIL,
+      });
+    });
+};
+
+//Add views
+export const addViews = (frame_ID, views) => (dispatch, getState) => {
+
+
+const body = JSON.stringify({ views });
+
+  axios
+    .patch('http://127.0.0.1:8000/global/frames/' + frame_ID +'/', tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: UPDATE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .then(() => { dispatch(loadUser());})
+    //update state on my framelist
+    .then(() => { dispatch(getMyFrames(getState().auth.username));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: UPDATE_FAIL,
+      });
+    });
+};
+
+
 
 
 
@@ -424,7 +469,7 @@ export const tokenConfig = (getState) => {
   return config;
 };
 
-
+//For multipart form upload of files.
 export const tokenConfigUpload = (getState) => {
   // Get token from state
   const token = getState().auth.token;

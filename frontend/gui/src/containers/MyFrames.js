@@ -1,8 +1,9 @@
 import React from 'react';
 import MyFrameList from '../components/myFrameList'
 import { connect } from 'react-redux';
-import {loadUser, getMyFrames } from '../store/actions/auth';
+import { getMyFrames } from '../store/actions/auth';
 import FrameViewer from '../containers/FrameViewer'
+import EditFrame from '../containers/EditFrame'
 import Axios from 'axios';
 
 

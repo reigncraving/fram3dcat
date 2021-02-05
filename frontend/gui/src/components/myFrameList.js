@@ -2,6 +2,8 @@ import React from 'react';
 import Axios from 'axios';
 import FrameViewer from '../containers/FrameViewer'
 import FrameModal from './frameModal'
+import EditFrame from '../containers/EditFrame'
+import DeleteFrame from '../containers/DeleteFrame'
 import {
   List,
   Card,
@@ -29,8 +31,10 @@ const MyFrameList = (props) => {
               <>
                 <FrameModal data={item} action={action}>
                 </FrameModal>
-                <Button >Edit   </Button>
-                <Button type="danger" style={{marginLeft:"70px"}}>Delete</Button>
+                <EditFrame data={item}/>
+                <span style={{marginLeft:"70px"}}>
+                  <DeleteFrame data={item}/>
+                </span>
               </>
 
 

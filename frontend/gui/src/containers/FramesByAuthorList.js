@@ -46,8 +46,8 @@ handler() {
     //     'Authorization': `Token ${token}`,
     //   },
     // };
-     const username = this.props.username;
-      Axios.get(`http://127.0.0.1:8000/global/frame_author/?author__username=${this.props.username}`)
+     const username = this.props.author;
+      Axios.get(`http://127.0.0.1:8000/global/frame_author/?author__username=${username}`)
       .then(res => {
           this.setState({Frame: res.data}); //res = response data
       })

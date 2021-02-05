@@ -254,10 +254,12 @@ class AddFrame extends React.Component {
             >
               <input type="file"
                      id="frameFile"
+                     accept="application/glb"
                      onChange={this.handleFileChange} required
                      style={{color: "blue",  }}
                      />
               <span style={{color:'#8D8BFF'}}>
+                   <br/>
               <WarningTwoTone/>
               <b Style={{color:"#8BC7FF"}}>Only glTF-Binary files supported (*.glb)</b>
               </span>
@@ -277,14 +279,17 @@ class AddFrame extends React.Component {
                      accept="image/png, image/jpeg"  onChange={this.handleImageChange} required
                      style={{color: "blue",  }}
                      />
-
+                     <br/>
+                     <span style={{color:'#8D8BFF'}}>
+                     <b Style={{color:"#8BC7FF"}}>*.png, *.jpg</b>
+                     </span>
             </Form.Item>
 
 
 
             <Form.Item {...tailFormItemLayout}>
               <Button style={{marginRight:"10px"}} type="primary" htmlType="submit" loading={loadings[0]} onClick={() => this.enterLoading(0)}>
-                Update
+                Add Frame
               </Button>
               <Button onClick={this.handleCancel}>
                 Cancel

@@ -53,7 +53,7 @@ const Designer = (props) => {
                     description={item.email}
                   />
 
-                    <AuthorFramesList username={item.username}></AuthorFramesList>
+                    <AuthorFramesList author={item.username}></AuthorFramesList>
 
             </List.Item>
           )}

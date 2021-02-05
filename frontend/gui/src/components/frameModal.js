@@ -28,6 +28,7 @@ class FrameModal extends React.Component {
    state = {
      ModalVisible: false,
      key: 0,
+     views: 0,
    };
 
    showModal = () => {
@@ -47,13 +48,14 @@ class FrameModal extends React.Component {
       console.log(e);
       this.setState({
         key: + 1,
+        views: +1,
         ModalVisible: false,
       });
     };
 
 
     render() {
-    
+
      const ModalVisible = this.state.ModalVisible;
       return (
         <>
@@ -71,14 +73,14 @@ class FrameModal extends React.Component {
            </>
          }
         >
-          
+
         </Card>
 
           <Modal
             style={{
               margin: "0",
               padding: "0"
-              
+
             }}
             centered
             visible={ModalVisible}
@@ -90,13 +92,13 @@ class FrameModal extends React.Component {
             footer={[
            ]}
           >
-        
+
           <Avatar size={70} src={this.props.data.author.avatar} style={{float:"left"}}/>
 
-           <div >
+           <div name="info">
             <b style={{paddingLeft: "10px", fontSize:"16pt"}}>{this.props.data.title}</b>
               <br/>
-                 by: <b style={{color:"blue", fontSize:"14pt"}}>{this.props.data.author.username}</b>
+                <span style={{marginLeft:"10px"}}> by:</span> <b style={{color:"blue", fontSize:"14pt"}}>{this.props.data.author.username}</b>
               </div>
           <br/>
             <div name="canvas" style= {{width: "100%" }}>
@@ -106,6 +108,10 @@ class FrameModal extends React.Component {
             </div>
          <IconText icon={EyeOutlined} text={this.props.data.views} key="Views" />
          <IconText icon={HeartOutlined} text={this.props.data.likes} key="Likes" />
+         <div name="description">
+            <p><b>Description</b></p>
+            <p>{this.props.data.description}</p>
+         </div>
 
           </Modal>
         </>
