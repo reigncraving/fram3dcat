@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import FrameViewer from '../containers/FrameViewer'
+import CommentsEditor from '../components/CommentsEditor'
+import { addViews } from '../store/actions/auth'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import {
   Modal,
   Button,
@@ -10,8 +14,10 @@ import {
   ClockCircleOutlined,
   MessageOutlined,
   HeartOutlined,
+  CloudUploadOutlined,
   EyeOutlined
  } from '@ant-design/icons';
+
 
 const IconText = ({ icon, text }) => (
   <span>
@@ -28,7 +34,7 @@ class FrameModal extends React.Component {
    state = {
      ModalVisible: false,
      key: 0,
-     views: 0,
+     frame: [],
    };
 
    showModal = () => {
@@ -48,9 +54,14 @@ class FrameModal extends React.Component {
       console.log(e);
       this.setState({
         key: + 1,
-        views: +1,
         ModalVisible: false,
       });
+      //add views to frame be opening modal
+      const frame_ID = this.props.data.id;
+      const views = parseInt(this.props.data.views + 1);
+    //views
+      //alert(views)
+      this.props.addViews(frame_ID, views);
     };
 
 
@@ -89,7 +100,7 @@ class FrameModal extends React.Component {
             onCancel={this.handleCancel}
             afterClose={this.props.action}
 
-            footer={[
+            footer={[ <span style={{color:"gray"}}><i>Frame Viewer v1.0</i></span>
            ]}
           >
 
@@ -102,21 +113,31 @@ class FrameModal extends React.Component {
               </div>
           <br/>
             <div name="canvas" style= {{width: "100%" }}>
-              <div key={this.state.key}>
-                <FrameViewer data={this.props.data}/>
+              <div key={this.props.data.views}>
+                { (this.state.ModalVisible) ? <FrameViewer data={this.props.data}/> : null }
               </div>
             </div>
-         <IconText icon={EyeOutlined} text={this.props.data.views} key="Views" />
-         <IconText icon={HeartOutlined} text={this.props.data.likes} key="Likes" />
+            <span Style={{marginLeft:"10px"}}><IconText icon={CloudUploadOutlined} text={this.props.data.date_uploaded} key="Upload" /></span>
+          <span><IconText icon={EyeOutlined} text={parseInt(this.props.data.views + 1)} key="Views" /></span>
          <div name="description">
+            <br/>
             <p><b>Description</b></p>
             <p>{this.props.data.description}</p>
          </div>
 
+         
+            <CommentsEditor/>
           </Modal>
         </>
       );
     }
   }
 
-export default FrameModal;
+
+  const mapStateToProps = (state) => ({
+    views: state.auth.frame.views,
+
+  });
+
+//export default FrameModal;
+export default withRouter(connect(mapStateToProps,  { addViews })(FrameModal));

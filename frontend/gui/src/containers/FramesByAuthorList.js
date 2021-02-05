@@ -17,22 +17,21 @@ class AuthorFramesList extends React.Component {
     super(props)
 
     // Bind the this context to the handler function
-    this.handler = this.handler.bind(this);
+//    this.handler = this.handler.bind(this);
 
     // Set some state
     this.state = {
-        reaload: false,
         Frame: [],
     };
 }
-
-handler() {
-    this.forceUpdate();
-    window.location.reload();
-        this.setState({
-            reload: true
-        });
-    }
+//
+// handler() {
+//     this.forceUpdate();
+//     window.location.reload();
+//         this.setState({
+//             reload: true
+//         });
+//     }
 
   //Get the data from django
   componentDidMount(){

@@ -427,7 +427,7 @@ export const addViews = (frame_ID, views) => (dispatch, getState) => {
 const body = JSON.stringify({ views });
 
   axios
-    .patch('http://127.0.0.1:8000/global/frames/' + frame_ID +'/', tokenConfig(getState))
+    .patch('http://127.0.0.1:8000/global/frames/' + frame_ID +'/', body, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: UPDATE_SUCCESS,

@@ -27,7 +27,7 @@ const FrameList = (props) => {
         <List.Item>
 
               <>
-                <FrameModal data={item} action={action}>
+                <FrameModal data={item}>
                 </FrameModal>
               </>
 

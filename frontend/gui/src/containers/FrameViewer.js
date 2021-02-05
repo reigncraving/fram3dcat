@@ -108,6 +108,7 @@ function FrameViewer(props) {
                  <Noise opacity={0.02} />
 
                   <Model
+                    dispose={null}
                     position={[0, 0, 0]}
                     url={props.data.frameFile}
                     scale={[0.2, 0.2, 0.2 ]}

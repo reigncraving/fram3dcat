@@ -87,7 +87,7 @@ class Frame (models.Model):
     # Comments FK
     number_of_comments = models.IntegerField(blank=True, null=True)
     likes = models.IntegerField(blank=True, null=True)
-    views = models.IntegerField(blank=True, null=True)
+    views = models.IntegerField(blank=True, null=True,  default=0)
     # tools = MultiSelectField(choices=Tools.TOOL_CHOICES, null=True, blank=True)
     # field_Of_Work = ManyToManyFields(choices=Field_of_work.FIELD_CHOICES, null=True, blank=True)
     frameFile = models.FileField(upload_to='frames/%Y/', null=True, blank=True)

@@ -1,6 +1,5 @@
 import React from 'react';
 import Axios from 'axios';
-import FrameViewer from '../containers/FrameViewer'
 import FrameModal from './frameModal'
 import {
   List,
@@ -57,7 +56,7 @@ const Frame = (props) => {
             style={{ width: 250}}
             cover={
               <>
-                <FrameModal data={item} action={action}>
+                <FrameModal data={item}>
                 </FrameModal>
               </>
             }
