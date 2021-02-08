@@ -109,6 +109,7 @@ class FrameViewSet(viewsets.ModelViewSet):
 class FrameCommentViewSet(viewsets.ModelViewSet):
     serializer_class = FrameCommentSerializer
     queryset = Frame_comment.objects.all()
+    filterset_fields = ('post__id', )
 
 def delete(self, request, format=None):
     Frame.frameFile.delete(save=True)

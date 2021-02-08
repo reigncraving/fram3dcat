@@ -9,6 +9,8 @@ import DeleteAccount from './containers/DeleteAccount';
 import Dashboard from './containers/Dashboard';
 import FrameViewer from './containers/FrameViewer';
 import FramesListView from './containers/FramesListView';
+import JobsListView from './containers/JobsList';
+import JobsDetailView from './containers/jobDetail';
 import DesignersListView from './containers/DesignersListView';
 
 //basic router
@@ -25,6 +27,8 @@ const MainRouter = () => (
         <Route exact path='/frames/' component={FramesListView}/>
         <Route exact path='/frames/:FrameID/' component={FrameViewer}/>
         <Route exact path='/dashboard' component={Dashboard}/>
+        <Route exact path='/jobs/' component={JobsListView}/>
+        <Route exact path='/jobs/:JobID' component={JobsDetailView}/>
     </div>
 );
 

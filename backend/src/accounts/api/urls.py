@@ -13,6 +13,7 @@ AllDesignersAPIView,
 UserAvatarUploadAPIview,
 CompanyInfoUpdateAPI,
 DestroyUserAPIview,
+GetAuthorAPIiew,
 
 )
 from .views import ChangePasswordView, AllUsersAPIView, UserDetail
@@ -27,6 +28,7 @@ urlpatterns = [
     path('auth/user', UserAPI.as_view()),
     path('auth/allusers', AllUsersAPIView.as_view()),
     path('auth/alldesigners', AllDesignersAPIView.as_view()),
+    path('auth/author/<int:pk>', GetAuthorAPIiew.as_view()),
     path('auth/user/<int:pk>/', UserDetail.as_view()),
     path('api/auth/logout', knox_views.LogoutView.as_view(), name='knox_logout'),
     path('auth/update/password/', ChangePasswordAPIView.as_view()),

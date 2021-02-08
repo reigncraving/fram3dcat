@@ -105,6 +105,7 @@ class Register extends Component {
       <Form {...layout} onFinish={this.onSubmit}>
         <Card
           hoverable
+          cover=<img src={require('../../src/media/cover_small.png')} width="1000px" height="100px"/>
         //  extra="Register"
           style={{marginTop:"0px", width: "92%", left: '4%', top: '2%' }}
           >

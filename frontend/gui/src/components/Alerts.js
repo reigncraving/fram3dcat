@@ -24,6 +24,7 @@ export class Alerts extends Component {
       if (message.passwordNotMatch) alert.error(message.passwordNotMatch);
       if (message.deleteSuccess) alert.error(message.deleteSuccess);
       if (message.updateSuccesfull) alert.success(message.updateSuccesfull);
+      if (message.createJob) alert.success(message.createJob);
     }
   }
 

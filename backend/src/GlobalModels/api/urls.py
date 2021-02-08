@@ -12,6 +12,7 @@ FrameByAuthor,
 FrameCreateView,
 FrameViewSet,
 FrameByAuthor,
+FrameCommentViewSet,
 )
 
 router = DefaultRouter()

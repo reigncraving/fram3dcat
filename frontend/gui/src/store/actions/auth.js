@@ -21,6 +21,12 @@ import {
   ADD_FRAME_SUCCESS,
   ADD_FRAME_FAIL,
   FRAMES_LOADING,
+  ADD_JOB_FAIL,
+  ADD_JOB_SUCCESS,
+  OBS_LOADING,
+  GET_JOBS_SUCCCESS,
+  GET_JOBS_FAIL,
+  JOBS_LOADING,
 } from './types';
 
 // CHECK TOKEN & LOAD USER
@@ -420,7 +426,7 @@ export const deleteFrame = (frame_ID) => (dispatch, getState) => {
     });
 };
 
-//Add views
+//Add views to Frame
 export const addViews = (frame_ID, views) => (dispatch, getState) => {
 
 
@@ -443,6 +449,84 @@ const body = JSON.stringify({ views });
         type: UPDATE_FAIL,
       });
     });
+};
+
+
+//Create Jobs post
+export const createJob = (headline,
+description,
+body_text,
+salary,
+due_date,
+number_of_comments,
+rating,
+is_remote,
+is_active,
+submition_url,
+experience,) => (dispatch, getState) => {
+
+
+const author = getState().auth.id;
+  // Request Body
+  const body = JSON.stringify({ headline,
+  description,
+  body_text,
+  salary,
+  due_date,
+  number_of_comments,
+  rating,
+  is_remote,
+  is_active,
+  submition_url,
+  experience,
+  author
+ });
+
+  axios
+    .post('http://127.0.0.1:8000/jobs/all/', body, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: ADD_JOB_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .then(() => { dispatch(loadUser());})
+    //update state on my framelist
+    //.then(() => { dispatch(getMyFrames(getState().auth.username));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: ADD_JOB_FAIL,
+      });
+    });
+};
+
+//Get My Job posting by username
+export const getMyJobs = (username) => (dispatch, getState) => {
+  // User Loading
+  dispatch({ type: JOBS_LOADING });
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  axios
+    .get(`http://127.0.0.1:8000/jobs/all/?author__username=c${username}`, config)
+    .then((res) => {
+      dispatch({
+        type: GET_JOBS_SUCCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: GET_JOBS_FAIL,
+      });
+    });
+
 };
 
 

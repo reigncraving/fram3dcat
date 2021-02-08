@@ -101,7 +101,7 @@ class FrameGetAuthorSerializer(serializers.ModelSerializer):
 
 
 class FrameCommentSerializer(serializers.ModelSerializer):
-        author = AuthorSerializer(read_only=True)
+        #author = AuthorSerializer(read_only=True)
         class Meta:
             model = Frame_comment
             fields = (

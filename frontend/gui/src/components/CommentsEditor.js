@@ -1,9 +1,11 @@
 import React from 'react';
+import Axios from 'axios';
 import { Comment, Avatar, Form, Button, List, Input } from 'antd';
 import moment from 'moment';
 import { addViews } from '../store/actions/auth'
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const { TextArea } = Input;
 
@@ -29,12 +31,20 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
   </>
 );
 
+
+
+
+
 class CommentsEditor extends React.Component {
   state = {
-    comments: [],
+    comments: { },
     submitting: false,
     value: '',
   };
+
+  static propTypes = {
+     auth: PropTypes.object.isRequired,
+   };
 
   handleSubmit = () => {
     if (!this.state.value) {
@@ -68,30 +78,42 @@ class CommentsEditor extends React.Component {
     });
   };
 
+  componentDidMount(){
+    //  http://127.0.0.1:8000/global/comment/?post__id=10
+    const id = this.props.post;
+     Axios.get(`http://127.0.0.1:8000/global/comment/?post__id=${id}`)
+     .then(res => {
+         this.setState({comments: res.data}); //res = response data
+         console.log(this.state.comments)
+     })
+  }
+
   render() {
     const { comments, submitting, value } = this.state;
-
+    const { isAuthenticated, user } = this.props.data;
     return (
       <>
-
+        {this.props.post}
         {comments.length > 0 && <CommentList comments={comments} />}
-        <Comment
-          avatar={
-            <Avatar
-              src={this.props.data.user.avatar}
-              alt="avatar"
-            />
-          }
+        {isAuthenticated ?
+          <Comment
+            avatar={
+              <Avatar
+                src={this.props.data.user.avatar}
+                alt="avatar"
+              />
+            }
 
-          content={
-            <Editor
-              onChange={this.handleChange}
-              onSubmit={this.handleSubmit}
-              submitting={submitting}
-              value={value}
-            />
-          }
-        />
+            content={
+              <Editor
+                onChange={this.handleChange}
+                onSubmit={this.handleSubmit}
+                submitting={submitting}
+                value={value}
+              />
+            }
+          />
+         : <><hr style={{color:'#F0F0F0', borderTop:"none"}}/><p style={{color:"gray"}}>Please login to post comments</p> <Button type="primary"><Link to='/login'>Login</Link></Button></>}
       </>
     );
   }

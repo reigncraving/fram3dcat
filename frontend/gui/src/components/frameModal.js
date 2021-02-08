@@ -125,8 +125,8 @@ class FrameModal extends React.Component {
             <p>{this.props.data.description}</p>
          </div>
 
-         
-            <CommentsEditor/>
+
+            <CommentsEditor post={this.props.data.id}/>
           </Modal>
         </>
       );

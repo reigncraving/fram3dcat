@@ -27,12 +27,14 @@ import {
   EnvironmentOutlined,
   KeyOutlined,
   LoadingOutlined,
-  PlusOutlined
+  PlusOutlined,
+  FormOutlined,
 } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout, auth, loadUser } from '../store/actions/auth';
 import AddFrame from '../containers/AddFrame'
+import AddJob from '../containers/AddJob'
 import ImageUploader from '../components/ImageUploader'
 import UpdatePersonalInfo from '../containers/UpdatePersonalInfo'
 import UpdateProffesionalInfo from '../containers/UpdateProffesionalInfo'
@@ -398,11 +400,25 @@ handleChange = info => {
         <TabPane
           tab={
             <span>
+              <FormOutlined />
+              Jobs
+            </span>
+          }
+          key="3"
+        >
+          <div style={{float:"right"}}><AddJob/></div>
+          <p>Job posts:</p>
+          //<MyFrames username={user.username}></MyFrames>
+        </TabPane>
+
+        <TabPane
+          tab={
+            <span>
               <BankOutlined />
               Comapany
             </span>
           }
-          key="3"
+          key="4"
         >
           <div style={{float:"right"}}>
           <UpdateCompanyInfo

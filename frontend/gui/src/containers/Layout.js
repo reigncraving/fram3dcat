@@ -20,6 +20,7 @@ import {
   LogoutOutlined
 } from '@ant-design/icons';
 import AddFrame from '../containers/AddFrame'
+import AddJob from '../containers/AddJob'
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import PrivateRoute from '../privateRoute.js';
 import { connect } from 'react-redux';
@@ -165,7 +166,7 @@ handleResize = (e) => {
                   </Menu.Item>
                   <Menu.Item key="2" tittle="Upload" icon={<CloudUploadOutlined />} onClick={this.onCloseAccDrawer}>
                     <div style={{float:"right"}}>
-                        {user.is_designer ? <AddFrame/> : "Add Job"}
+                        {user.is_designer ? <AddFrame/> : <AddJob/>}
                     </div>
                   </Menu.Item>
                     <SubMenu key="sub2" title="Navigation Two">

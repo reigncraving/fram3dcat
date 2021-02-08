@@ -57,6 +57,16 @@ const initialState = {
     password: '',
   }
 ],
+
+
+comments: [
+  {post: '',
+  author: '',
+  content: '',
+  likes: '',
+  pub_date: '',
+}
+],
 };
 
 export default function (state = initialState, action) {

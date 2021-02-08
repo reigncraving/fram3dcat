@@ -17,6 +17,7 @@ AllPublicDesignersSerializer,
 UserAvatarSerializer,
 CompanyInfoSerializer,
 DestroyUserSerializer,
+AuthorSerializer,
 )
 
 from rest_framework.permissions import IsAuthenticated
@@ -187,3 +188,7 @@ class DestroyUserAPIview(generics.DestroyAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GetAuthorAPIiew(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = AuthorSerializer

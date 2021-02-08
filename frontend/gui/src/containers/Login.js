@@ -50,10 +50,12 @@ export class Login extends Component {
       <Form style={{marginTop:"200px"}} onFinish={this.onSubmit}>
         <Card
           hoverable
-          extra={<b style={{fontSize:"14pt"}}>Login</b>}
+          
           style={{  width: "80%", left: '50%', top: '50%',
           transform: 'translate(-50%, -50%)', marginTop:'90px',}}
+          cover=<img src={require('../../src/media/cover_small.png')} width="1000px" height="100px"/>
           >
+          <b style={{color:"dark gray", fontSize:"14pt"}}>Login:</b>
           <Form.Item
             style={{marginTop:"30px"}}
             name="username"
