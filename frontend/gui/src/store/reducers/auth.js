@@ -11,6 +11,9 @@ import {
   REGISTER_FAIL,
   GET_FRAMES_SUCCCESS,
   GET_FRAMES_FAIL,
+  GET_JOBS_SUCCCESS,
+  GET_JOBS_FAIL,
+  JOBS_LOADING
 } from '../actions/types';
 
 const initialState = {
@@ -58,6 +61,25 @@ const initialState = {
   }
 ],
 
+job: [
+  {
+        id:0,
+        headline: '',
+        description: '',
+        body_text: '',
+        salaray: 0,
+        pub_date: '',
+        mod_date: '',
+        due_date:'',
+        author:0,
+        number_of_comments:0,
+        rating: 0,
+        is_remote: false,
+        is_active: false,
+        experience: '',
+        submition_url: '',
+  }
+],
 
 comments: [
   {post: '',
@@ -93,6 +115,12 @@ export default function (state = initialState, action) {
           isLoading: false,
           frame: action.payload,
         };
+    case GET_JOBS_SUCCCESS:
+      const Jobs = action.payload;
+              return {
+                  ...state,
+                  Jobs
+              };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       localStorage.setItem('token', action.payload.token);

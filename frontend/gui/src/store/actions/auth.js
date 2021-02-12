@@ -483,7 +483,7 @@ const author = getState().auth.id;
  });
 
   axios
-    .post('http://127.0.0.1:8000/jobs/all/', body, tokenConfig(getState))
+    .post('http://127.0.0.1:8000/jobs/auth/', body, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: ADD_JOB_SUCCESS,
@@ -501,6 +501,33 @@ const author = getState().auth.id;
     });
 };
 
+//Update Jobs post
+export const updateJob = (jobID, form_data) => (dispatch, getState) => {
+
+
+const author = getState().auth.id;
+  // Request Body
+
+
+  axios
+    .patch(`http://127.0.0.1:8000/jobs/auth/${jobID}/`, form_data, tokenConfigUpload(getState))
+    .then((res) => {
+      dispatch({
+        type: UPDATE_SUCCESS,
+        payload: res.data,
+      });
+    })
+
+    //update state on my framelist
+    .then(() => { dispatch(getMyJobs(getState().auth.username));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: UPDATE_FAIL,
+      });
+    });
+};
+
 //Get My Job posting by username
 export const getMyJobs = (username) => (dispatch, getState) => {
   // User Loading
@@ -513,7 +540,7 @@ export const getMyJobs = (username) => (dispatch, getState) => {
   };
 
   axios
-    .get(`http://127.0.0.1:8000/jobs/all/?author__username=c${username}`, config)
+    .get(`http://127.0.0.1:8000/jobs/auth/?author__username=${username}`, config)
     .then((res) => {
       dispatch({
         type: GET_JOBS_SUCCCESS,
@@ -529,8 +556,26 @@ export const getMyJobs = (username) => (dispatch, getState) => {
 
 };
 
+//Delete Job
+export const deleteJob = (job_ID) => (dispatch, getState) => {
 
-
+  axios
+    .delete('http://127.0.0.1:8000/jobs/auth/' + job_ID +'/', tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: DELETE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    //update state on my framelist
+    .then(() => { dispatch(getMyJobs(getState().auth.username));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: DELETE_FAIL,
+      });
+    });
+};
 
 
 // Setup config with token - helper function

@@ -73,18 +73,14 @@ class FrameModal extends React.Component {
         <Card
         onClick={this.showModal}
         hoverable
-        cover= {
-          <>
-            <img
-            width="200px"
-             height="200px"
-             src= {this.props.data.frame_picture}
-             />
-             <div id="title" style={{marginRight: "auto",marginLeft:"auto",  width: "4em", marginTop:"10%", fontSize:"12pt"}}><b>{this.props.data.title}</b></div>
-           </>
-         }
+        actions={[ <div id="title" style={{marginRight: "auto",marginLeft:"auto",  width: "4em", marginTop:"10%", fontSize:"12pt"}}><b>{this.props.data.title}</b></div>]}
+        style={{padding: "0"}}
         >
-
+        <img
+        width="100%"
+         height="100%"
+         src= {this.props.data.frame_picture}
+         />
         </Card>
 
           <Modal

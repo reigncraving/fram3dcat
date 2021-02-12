@@ -126,7 +126,7 @@ handleResize = (e) => {
 
         <a onClick={this.showAccDrawer}>
           <Badge count={0} style={{ backgroundColor: 'gray' }} offset={[6, -8]} title="new activities">
-            <span className='username' style={{fontSize:"12pt", color:"white"}}> { user ? ` ${user.username}  ` : '' } </span>
+            <span className='username' style={{fontSize:"12pt", color:"gray"}}> { user ? ` ${user.username}  ` : '' } </span>
           </Badge>
         </a>
         <Drawer
@@ -202,11 +202,11 @@ handleResize = (e) => {
 
     )
     const guestLinks = (
-      <Link to="/login">Login</Link>
+      <Link style={{color:"gray"}} to="/login">Login</Link>
     )
 
     const registerLink = (
-      <Link to="/register">Register</Link>
+      <Link style={{color:"gray"}} to="/register">Register</Link>
     )
 
     return(
@@ -222,20 +222,20 @@ handleResize = (e) => {
               width:'100%',
               display: 'flex',
               justifyContent: 'left',
-              color: '#EAF0F6',
-              backgroundColor: '#3A3B40',
+              color: 'gray',
+              backgroundColor: '#FAFAFA',
               float: 'right'
             }}
             >
             <Menu.Item>
               <div className="logo" style={{float:"left", marginLeft:'10px'}}>
                 <img src={require('../../src/logo.png')} alt="fram3dcat" width="40" height="40" style ={{float:"left",  margin:"12px 4px 0 0"}}/>
-                <h1 style={{float:"left", margin: "0 4px 0 0", color: "#ffffff", }}>Fram<b>3D</b>cat</h1>
+                <h1 style={{float:"left", margin: "0 4px 0 0", color: "#22232B", }}>Fram<b>3D</b>cat</h1>
               </div>
             </Menu.Item>
              <SubMenu title="Flow" style={{marginLeft:'10px'}}>
                  <Menu.Item key="Designers" >
-                  <Link to="/designers">Designers</Link>
+                  <Link  to="/designers">Designers</Link>
                  </Menu.Item>
                  <Menu.Item key="Frames">
                   <Link to="/frames/">Frames</Link>
@@ -244,9 +244,8 @@ handleResize = (e) => {
                   <Link to="/stories">Stories</Link>
                  </Menu.Item>
              </SubMenu>
-
             <Menu.Item key="Jobs">
-            <Link to="/jobs" style={{color:"#EAF0F6"}}>Job Board</Link>
+            <Link to="/jobs" style={{color:"gray"}}>Job Board</Link>
             </Menu.Item>
 
              <SubMenu title="Hire">
@@ -260,13 +259,13 @@ handleResize = (e) => {
 
 
            <Menu
-           theme="dark"
+           theme="light"
            style={{
              position: 'absolute',
              top: 0,
              right: 0,
-             color: '#EAF0F6',
-             backgroundColor: '#3A3B40'
+             color: 'gray',
+             backgroundColor: '#FAFAFA',
            }}
            >
              <Menu.Item key="6" style ={{float:"right", marginRight:"10px"}}>
@@ -278,8 +277,8 @@ handleResize = (e) => {
            </Menu>
          </Menu>
           </Header>
-          <Content className="site-layout" style={{ padding: '0 0 0 0', paddingLeft:"0", marginTop: "0",  }}>
-              <div className="site-layout-background" style={{ padding: 26, minHeight: 380, height:"90%"}}>
+          <Content className="site-layout" style={{ padding: '0', paddingLeft:"10%", paddingRight:"10%", marginTop: "0", backgroundColor: "white"  }}>
+              <div className="site-layout-background" style={{ padding: 0, minHeight: 380, height:"90%", backgroundColor:"white"}}>
 
               { this.props.children}
 

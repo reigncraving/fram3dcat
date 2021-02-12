@@ -70,7 +70,7 @@ class AllPublicUsersSerializer(serializers.ModelSerializer):
 class AuthorSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ('username', 'email', 'avatar',
+    fields = ('id', 'username', 'email', 'avatar',
     'is_available')
 
 class PersonalInfoSerializer(serializers.ModelSerializer):

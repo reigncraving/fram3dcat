@@ -48,7 +48,7 @@ const Frame = (props) => {
           <Card
             actions={[
                 <AvatarText source={item.author.avatar} text={item.author.username} key="Views" />,
-                <IconText icon={HeartOutlined} text={item.likes} key="Likes" />,
+                <IconText icon={EyeOutlined} text={item.views} key="Likes" />,
              ]}
             loading={props.loading}
             hoverable

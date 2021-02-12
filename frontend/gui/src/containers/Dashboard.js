@@ -29,6 +29,7 @@ import {
   LoadingOutlined,
   PlusOutlined,
   FormOutlined,
+
 } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -41,6 +42,7 @@ import UpdateProffesionalInfo from '../containers/UpdateProffesionalInfo'
 import UpdateLocation from '../containers/UpdateLocation'
 import UpdateCompanyInfo from '../containers/UpdateCompanyInfo'
 import MyFrames from '../containers/MyFrames'
+import MyJobsListView from '../containers/MyJobs'
 import { Link, withRouter, Redirect } from 'react-router-dom';
 
 const { TabPane } = Tabs;
@@ -408,7 +410,8 @@ handleChange = info => {
         >
           <div style={{float:"right"}}><AddJob/></div>
           <p>Job posts:</p>
-          //<MyFrames username={user.username}></MyFrames>
+          <MyJobsListView username={user.username}></MyJobsListView>
+
         </TabPane>
 
         <TabPane

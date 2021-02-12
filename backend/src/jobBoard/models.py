@@ -14,7 +14,7 @@ class Job(models.Model):
     salary = models.IntegerField(blank=True, null=True)
     pub_date = models.DateTimeField(auto_now_add=True)
     mod_date = models.DateTimeField(auto_now_add=True)
-    due_date = models.DateTimeField()
+    due_date = models.DateField(null=True)
     author = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True)
     number_of_comments = models.IntegerField(blank=True, null=True)
     rating = models.IntegerField(blank=True, null=True)

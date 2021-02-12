@@ -19,11 +19,12 @@ import {
  import PropTypes from 'prop-types';
  import { useDispatch } from "react-redux";
  import { connect } from 'react-redux';
- import { auth, createJob } from '../store/actions/auth';
+ import { auth, updateJob } from '../store/actions/auth';
  import { withRouter } from 'react-router-dom';
  import { createMessage } from '../store/actions/messages';
- import { CKEditor } from '@ckeditor/ckeditor5-react';
- import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import SlateEditor from '../components/slateEditor'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const layout = {
   labelCol: {
@@ -50,7 +51,7 @@ const tailFormItemLayout = {
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
-const dateFormat = 'MM-DD-YYYY';
+const dateFormat = 'DD-MM-YYYY';
 const monthFormat = 'MM/YYYY';
 
 const dateFormatList = ['MM/DD/YYYY', 'MM/DD/YY'];
@@ -64,13 +65,15 @@ for (let i = 10; i < 36; i++) {
 }
 
 
+
+
 const validateMessages = {
   required: '${label} is required!',
 
 };
 
 
-class AddJob extends React.Component {
+class EditJob extends React.Component {
   static propTypes = {
 
     isAuthenticated: PropTypes.bool,
@@ -83,6 +86,7 @@ class AddJob extends React.Component {
       visible: false,
       confirmLoading: false,
 
+       jobID: "",
        headline: "",
        description: "",
        body_text: "",
@@ -98,6 +102,27 @@ class AddJob extends React.Component {
 
     };
 
+    componentDidMount() {
+      this.setState({
+        jobID: this.props.data.id,
+        headline: this.props.data.headline,
+        description: this.props.data.description,
+        body_text: this.props.data.body_text,
+        salary: this.props.data.salary,
+        due_date: moment(this.props.data.due_date).format('DD-MM-YYYY'),
+        number_of_comments: this.props.data.number_of_comments,
+        rating: this.props.data.number_of_comments,
+        is_remote: this.props.data.is_remote,
+        is_active: this.props.data.is_active,
+        submition_url: this.props.data.submition_url,
+        experience: this.props.data.experience,
+        author: this.props.data.author,
+
+
+      });
+
+
+    }
 
     showModal = () => {
       this.setState({
@@ -130,7 +155,7 @@ class AddJob extends React.Component {
       //e.preventDefault();
       this.setState({
         confirmLoading: true,
-        user_ID: this.props.userData.id
+        //jobID: this.props.data.id
       });
       setTimeout(() => {
         this.setState({
@@ -138,34 +163,27 @@ class AddJob extends React.Component {
           confirmLoading: false,
         });
       }, 2000);
-      const {
-        headline,
-        description,
-        body_text,
-        salary,
-        due_date,
-        number_of_comments,
-        rating,
-        is_remote,
-        is_active,
-        submition_url,
-        experience,
-        } = this.state;
+
+        let form_data = new FormData();
+          form_data.append('headline', this.state.headline);
+          form_data.append('description', this.state.description);
+          form_data.append('body_text', this.state.body_text);
+          form_data.append('salary', this.state.salary);
+          if(this.state.due_date== " "){
+
+            form_data.append('due_date', this.props.data.due_date);
+          }
+          else{
+            form_data.append('due_date', this.state.due_date);
+          }
+          form_data.append('is_remote', this.state.is_remote);
+          form_data.append('submition_url', this.state.submition_url);
+          form_data.append('experience', this.state.experience);
 
 
-          this.props.createJob(headline,
-          description,
-          body_text,
-          salary,
-          due_date,
-          number_of_comments,
-          rating,
-          is_remote,
-          is_active,
-          submition_url,
-          experience,
-          );
-         this.props.createMessage({ createJob: 'Job posted' });
+        const jobID = this.props.data.id;
+        this.props.updateJob(jobID, form_data);
+         this.props.createMessage({ updateSuccesfull: 'Updated succesfully' });
 
 
       };
@@ -208,7 +226,7 @@ class AddJob extends React.Component {
 
    onDateChange = (date) => {
      this.setState({
-        due_date: moment(date).format('DD-MM-YYYY'),
+        due_date: moment(date).format('DD-MM-YYYY')
      });
    }
 
@@ -219,16 +237,17 @@ class AddJob extends React.Component {
      });
    }
 
+
     render() {
       const { visible, confirmLoading, ModalText } = this.state;
       const { loadings } = this.state;
       return (
         <>
           <Button type="primary" onClick={this.showModal}>
-          <FileTextOutlined />  Post Job
+            Edit Job
           </Button>
           <Modal
-            title="Post Job"
+            title="Edit Job"
             visible={visible}
             onCancel={this.handleCancel}
             onOk={this.handleOk}
@@ -236,7 +255,7 @@ class AddJob extends React.Component {
             confirmLoading={confirmLoading}
             footer=" "
           >
-
+          {this.props.data.due_date}
           <Form
           {...layout}
           name="nest-messages"
@@ -248,16 +267,18 @@ class AddJob extends React.Component {
               label="Headline "
               rules={[
                 {
-                  required: true,
+                  required: false,
                 },
               ]}
             >
+
               <Input
                 size="large"
                 type="text"
                 name="headline"
                 className="form-control"
                 onChange={this.onChange}
+                defaultValue = {this.props.data.headline}
                />
             </Form.Item>
 
@@ -266,7 +287,7 @@ class AddJob extends React.Component {
               label="Short description "
               rules={[
                 {
-                  required: true,
+                  required: false,
                 },
               ]}
             >
@@ -276,6 +297,7 @@ class AddJob extends React.Component {
                 name="description"
                 className="form-control"
                 onChange={this.onChange}
+                defaultValue = {this.props.data.description}
                />
             </Form.Item>
 
@@ -284,16 +306,17 @@ class AddJob extends React.Component {
               label="Post"
               rules={[
                 {
-                  required: true,
+                  required: false,
                 },
               ]}
             >
 
+            <CKEditor
+                editor={ClassicEditor}
+                onChange={this.handleOnEditorChange}
+                data ={this.props.data.body_text}
+            />
 
-               <CKEditor
-                   editor={ClassicEditor}
-                   onChange={this.handleOnEditorChange}
-               />
 
             </Form.Item>
 
@@ -314,6 +337,7 @@ class AddJob extends React.Component {
                 suffix={<span style={{color:"gray"}}>USD</span>}
                 className="form-control"
                 onChange={this.onChange}
+                defaultValue = {this.props.data.salary}
                />
             </Form.Item>
 
@@ -326,8 +350,10 @@ class AddJob extends React.Component {
                 },
               ]}
             >
+
+
             <Space direction="vertical" size={12}>
-              <DatePicker format={dateFormat} onChange={this.onDateChange}/>
+              <DatePicker defaultValue={moment(this.props.data.due_date)} format={dateFormat} onChange={this.onDateChange}/>
 
             </Space>
             </Form.Item>
@@ -341,8 +367,10 @@ class AddJob extends React.Component {
                 },
               ]}
             >
+             {this.props.data.is_remote}
               <span style={{marginRight:'5px'}}>No</span>
-                <Switch name='is_remote' onChange={this.onSwitchChange}/>
+                {this.props.data.is_remote ? <Switch name='is_remote' defaultChecked onChange={this.onSwitchChange}/> : <Switch name='is_remote' onChange={this.onSwitchChange}/>}
+
               <span style={{marginLeft:'5px'}}>Yes</span>
             </Form.Item>
 
@@ -362,16 +390,17 @@ class AddJob extends React.Component {
                 name="submition_url"
                 className="form-control"
                 onChange={this.onChange}
+                defaultValue={this.props.data.submition_url}
                />
                <span style={{color:"gray"}}>Page where work applications can be send</span>
             </Form.Item>
 
             <Form.Item
               name={['experience']}
-              label="Experience "
+              label="Experience"
               rules={[
                 {
-                  required: true,
+                  required: false,
                 },
               ]}
             >
@@ -380,6 +409,7 @@ class AddJob extends React.Component {
                 placeholder="Select a experience level"
                 optionFilterProp="children"
                 onChange={this.handleChange}
+                defaultValue={this.props.data.experience}
               >
                 <Option value="INTERN">INTERN</Option>
                 <Option value="JUNIOR">JUNIOR</Option>
@@ -393,7 +423,7 @@ class AddJob extends React.Component {
 
             <Form.Item {...tailFormItemLayout}>
               <Button style={{marginRight:"10px"}} type="primary" htmlType="submit" loading={loadings[0]} onClick={() => this.enterLoading(0)}>
-                Post Job
+                Update Job
               </Button>
               <Button onClick={this.handleCancel}>
                 Cancel
@@ -415,4 +445,4 @@ class AddJob extends React.Component {
 
 
 //export default UpdatePersonalInfo;
-export default withRouter(connect(mapStateToProps,  { createJob, createMessage })(AddJob));
+export default withRouter(connect(mapStateToProps,  { updateJob, createMessage })(EditJob));

@@ -17,7 +17,6 @@ import DesignersListView from './containers/DesignersListView';
 const MainRouter = () => (
     <div>
         <Route exact path='/stories' component={StoryListView}/>
-        <Route exact path='/stories' component={StoryListView}/>
         <Route exact path='/stories/:StoryID' component={StoryDetailView}/>
         <Route exact path='/designers' component={DesignersListView}/>
         <Route exact path="/Login/" component={Login} />

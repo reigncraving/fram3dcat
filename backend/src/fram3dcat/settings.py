@@ -153,6 +153,9 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+
+
+
 #print("base dir path", BASE_DIR)
 
 REST_FRAMEWORK = {
@@ -166,6 +169,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
     ( 'knox.auth.TokenAuthentication',),
     'DATETIME_FORMAT': "%m/%d/%Y %H:%M:%S",
+    "DATE_INPUT_FORMATS": ["%d-%m-%Y"],
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 

@@ -17,7 +17,8 @@ class JobsListView extends React.Component {
           // Set some state
           this.state = {
               reaload: false,
-              Jobs: [],
+              job: [],
+
           };
       }
 
@@ -31,9 +32,10 @@ class JobsListView extends React.Component {
 
   //Get the data from django
   componentDidMount(){
-      Axios.get(`http://127.0.0.1:8000/jobs/all/`)
+      Axios.get(`http://127.0.0.1:8000/jobs/author/`)
       .then(res => {
-          this.setState({Jobs: res.data}); //res = response data
+        this.setState({job: res.data}); //res = response data
+        console.log(this.state.job);
       })
   }
 
@@ -41,7 +43,7 @@ class JobsListView extends React.Component {
     render(){
         return(
           <>
-            <Job data={this.state.Jobs} action={this.handler} />
+            <Job data={this.state.job}/>
           </>
         );
     }
