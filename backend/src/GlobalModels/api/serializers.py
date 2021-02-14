@@ -109,5 +109,18 @@ class FrameCommentSerializer(serializers.ModelSerializer):
             'author',
             'content',
             'likes',
+            'pub_date',
+            'id',
+            )
+
+class FrameGetAuthorCommentSerializer(serializers.ModelSerializer):
+        author = AuthorSerializer(read_only=True)
+        class Meta:
+            model = Frame_comment
+            fields = (
+            'post',
+            'author',
+            'content',
+            'likes',
             'pub_date'
             )

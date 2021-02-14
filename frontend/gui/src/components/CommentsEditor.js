@@ -2,19 +2,37 @@ import React from 'react';
 import Axios from 'axios';
 import { Comment, Avatar, Form, Button, List, Input } from 'antd';
 import moment from 'moment';
-import { addViews } from '../store/actions/auth'
+import { addViews, getComments, postComment } from '../store/actions/auth'
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const { TextArea } = Input;
 
-const CommentList = ({ comments }) => (
+const CommentList = (props) => (
   <List
-    dataSource={comments}
-    header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
+    dataSource={props.data}
+    header={`${props.data.length} ${props.data.length > 1 ? 'replies' : 'reply'}`}
     itemLayout="horizontal"
-    renderItem={props => <Comment {...props} />}
+    renderItem={item => (
+      <List.Item>
+
+
+      <Comment
+        author={ <> <b>{item.author.username}</b> <p>{item.pub_date} </p> </>}
+        avatar={
+          <Avatar
+            src={item.author.avatar}
+            alt="avatar"
+          />
+        }
+        content={item.content}
+        />
+
+
+
+      </List.Item>
+    )}
   />
 );
 
@@ -39,6 +57,7 @@ class CommentsEditor extends React.Component {
   state = {
     comments: { },
     submitting: false,
+    post: null,
     value: '',
   };
 
@@ -50,26 +69,33 @@ class CommentsEditor extends React.Component {
     if (!this.state.value) {
       return;
     }
-
     this.setState({
       submitting: true,
+
     });
+
+
+
+    // create post :
+    const post = this.props.post;
+    const content = this.state.value;
+    const author = this.props.data.id;
+    console.log(post, content, author);
+    this.props.postComment(post, content, author);
+
 
     setTimeout(() => {
       this.setState({
         submitting: false,
-        value: '',
-        comments: [
-          ...this.state.comments,
-          {
-            author: this.props.data.user.username,
-            avatar: this.props.data.user.avatar,
-            content: <p>{this.state.value}</p>,
-            datetime: moment().fromNow(),
-          },
-        ],
       });
     }, 1000);
+
+
+    //clear data on form
+    this.setState({
+      value: '',
+    });
+
   };
 
   handleChange = e => {
@@ -80,12 +106,17 @@ class CommentsEditor extends React.Component {
 
   componentDidMount(){
     //  http://127.0.0.1:8000/global/comment/?post__id=10
-    const id = this.props.post;
-     Axios.get(`http://127.0.0.1:8000/global/comment/?post__id=${id}`)
-     .then(res => {
-         this.setState({comments: res.data}); //res = response data
-         console.log(this.state.comments)
-     })
+    const post_ID = this.props.post;
+     // Axios.get(`http://127.0.0.1:8000/global/comment-author/?post__id=${id}`)
+     // .then(res => {
+     //     this.setState({comments: res.data}); //res = response data
+     //     console.log(this.state.comments)
+     // })
+
+     this.props.getComments(post_ID)
+     // this.setState({
+     //    comments: this.props.comments
+     // });
   }
 
   render() {
@@ -93,8 +124,7 @@ class CommentsEditor extends React.Component {
     const { isAuthenticated, user } = this.props.data;
     return (
       <>
-        {this.props.post}
-        {comments.length > 0 && <CommentList comments={comments} />}
+        {this.props.commentsData.length > 0 ? <CommentList data={this.props.commentsData}/> : null }
         {isAuthenticated ?
           <Comment
             avatar={
@@ -121,7 +151,7 @@ class CommentsEditor extends React.Component {
 
 const mapStateToProps = (state) => ({
   data: state.auth,
-
+  commentsData: state.auth.comments,
 });
 
-export default withRouter(connect(mapStateToProps,  { addViews })(CommentsEditor));
+export default withRouter(connect(mapStateToProps,  { addViews, getComments, postComment})(CommentsEditor));

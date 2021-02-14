@@ -66,7 +66,7 @@ class JobsDetailView extends React.Component {
         return(
             <div>
                 <Card
-                title=<b>{this.state.job.headline}</b>
+                title=<b style={{ textAlign: "center"}}>{this.state.job.headline}</b>
                 style={{ width: "70%", marginLeft:"15%" }}
 
                 >

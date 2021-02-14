@@ -13,6 +13,7 @@ FrameCreateView,
 FrameViewSet,
 FrameByAuthor,
 FrameCommentViewSet,
+FrameAuthorCommentViewSet,
 )
 
 router = DefaultRouter()
@@ -23,6 +24,7 @@ router.register(r'tools', ToolsViewSet, basename='tools')
 router.register(r'frames', FrameViewSet, basename='frames')
 router.register(r'frame_author', FrameByAuthor, basename='frame_author')
 router.register(r'comment', FrameCommentViewSet, basename='comments')
+router.register(r'comment_author', FrameAuthorCommentViewSet, basename='comment-author')
 
 urlpatterns = router.urls
 

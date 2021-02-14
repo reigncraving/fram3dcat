@@ -183,6 +183,14 @@ class UpdateCompanyInfo extends React.Component {
     console.log('checked = ', checkedValues);
     }
 
+    handleWorkSelectChange = (value) => {
+        console.log(`selected ${value}`);
+        this.setState({
+            work_fields: `${value}`
+        });
+
+    };
+
     onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
 //for multiselect
@@ -233,6 +241,7 @@ class UpdateCompanyInfo extends React.Component {
                />
             </Form.Item>
 
+
             <Form.Item
               name={['work_fields', 'name']}
               label="Work fields:"
@@ -242,60 +251,40 @@ class UpdateCompanyInfo extends React.Component {
                 },
               ]}
             >
-            <Checkbox.Group style={{ width: '100%' }} onChange={this.onCheckBoxChange}>
-                <Row>
-                  <Col span={8}>
-                    <Checkbox value="RIGGING">Rigging</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="MODELLING">Modeling</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="VFX">Visual effects</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="TEXTURING">Texturing</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="ANIMATION">Animation</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="FILM">Film and Media Arts</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="RENDERING">Rendering</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="LIGHTNING">Lightning</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="BACKGROUND">Background production</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="GRAPHIC_DESING">Graphic design</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="GAME_DESIGN">Games design</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="PRODUCT_DESIGN">Product design</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="CHARACTER_DESIGN">Character design</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="WEBSITE_DESIGNER">3D website design</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="INTERACTIVE_DESIGN">Interactive design</Checkbox>
-                  </Col>
-                  <Col span={8}>
-                    <Checkbox value="CHARACTER_ANIMATATION">Character Animation</Checkbox>
-                  </Col>
-                </Row>
-            </Checkbox.Group>
 
+                <Select
+                    name= "work"
+                    showSearch
+                    size="large"
+                    placeholder="Select a field"
+                    optionFilterProp="children"
+                    onSearch={this.onSearch}
+                    onChange={this.handleWorkSelectChange}
+                    defaultValue={this.props.work_fields}
+                    filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    <Option value=" ">none</Option>
+                    <Option value="RIGGING">Rigging</Option>
+                    <Option value="MODELLING">Modeling</Option>
+                    <Option value="VFX">Visual effects</Option>
+                    <Option value="TEXTURING">Texturing</Option>
+                    <Option value="ANIMATION">Animation</Option>
+                    <Option value="FILM">Film and Media Arts</Option>
+                    <Option value="GAME_DESIGN">Games design</Option>
+                    <Option value="RENDERING">Rendering artist</Option>
+                    <Option value="LIGHTNING">Lightning artist</Option>
+                    <Option value="BACKGROUND">Background artist</Option>
+                    <Option value="GRAPHIC_DESING">Graphic design</Option>
+                    <Option value="PRODUCT_DESIGN">Product design</Option>
+                    <Option value="CHARACTER_DESIGN">Character design</Option>
+                    <Option value="WEBSITE_DESIGNER">3D website design</Option>
+                    <Option value="INTERACTIVE_DESIGN">Interactive design</Option>
+                    <Option value="CHARACTER_ANIMATATION">Character Animation</Option>
+                </Select>
             </Form.Item>
+
 
             <Form.Item
               name={['website', 'name']}

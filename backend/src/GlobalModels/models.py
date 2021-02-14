@@ -27,12 +27,12 @@ class Location (models.Model):
 class Skills (models.Model):
     SKILL_CHOICES =(
         (' ', ' '),
-        ('QUICKLEARNER', 'Quick learner'),
-        ('ARTISTIC', 'Artistic skills'),
-        ('TIME_MANAGEMENT', 'Time management'),
-        ('TEAMWORK', 'Teamwork'),
-        ('COMMUNICATION', 'Communication'),
-        ('ENGINEERING', 'Engineering'),
+        ('QUICKLEARNER', 'QUICKLEARNER'),
+        ('ARTISTIC', 'ARTISTIC'),
+        ('TIME_MANAGEMENT', 'TIME_MANAGEMENT'),
+        ('TEAMWORK', 'TEAMWORK'),
+        ('COMMUNICATION', 'COMMUNICATION'),
+        ('ENGINEERING', 'ENGINEERING'),
     )
 
     class Meta:
@@ -41,22 +41,22 @@ class Skills (models.Model):
 class Field_of_work (models.Model):
     FIELD_CHOICES = (
         (' ', ' '),
-        ('RIGGING', 'Rigging'),
-        ('MODELLING', 'Modeling'),
-        ('VFX', 'Visual effects'),
-        ('TEXTURING', 'Texturing'),
-        ('ANIMATION', 'Animation'),
-        ('FILM', 'Film and Media Arts'),
-        ('GAME_DESIGN','Games design' ),
-        ('RENDERING','Rendering artist'),
-        ('LIGHTNING', 'Lightning artist'),
-        ('BACKGROUND', 'Background artist'),
-        ('GRAPHIC_DESING', 'Graphic design'),
-        ('PRODUCT_DESIGN', 'Product design'),
-        ('CHARACTER_DESIGN', 'Character design'),
-        ('WEBSITE_DESIGNER', '3D website design'),
-        ('INTERACTIVE_DESIGN', 'Interactive design'),
-        ('CHARACTER_ANIMATATION', 'Character Animation'),
+        ('RIGGING', 'RIGGING'),
+        ('MODELLING', 'MODELLING'),
+        ('VFX', 'VFX'),
+        ('TEXTURING', 'TEXTURING'),
+        ('ANIMATION', 'ANIMATION'),
+        ('FILM', 'FILM'),
+        ('GAME_DESIGN','GAME_DESIGN' ),
+        ('RENDERING','RENDERING'),
+        ('LIGHTNING', 'LIGHTNING'),
+        ('BACKGROUND', 'BACKGROUND'),
+        ('GRAPHIC_DESING', 'GRAPHIC_DESING'),
+        ('PRODUCT_DESIGN', 'PRODUCT_DESIGN'),
+        ('CHARACTER_DESIGN', 'CHARACTER_DESIGN'),
+        ('WEBSITE_DESIGNER', 'WEBSITE_DESIGNER'),
+        ('INTERACTIVE_DESIGN', 'INTERACTIVE_DESIGN'),
+        ('CHARACTER_ANIMATATION', 'CHARACTER_ANIMATATION'),
     )
 
     class Meta:
@@ -65,13 +65,13 @@ class Field_of_work (models.Model):
 class Tools (models.Model):
     TOOL_CHOICES = (
         (' ', ' '),
-        ('MAX', 'Autodesk 3ds Max'),
-        ('MAYA', 'Autodesk Maya'),
-        ('CINEMA', 'Cinema 4D'),
-        ('AE', 'Adobe After Effects'),
-        ('PS', 'Adobe Photoshop'),
-        ('BLENDER', 'Blender'),
-        ('LIGHTWAVE', 'LightWave'),
+        ('MAX', 'MAX'),
+        ('MAYA', 'MAYA'),
+        ('CINEMA', 'CINEMA'),
+        ('AE', 'AE'),
+        ('PS', 'PS'),
+        ('BLENDER', 'BLENDER'),
+        ('LIGHTWAVE', 'LIGHTWAVE'),
         ('ZBrush', 'ZBrush'),
 
     )

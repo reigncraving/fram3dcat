@@ -13,7 +13,10 @@ import {
   GET_FRAMES_FAIL,
   GET_JOBS_SUCCCESS,
   GET_JOBS_FAIL,
-  JOBS_LOADING
+  JOBS_LOADING,
+  GET_COMMENTS,
+  GET_COMMENTS_SUCCESS,
+  GET_COMMENTS_FAIL,
 } from '../actions/types';
 
 const initialState = {
@@ -61,25 +64,6 @@ const initialState = {
   }
 ],
 
-job: [
-  {
-        id:0,
-        headline: '',
-        description: '',
-        body_text: '',
-        salaray: 0,
-        pub_date: '',
-        mod_date: '',
-        due_date:'',
-        author:0,
-        number_of_comments:0,
-        rating: 0,
-        is_remote: false,
-        is_active: false,
-        experience: '',
-        submition_url: '',
-  }
-],
 
 comments: [
   {post: '',
@@ -120,6 +104,12 @@ export default function (state = initialState, action) {
               return {
                   ...state,
                   Jobs
+              };
+    case GET_COMMENTS_SUCCESS:
+      const comments = action.payload;
+              return {
+                ...state,
+                comments
               };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:

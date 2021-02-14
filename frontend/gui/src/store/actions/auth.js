@@ -27,6 +27,11 @@ import {
   GET_JOBS_SUCCCESS,
   GET_JOBS_FAIL,
   JOBS_LOADING,
+  CREATE_COMMENT_SUCCESS,
+  CREATE_COMMENT_FAIL,
+  GET_COMMENTS,
+  GET_COMMENTS_SUCCESS,
+  GET_COMMENTS_FAIL,
 } from './types';
 
 // CHECK TOKEN & LOAD USER
@@ -575,6 +580,58 @@ export const deleteJob = (job_ID) => (dispatch, getState) => {
         type: DELETE_FAIL,
       });
     });
+};
+
+
+//Get my comments by post_ID
+export const getComments = (post_ID) => (dispatch, getState) => {
+
+  dispatch({ type: GET_COMMENTS });
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  axios
+    .get(`http://127.0.0.1:8000/global/comment_author/?post__id=${post_ID}`, config)
+    .then((res) => {
+      dispatch({
+        type: GET_COMMENTS_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: GET_COMMENTS_FAIL,
+      });
+    });
+
+};
+
+
+//Create Comment
+export const postComment = (post, content, author) => (dispatch, getState) => {
+
+const body = JSON.stringify({post, content, author});
+  axios
+    .post('http://127.0.0.1:8000/global/comment/', body, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: CREATE_COMMENT_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .then(() => { dispatch(getComments(post));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: CREATE_COMMENT_FAIL,
+      });
+    });
+
 };
 
 

@@ -11,6 +11,7 @@ FrameSerializer,
 FrameCommentSerializer,
 AuthorSerializer,
 FrameGetAuthorSerializer,
+FrameGetAuthorCommentSerializer
 )
 from GlobalModels.models import (
 Location,
@@ -102,8 +103,10 @@ class FrameViewSet(viewsets.ModelViewSet):
     queryset = Frame.objects.all()
     filterset_fields = ('author__id', )
 
-
-
+class FrameAuthorCommentViewSet(viewsets.ModelViewSet):
+    serializer_class = FrameGetAuthorCommentSerializer
+    queryset = Frame_comment.objects.all()
+    filterset_fields = ('post__id', )
 
 
 class FrameCommentViewSet(viewsets.ModelViewSet):
