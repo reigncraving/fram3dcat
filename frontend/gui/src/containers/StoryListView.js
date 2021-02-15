@@ -9,14 +9,14 @@ class StoryListView extends React.Component {
 
     // Stories from Django API are strored here
     state = {
-        Stories: []
+        stories: []
     }
 
     //Get the data from django
     componentDidMount(){
-        Axios.get('http://127.0.0.1:8000/stories/')
+        Axios.get('http://127.0.0.1:8000/stories/author_info/')
         .then(res => {
-            this.setState({Stories: res.data}); //res = response data
+            this.setState({stories: res.data}); //res = response data
             console.log(res.data);
         })
     }
@@ -26,7 +26,7 @@ class StoryListView extends React.Component {
     render(){
         return(
           <>
-            <Story data={this.state.Stories} />
+            <Story data={this.state.stories} />
           </>
         );
     }

@@ -11,12 +11,10 @@ import {
  } from '@ant-design/icons';
 
  import PropTypes from 'prop-types';
- import { useDispatch } from "react-redux";
  import { connect } from 'react-redux';
  import { auth, deleteFrame } from '../store/actions/auth';
  import { withRouter } from 'react-router-dom';
  import { createMessage } from '../store/actions/messages';
- import ImageUploader from '../components/ImageUploader'
 
  const layout = {
    labelCol: {
@@ -101,9 +99,6 @@ class DeleteFrame extends React.Component {
         const frame_ID = this.props.data.id;
         this.props.deleteFrame(frame_ID);
         this.props.createMessage({ deleteSuccess: 'Frame Deleted' });
-        //this.props.history.push('/dashboard/');
-        //this.props.loadUser();
-
       };
 
       enterLoading = index => {
@@ -126,30 +121,6 @@ class DeleteFrame extends React.Component {
           });
         }, 6000);
       };
-
-
-    onChange = (e) => this.setState({ [e.target.name]: e.target.value });
-
-//for multiselect
-    handleChange = (value) => {
-      console.log(`selected ${value}`);
-    };
-
-
-    handleImageChange = (e) => {
-    this.setState({
-      upload_image: true,
-      framePicture: e.target.files[0],
-    })
-    };
-
-    handleFileChange = (e) => {
-    this.setState({
-      upload_file: true,
-      frameFile: e.target.files[0],
-    })
-    };
-
 
     render() {
       const { visible, confirmLoading, ModalText } = this.state;
@@ -177,14 +148,14 @@ class DeleteFrame extends React.Component {
 
 
 
-              Are you sure you want to delete <b>{this.props.data.title}</b> ?
+              <p Style={{fontSize:"16pt"}}>Are you sure you want to delete <b>{this.props.data.title}</b></p> ?
               <Form.Item>
               </Form.Item>
               <br/>
             <Form.Item
               label="frame"
             >
-                <img src = {this.props.data.frame_picture} style={{border: "5px solid darkgray"}}/>
+                <img src = {this.props.data.frame_picture} width= "300px" style={{border: "5px solid darkgray"}}/>
             </Form.Item>
             <Form.Item>
             </Form.Item>
@@ -211,5 +182,5 @@ class DeleteFrame extends React.Component {
   });
 
 
-//export default UpdatePersonalInfo;
+
 export default withRouter(connect(mapStateToProps,  { deleteFrame, createMessage })(DeleteFrame));

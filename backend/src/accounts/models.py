@@ -3,8 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from multiselectfield import MultiSelectField
 from GlobalModels.models import Skills, Tools, Field_of_work
 from GlobalModels.cleaner import avatar_cleanup
-#example upload path to folder with specific name.
-#upload image under ..avatar/
+
 
 
 def upload_path(instance, filename):

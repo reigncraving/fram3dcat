@@ -4,22 +4,25 @@ import {
   Button,
   Form,
   Input,
-  Upload,
-  Select
+  Select,
+  DatePicker,
+  Switch,
+  Space
 } from 'antd';
+import moment from 'moment';
 import {
    UploadOutlined,
    WarningTwoTone,
-   AppstoreOutlined,
+   FormOutlined,
  } from '@ant-design/icons';
 
  import PropTypes from 'prop-types';
- import { useDispatch } from "react-redux";
  import { connect } from 'react-redux';
- import { auth, createFrame } from '../store/actions/auth';
+ import { auth, updateStory } from '../store/actions/auth';
  import { withRouter } from 'react-router-dom';
  import { createMessage } from '../store/actions/messages';
- import ImageUploader from '../components/ImageUploader'
+ import { CKEditor } from '@ckeditor/ckeditor5-react';
+ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const layout = {
   labelCol: {
@@ -44,12 +47,8 @@ const tailFormItemLayout = {
   },
 };
 
+const { TextArea } = Input;
 
-const { Option } = Select;
-const children = [];
-for (let i = 10; i < 36; i++) {
-  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-}
 
 
 const validateMessages = {
@@ -58,23 +57,25 @@ const validateMessages = {
 };
 
 
-class AddFrame extends React.Component {
+class EditStory extends React.Component {
   static propTypes = {
-    update_PersonalInfo: PropTypes.func.isRequired,
+
     isAuthenticated: PropTypes.bool,
   };
 
+
     state = {
       loadings: [],
-      ModalText: 'PersonalInfo',
+
       visible: false,
       confirmLoading: false,
 
-       title:"",
-       description:"",
-       user_ID:"",
-       frameFile:" ",
-       framePicture: " ",
+       author: null,
+       headline: "",
+       headline_photo: "",
+       body_text: "",
+       description: "",
+
     };
 
 
@@ -109,7 +110,7 @@ class AddFrame extends React.Component {
       //e.preventDefault();
       this.setState({
         confirmLoading: true,
-        user_ID: this.props.userData.id
+        author: this.props.userData.id
       });
       setTimeout(() => {
         this.setState({
@@ -117,26 +118,33 @@ class AddFrame extends React.Component {
           confirmLoading: false,
         });
       }, 2000);
-      const {
-          title,
-          description,
-          user_ID,
-          frameFile,
-          framePicture,
-        } = this.state;
 
-        let form_data = new FormData();
-        form_data.append('title', this.state.title);
+      let form_data = new FormData();
+      if(this.state.headline != " "){
+
+        form_data.append('headline', this.state.headline);
+      };
+
+      if(this.state.headline_photo){
+
+        form_data.append('headline_photo', this.state.headline_photo);
+      };
+      if(this.state.body_text){
+
+        form_data.append('body_text', this.state.body_text);
+
+      };
+      if(this.state.description != " "){
+
         form_data.append('description', this.state.description);
-        form_data.append('author', this.state.user_ID);
-        form_data.append('frameFile', this.state.frameFile);
-        form_data.append('frame_picture', this.state.framePicture);
+      }
+      //form_data.append('author', this.state.user_ID);
 
 
-        this.props.createFrame(form_data);
-        this.props.createMessage({ updateSuccesfull: 'Frame Created' });
-        //this.props.history.push('/dashboard/');
-        //this.props.loadUser();
+      const story_ID = this.props.data.id;
+      alert(this.props.data.id)
+      this.props.updateStory(form_data, story_ID);
+      this.props.createMessage({ updateSuccesfull: 'Update success' });
 
       };
 
@@ -166,22 +174,23 @@ class AddFrame extends React.Component {
 
 //for multiselect
     handleChange = (value) => {
-      console.log(`selected ${value}`);
+      this.setState({
+        experience: value,
+      });
     };
 
+   handleOnEditorChange = (e, editor) => {
+     const data = editor.getData();
+     this.setState({
+       body_text: data
+     });
+   }
 
-    handleImageChange = (e) => {
-    this.setState({
-      framePicture: e.target.files[0],
-    })
-    };
-
-    handleFileChange = (e) => {
-    this.setState({
-      frameFile: e.target.files[0],
-    })
-    };
-
+   handleImageChange = (e) => {
+   this.setState({
+     headline_photo: e.target.files[0],
+   })
+   };
 
     render() {
       const { visible, confirmLoading, ModalText } = this.state;
@@ -189,10 +198,10 @@ class AddFrame extends React.Component {
       return (
         <>
           <Button type="primary" onClick={this.showModal}>
-          <AppstoreOutlined/>  Add Frame
+           Edit
           </Button>
           <Modal
-            title="New Frame"
+            title="Edit Story"
             visible={visible}
             onCancel={this.handleCancel}
             onOk={this.handleOk}
@@ -208,20 +217,21 @@ class AddFrame extends React.Component {
           validateMessages={this.validateMessages}>
 
             <Form.Item
-              name={['title']}
-              label="Title "
+              name={['headline']}
+              label="Headline "
               rules={[
                 {
-                  required: true,
+                  required: false,
                 },
               ]}
             >
               <Input
                 size="large"
                 type="text"
-                name="title"
+                name="headline"
                 className="form-control"
                 onChange={this.onChange}
+                defaultValue={this.props.data.headline}
                />
             </Form.Item>
 
@@ -230,7 +240,7 @@ class AddFrame extends React.Component {
               label="Short description "
               rules={[
                 {
-                  required: true,
+                  required: false,
                 },
               ]}
             >
@@ -240,35 +250,32 @@ class AddFrame extends React.Component {
                 name="description"
                 className="form-control"
                 onChange={this.onChange}
+                defaultValue={this.props.data.description}
                />
             </Form.Item>
 
-
             <Form.Item
-              name={['frameFile']}
-              label="Frame file "
+              name={['body_text']}
+              label="Post"
               rules={[
                 {
                   required: false,
                 },
               ]}
             >
-              <input type="file"
-                     id="frameFile"
-                     accept="application/glb"
-                     onChange={this.handleFileChange} required
-                     style={{color: "blue",  }}
-                     />
-              <span style={{color:'#8D8BFF'}}>
-                   <br/>
-              <WarningTwoTone/>
-              <b Style={{color:"#8BC7FF"}}>Only glTF-Binary files supported (*.glb)</b>
-              </span>
+
+
+               <CKEditor
+                   editor={ClassicEditor}
+                   onChange={this.handleOnEditorChange}
+                   data={this.props.data.body_text}
+               />
+
             </Form.Item>
 
             <Form.Item
-              name={['framePicture']}
-              label="Frame Screenshot "
+              name={['headline_photo']}
+              label="Cover picture "
               rules={[
                 {
                   required: false,
@@ -276,8 +283,8 @@ class AddFrame extends React.Component {
               ]}
             >
               <input type="file"
-                     id="framePicture"
-                     accept="image/png, image/jpeg"  onChange={this.handleImageChange} required
+                     id="headline_photo"
+                     accept="image/png, image/jpeg"  onChange={this.handleImageChange}
                      style={{color: "blue",  }}
                      />
                      <br/>
@@ -286,11 +293,14 @@ class AddFrame extends React.Component {
                      </span>
             </Form.Item>
 
+            <Form.Item>
+                       <p style={{marginLeft:"35%", color:"gray"}}><i>Note: Upload only if you want to replace current files:</i></p>
+            </Form.Item>
 
 
             <Form.Item {...tailFormItemLayout}>
               <Button style={{marginRight:"10px"}} type="primary" htmlType="submit" loading={loadings[0]} onClick={() => this.enterLoading(0)}>
-                Add Frame
+                 Update
               </Button>
               <Button onClick={this.handleCancel}>
                 Cancel
@@ -312,4 +322,4 @@ class AddFrame extends React.Component {
 
 
 //export default UpdatePersonalInfo;
-export default withRouter(connect(mapStateToProps,  { createFrame, createMessage })(AddFrame));
+export default withRouter(connect(mapStateToProps,  { updateStory, createMessage })(EditStory));

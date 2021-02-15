@@ -23,7 +23,6 @@ import {
   FRAMES_LOADING,
   ADD_JOB_FAIL,
   ADD_JOB_SUCCESS,
-  OBS_LOADING,
   GET_JOBS_SUCCCESS,
   GET_JOBS_FAIL,
   JOBS_LOADING,
@@ -32,6 +31,11 @@ import {
   GET_COMMENTS,
   GET_COMMENTS_SUCCESS,
   GET_COMMENTS_FAIL,
+  CREATE_STORY_SUCCESS,
+  CREATE_STORY_FAIL,
+  STORY_LOADING,
+  GET_STORY_SUCCESS,
+  GET_STORY_FAIL,
 } from './types';
 
 // CHECK TOKEN & LOAD USER
@@ -633,6 +637,101 @@ const body = JSON.stringify({post, content, author});
     });
 
 };
+
+
+//Create story post
+export const createStory = (form_data) => (dispatch, getState) => {
+
+  axios
+    .post('http://127.0.0.1:8000/stories/auth/', form_data, tokenConfigUpload(getState))
+    .then((res) => {
+      dispatch({
+        type: ADD_JOB_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .then(() => { dispatch(loadUser());})
+    .then(() => { dispatch(getMyStories(getState().auth.username));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: ADD_JOB_FAIL,
+      });
+    });
+};
+
+//Update story post
+export const updateStory = (form_data, story_ID) => (dispatch, getState) => {
+
+  axios
+    .patch('http://127.0.0.1:8000/stories/auth/' + story_ID + '/', form_data, tokenConfigUpload(getState))
+    .then((res) => {
+      dispatch({
+        type: UPDATE_SUCCESS,
+        payload: res.data,
+      });
+    })
+
+    //update state on my framelist
+    .then(() => { dispatch(getMyStories(getState().auth.username));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: UPDATE_FAIL,
+      });
+    });
+};
+
+//Get My Stories  by username
+export const getMyStories = (username) => (dispatch, getState) => {
+  // User Loading
+  dispatch({ type: STORY_LOADING });
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  axios
+    .get(`http://127.0.0.1:8000/stories/auth/?author__username=${username}`, config)
+    .then((res) => {
+      dispatch({
+        type: GET_STORY_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: GET_STORY_FAIL,
+      });
+    });
+
+};
+
+//Delete Story
+export const deleteStory = (story_ID) => (dispatch, getState) => {
+
+  axios
+    .delete('http://127.0.0.1:8000/stories/auth/' + story_ID +'/', tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: DELETE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    //update state on my framelist
+    .then(() => { dispatch(getMyStories(getState().auth.username));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: DELETE_FAIL,
+      });
+    });
+};
+
+
 
 
 // Setup config with token - helper function

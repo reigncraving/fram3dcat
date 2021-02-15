@@ -12,8 +12,8 @@ class Story(models.Model):
     author = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True)
     number_of_comments = models.IntegerField(blank=True, null=True)
     rating = models.IntegerField(blank=True, null=True)
-    headline_photo = models.ImageField(upload_to=upload_path, blank=True, null=True)
-    #tags???
+    headline_photo = models.ImageField(upload_to='stories', blank=True, null=True, max_length=255)
+
 
     def write(self):
         self.pub_date = timezone.now()
@@ -44,7 +44,3 @@ class Comment(models.Model):
 
      def __str__(self):
         return 'Comment {} by {}'.format(self.content, self.author)
-
-
-
-# must add eny new attribute to api/serializers.py under fields(...)

@@ -36,12 +36,15 @@ import { connect } from 'react-redux';
 import { logout, auth, loadUser } from '../store/actions/auth';
 import AddFrame from '../containers/AddFrame'
 import AddJob from '../containers/AddJob'
+import AddStory from '../containers/AddStory'
 import ImageUploader from '../components/ImageUploader'
 import UpdatePersonalInfo from '../containers/UpdatePersonalInfo'
 import UpdateProffesionalInfo from '../containers/UpdateProffesionalInfo'
 import UpdateLocation from '../containers/UpdateLocation'
 import UpdateCompanyInfo from '../containers/UpdateCompanyInfo'
 import MyFrames from '../containers/MyFrames'
+import MyStories from '../containers/MyStories'
+import MyStoriesList from '../components/MyStoriesList'
 import MyJobsListView from '../containers/MyJobs'
 import { Link, withRouter, Redirect } from 'react-router-dom';
 
@@ -249,9 +252,7 @@ handleChange = info => {
               <Link to="/update/password">
                     <Button icon={<KeyOutlined />}type="primary" style={{float:"left", marginRight:"20px"}}>Change Password</Button>
               </Link>
-              <Link to="/delete/account">
-                    <Button icon={<UserOutlined />}type="danger" style={{float:"left"}}>Delete account</Button>
-              </Link>
+
 
 
           </TabPane>
@@ -295,13 +296,16 @@ handleChange = info => {
             }
             key="4"
           >
-            Tab 3
+          <div style={{float:"right"}}><AddStory/></div>
+          <p>My Stories:</p>
+          <MyStories username={user.username}></MyStories>
           </TabPane>
+
           <TabPane
             tab={
               <span>
                 <UsergroupAddOutlined />
-                Followers
+                Chat
               </span>
             }
             key="5"

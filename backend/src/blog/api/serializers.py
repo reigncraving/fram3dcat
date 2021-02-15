@@ -3,17 +3,34 @@ from accounts.api.serializers import AuthorSerializer
 from blog.models import Story, Comment
 
 class StorySerializer(serializers.ModelSerializer):
+
+        class Meta:
+            model = Story
+            fields = (
+            'id',
+            'author',
+            'headline',
+            'headline_photo',
+            'body_text',
+            'pub_date',
+            'mod_date',
+            'description',
+            )
+
+
+class StoryAuthorInfoSerializer(serializers.ModelSerializer):
         author = AuthorSerializer(read_only=True)
         class Meta:
             model = Story
             fields = (
             'id',
+            'author',
             'headline',
+            'headline_photo',
             'body_text',
             'pub_date',
             'mod_date',
             'description',
-            'author'
             )
 
 class CommentSerializer(serializers.ModelSerializer):

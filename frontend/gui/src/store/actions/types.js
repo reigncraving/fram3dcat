@@ -1,6 +1,8 @@
-// export const GET_LEADS = 'GET_LEADS';
-// export const DELETE_LEAD = 'DELETE_LEAD';
-// export const ADD_LEAD = 'ADD_LEAD';
+export const STORY_LOADING = 'STORY_LOADING';
+export const GET_STORY_SUCCESS = 'GET_STORY_SUCCESS';
+export const GET_STORY_FAIL = 'GET_STORY_FAIL';
+export const CREATE_STORY_SUCCESS = 'CREATE_STORY_SUCCESS';
+export const CREATE_STORY_FAIL = 'CREATE_STORY_FAIL';
 export const GET_ERRORS = 'GET_ERRORS';
 export const CREATE_MESSAGE = 'CREATE_MESSAGE';
 export const USER_LOADING = 'USER_LOADING';

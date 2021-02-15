@@ -17,6 +17,8 @@ import {
   GET_COMMENTS,
   GET_COMMENTS_SUCCESS,
   GET_COMMENTS_FAIL,
+  GET_STORY_SUCCESS,
+  GET_STORY_FAIL,
 } from '../actions/types';
 
 const initialState = {
@@ -105,6 +107,13 @@ export default function (state = initialState, action) {
                   ...state,
                   Jobs
               };
+    case GET_STORY_SUCCESS:
+      const stories = action.payload;
+              return {
+                  ...state,
+                  stories
+              };
+    case GET_STORY_FAIL:
     case GET_COMMENTS_SUCCESS:
       const comments = action.payload;
               return {

@@ -42,6 +42,12 @@ const Frame = (props) => {
         }}
       size="Small"
       Loading = "true"
+      pagination={{
+        onChange: page => {
+          console.log(page);
+        },
+        pageSize:20,
+      }}
       dataSource={props.data}
       renderItem={item => (
         <List.Item>

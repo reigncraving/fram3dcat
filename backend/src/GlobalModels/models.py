@@ -84,17 +84,14 @@ class Frame (models.Model):
     description = models.CharField(max_length=100, blank=True)
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
     rating = models.IntegerField(blank=True, null=True)
-    # Comments FK
     number_of_comments = models.IntegerField(blank=True, null=True)
     likes = models.IntegerField(blank=True, null=True)
     views = models.IntegerField(blank=True, null=True,  default=0)
     # tools = MultiSelectField(choices=Tools.TOOL_CHOICES, null=True, blank=True)
-    # field_Of_Work = ManyToManyFields(choices=Field_of_work.FIELD_CHOICES, null=True, blank=True)
     frameFile = models.FileField(upload_to='frames/%Y/', null=True, blank=True)
     frame_picture = models.ImageField(default='darkCube.jpeg', blank=True, null=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     last_moddified = models.DateTimeField(auto_now_add=True)
-    #tags
 
     def __str__(self):
         return self.title

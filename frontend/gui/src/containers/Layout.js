@@ -17,10 +17,12 @@ import {
   UserOutlined,
   CloudUploadOutlined,
   HomeOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  AlignCenterOutlined,
 } from '@ant-design/icons';
 import AddFrame from '../containers/AddFrame'
 import AddJob from '../containers/AddJob'
+import AddStory from '../containers/AddStory'
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import PrivateRoute from '../privateRoute.js';
 import { connect } from 'react-redux';
@@ -169,14 +171,19 @@ handleResize = (e) => {
                         {user.is_designer ? <AddFrame/> : <AddJob/>}
                     </div>
                   </Menu.Item>
-                    <SubMenu key="sub2" title="Navigation Two">
-                      <Menu.Item key="5">Option 5</Menu.Item>
-                      <Menu.Item key="6">Option 6</Menu.Item>
-                    <SubMenu key="sub3" title="Submenu">
-                        <Menu.Item key="7">Option 7</Menu.Item>
-                        <Menu.Item key="8">Option 8</Menu.Item>
-                    </SubMenu>
-                  </SubMenu>
+                        {user.is_designer ?
+
+                          <>
+
+                          <Menu.Item key ="3" title ="Write" icon = {<AlignCenterOutlined />} onClick={this.onCloseAccDrawer}>
+                          <div style={{float:"right"}}>
+                          <AddStory/>
+                          </div>
+                          </Menu.Item>
+
+                        </>
+
+                          : null}
                   <SubMenu key="sub4" icon={<SettingOutlined />} title="Settings">
                       <Menu.Item key="9" style={{height:"60px"}}>
                         <p style={{float:'left', marginTop:'5px'}}>Change theme</p>

@@ -11,12 +11,10 @@ import {
  } from '@ant-design/icons';
 
  import PropTypes from 'prop-types';
- import { useDispatch } from "react-redux";
  import { connect } from 'react-redux';
- import { auth, deleteJob } from '../store/actions/auth';
+ import { auth, deleteStory } from '../store/actions/auth';
  import { withRouter } from 'react-router-dom';
  import { createMessage } from '../store/actions/messages';
- import ImageUploader from '../components/ImageUploader'
 
  const layout = {
    labelCol: {
@@ -41,8 +39,9 @@ import {
    },
  };
 
-class DeleteJob extends React.Component {
+class DeleteStory extends React.Component {
   static propTypes = {
+    update_PersonalInfo: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
   };
 
@@ -88,6 +87,7 @@ class DeleteJob extends React.Component {
       //e.preventDefault();
       this.setState({
         confirmLoading: true,
+        user_ID: this.props.userData.id
       });
       setTimeout(() => {
         this.setState({
@@ -96,10 +96,9 @@ class DeleteJob extends React.Component {
         });
       }, 2000);
 
-        const job_ID = this.props.data.id;
-        this.props.deleteJob(job_ID);
-        this.props.createMessage({ deleteSuccess: 'Job Deleted' });
-
+        const story_ID = this.props.data.id;
+        this.props.deleteStory(story_ID);
+        this.props.createMessage({ deleteSuccess: 'story Deleted' });
       };
 
       enterLoading = index => {
@@ -123,7 +122,6 @@ class DeleteJob extends React.Component {
         }, 6000);
       };
 
-
     render() {
       const { visible, confirmLoading, ModalText } = this.state;
       const { loadings } = this.state;
@@ -133,7 +131,7 @@ class DeleteJob extends React.Component {
             Delete
           </Button>
           <Modal
-            title="Delete Job"
+            title="Delete Story"
             visible={visible}
             onCancel={this.handleCancel}
             onOk={this.handleOk}
@@ -150,14 +148,14 @@ class DeleteJob extends React.Component {
 
 
 
-              Are you sure you want to delete <b>{this.props.data.headline}</b> post?
+              Are you sure you want to delete <b>{this.props.data.headline}</b> ?
               <Form.Item>
               </Form.Item>
               <br/>
             <Form.Item
-              label="Post:"
+              label="frame"
             >
-                <p style={{border: "5px solid darkgray"}}>{this.props.data.body_text}</p>
+                <img src = {this.props.data.headline_photo} alt="Cover photo" width="300px" style={{border: "5px solid darkgray"}}/>
             </Form.Item>
             <Form.Item>
             </Form.Item>
@@ -184,4 +182,5 @@ class DeleteJob extends React.Component {
   });
 
 
-export default withRouter(connect(mapStateToProps,  { deleteJob, createMessage })(DeleteJob));
+
+export default withRouter(connect(mapStateToProps,  { deleteStory, createMessage })(DeleteStory));

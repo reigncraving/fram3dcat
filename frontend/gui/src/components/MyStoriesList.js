@@ -1,8 +1,9 @@
 import React from 'react';
 import { List, Card} from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
-//import { Divider } from 'antd';
-//import { Card } from 'antd';
+import EditStory from '../containers/EditStory';
+import DeleteStory from '../containers/DeleteStory';
+
 
 const IconText = ({ icon, text }) => (
   <span>
@@ -11,7 +12,7 @@ const IconText = ({ icon, text }) => (
   </span>
 );
 
-const Story = (props) => {
+const MyStoriesList = (props) => {
     return (
     <>
     <Card>
@@ -37,8 +38,16 @@ const Story = (props) => {
           <List.Item
             key={item.title}
             actions={[
-              <IconText icon={ClockCircleOutlined} text={item.pub_date} key="list-vertical-star-o" />,
+              <>
+              <IconText icon={ClockCircleOutlined} text={item.pub_date} key="list-vertical-star-o" />
+              <br/>
 
+                <EditStory data = {item}/>
+
+              <span style={{marginLeft:"70px"}}>
+                <DeleteStory data = {item} />
+              </span>
+              </>
             ]}>
 
             <List.Item.Meta
@@ -51,10 +60,11 @@ const Story = (props) => {
               >
               <img
                   width={272}
-                  alt="logo"
+                  alt="headline_photo"
                   src={item.headline_photo}
                 />
             </a>
+
           </List.Item>
         )}
       />
@@ -64,4 +74,4 @@ const Story = (props) => {
 }
 
 
-export default Story;
+export default MyStoriesList;

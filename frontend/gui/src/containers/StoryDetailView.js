@@ -1,50 +1,76 @@
 import React from 'react';
 //import Story from '../components/Story'
 import Axios from 'axios';
-import { Card } from 'antd';
-
-
+import moment from 'moment';
+import ReactHtmlParser from 'react-html-parser';
+import { Card,Button,Tag,Avatar } from 'antd';
+import { Link, withRouter, Redirect } from 'react-router-dom';
+import {
+CalendarOutlined,
+ClockCircleOutlined,
+DollarCircleOutlined,
+EnvironmentOutlined
+} from '@ant-design/icons';
 //import StoryForm from '../components/StoryForm';
+
+const AvatarText = ({ source, text }) => (
+  <span>
+    <Avatar size={64} src={source} />
+    <b style={{fontSize:"11pt", marginLeft:"10px"}}>{text}</b>
+  </span>
+);
 
 
 class StoryDetailView extends React.Component {
 
     // stories from Django API are strored here
     state = {
-        Stories: {}
+        stories: [],
+        author: [],
     }
+
 
     //Get the data from django
     componentDidMount(){
         const StoryID = this.props.match.params.StoryID;
-        Axios.get(`http://127.0.0.1:8000/stories/${StoryID}`)
+        Axios.get(`http://127.0.0.1:8000/stories/author_info/${StoryID}/`)
         .then(res => {
-            this.setState({Stories: res.data}); //res = response data
+            this.setState({stories: res.data}); //res = response data
+            this.setState({author: this.state.stories.author})
+            console.log(this.state.stories.author)
         })
     }
 
-    handleDelete = (event) => {
-        const StoryID = this.props.match.params.StoryID;
-        Axios.delete(`http://127.0.0.1:8000/stories/${StoryID}`);
-          //go back after delete and refresh
-        this.pops.history.push('/');
-    }
-
-    //return as list also set reqType and ID for form put/post (post in listview)
-    // <StoryForm
-    // requestType="put"
-    // StoryID={this.props.match.params.StoryID}
-    // btnText="update"
-    //  />
-    //  <form onSubmit="handleDelete">
-    //     <Button type ="danger" htmlType="submit">Delete</Button>
-    //  </form>
 
     render(){
+
         return(
             <div>
-                <Card title={this.state.Stories.headline}>
-                <p> {this.state.Stories.body_text} </p>
+                <Card
+                title=<b style={{ textAlign: "center"}}>{this.state.stories.headline}</b>
+                cover = <img src={this.state.stories.headline_photo} />
+                style={{ width: "70%", marginLeft:"15%" }}
+
+                >
+
+                <span style={{color:"#24ACFF", marginRight:"20px"}}><ClockCircleOutlined />{moment(this.state.stories.pub_date).format('DD-MM-YYYY')}</span>
+                <br/>
+                <br/>
+
+                <br/>
+
+                <p> {ReactHtmlParser(this.state.stories.body_text)} </p>
+
+                <br/>
+                <br/>
+
+                <br/>
+                <b>Author:</b>
+                <br/>
+                <AvatarText
+                    source= {this.state.author.avatar}
+                    text = {this.state.author.username}
+                 />
                 </Card>
              </div>
         );
