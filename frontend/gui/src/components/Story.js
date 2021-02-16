@@ -42,7 +42,7 @@ const Story = (props) => {
             ]}>
 
             <List.Item.Meta
-              title={<a href={"/stories/"+item.id}>{item.headline}</a>}
+              title={<a style={{fontSize:"14pt"}} href={"/stories/"+item.id}>{item.headline}</a>}
               description={item.description}
             />
 

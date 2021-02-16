@@ -145,7 +145,7 @@ handleChange = info => {
             </span>
           </div>
           <div style={{fontSize:"16pt", marginTop:'8px', }}>
-          <b>{user.username}</b>
+          <Link to={"/profile/"+user.id}><b>{user.username}</b></Link>
           </div>
           <div style={{fontSize:"12pt", marginTop:'8px', }}>
           {user.email}

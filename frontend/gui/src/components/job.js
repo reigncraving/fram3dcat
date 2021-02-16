@@ -5,13 +5,16 @@ import { ClockCircleOutlined, HeartOutlined,  } from '@ant-design/icons';
 import { applyProps } from 'react-three-fiber';
 import Axios from 'axios';
 import moment from 'moment';
+import {Link} from 'react-router-dom';
 
 const { Meta } = Card;
 
-const AvatarText = ({ source, text }) => (
-  <span>
+const AvatarText = ({ source, text, link }) => (
+  <span style={{ marginLeft:"10px", color:"gray"}}>
+    <Link to={link}>
     <Avatar size={32} src={source} />
-    <b style={{fontSize:"9pt", marginLeft:"10px"}}>{text}</b>
+    <b style={{fontSize:"10pt", marginLeft:"5px"}}>{text}</b>
+    </Link>
   </span>
 );
 
@@ -44,7 +47,7 @@ const Job = (props) => {
               <List.Item
                 actions={[
                   <>
-                    <AvatarText source={item.author.avatar} text={item.author.username} key="author" />
+                    <AvatarText source={item.author.avatar} text={item.author.username} key="author"  link = {"/profile/"+item.author.id} />
 
                   </>
                 ]}
@@ -54,7 +57,7 @@ const Job = (props) => {
 
                 <List.Item.Meta
 
-                  title={<a  href={`/jobs/${item.id}`}><div><b>{item.headline}</b></div></a>}
+                  title={<a  href={`/jobs/${item.id}`}><div style={{fontSize:"14pt"}}><b>{item.headline}</b></div></a>}
                   description={item.description}
                   avatar=<span style={{color:"gray", size:"8pt"}}><ClockCircleOutlined/>{moment(item.pub_date).format('DD-MM-YYYY')}</span>
                 />

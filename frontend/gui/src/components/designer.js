@@ -49,7 +49,8 @@ const Designer = (props) => {
                       src={item.avatar}
                       backgroundColor='#87d068' />
                     }
-                    title={<a href="http://localhost:3000/dashboard"><b>{item.username}</b></a>}
+
+                    title={<a href={"http://localhost:3000/profile/"+item.id}><b>{item.username}</b></a>}
                     description={item.email}
                   />
 

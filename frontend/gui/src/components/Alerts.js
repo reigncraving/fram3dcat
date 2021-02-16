@@ -25,6 +25,7 @@ export class Alerts extends Component {
       if (message.deleteSuccess) alert.error(message.deleteSuccess);
       if (message.updateSuccesfull) alert.success(message.updateSuccesfull);
       if (message.createJob) alert.success(message.createJob);
+      if (message.error) alert.error(message.error);
     }
   }
 

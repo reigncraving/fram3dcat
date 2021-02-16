@@ -1,9 +1,10 @@
-from blog.api.views import StoryViewSet, CommentViewSet, StoryAuthorInfoViewSet
+from blog.api.views import StoryViewSet, CommentViewSet, StoryAuthorInfoViewSet, AuthorCommentViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'auth', StoryViewSet, basename='stories')
 router.register(r'comments', CommentViewSet, basename='comments')
+router.register(r'comment_author', AuthorCommentViewSet, basename='comment-author')
 router.register(r'author_info', StoryAuthorInfoViewSet, basename='author_info')
 urlpatterns = router.urls
 

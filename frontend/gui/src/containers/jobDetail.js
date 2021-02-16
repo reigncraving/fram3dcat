@@ -66,7 +66,7 @@ class JobsDetailView extends React.Component {
         return(
             <div>
                 <Card
-                title=<b style={{ textAlign: "center"}}>{this.state.job.headline}</b>
+                title=<b style={{ textAlign: "center", fontSize:"14pt"}}>{this.state.job.headline}</b>
                 style={{ width: "70%", marginLeft:"15%" }}
 
                 >
@@ -78,12 +78,12 @@ class JobsDetailView extends React.Component {
 
 
                 <br/>
-                <p>Experience: <Tag style={{fontSize:"12pt"}}>{this.state.job.experience}</Tag></p>
+                <p>Experience: <Tag style={{fontSize:"11pt"}}>{this.state.job.experience}</Tag></p>
                 <br/>
                 <br/>
 
                 <p> {ReactHtmlParser(this.state.job.body_text)} </p>
-                <Tag style={{fontSize:"12pt"}} color="green">Apply before: {this.state.job.due_date}</Tag>
+                <Tag style={{fontSize:"11pt"}} color="green">Apply before: {this.state.job.due_date}</Tag>
 
                 <br/>
                 <br/>

@@ -61,7 +61,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class AllPublicUsersSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ('username', 'email', 'first_name', 'last_name', 'avatar',
+    fields = ('id','username', 'email', 'first_name', 'last_name', 'avatar',
     'address_line','zip_code','state','country',
     'date_joined', 'last_logged_in', 'is_available', 'company_name', 'position',
     'website','tools', 'work_fields', 'skills', 'is_staff', 'is_designer', 'is_admin', 'is_active' )
@@ -92,7 +92,7 @@ class LocationInfoSerializer(serializers.ModelSerializer):
 class AllPublicDesignersSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ('username', 'email', 'first_name', 'last_name', 'avatar',
+    fields = ('id', 'username', 'email', 'first_name', 'last_name', 'avatar',
     'address_line','zip_code','state','country',
     'date_joined', 'last_logged_in', 'is_available', 'company_name', 'position',
     'website','tools', 'work_fields', 'skills', 'is_staff', 'is_designer', 'is_admin', 'is_active' )

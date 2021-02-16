@@ -19,6 +19,11 @@ import {
   GET_COMMENTS_FAIL,
   GET_STORY_SUCCESS,
   GET_STORY_FAIL,
+  LOAD_PROFILE,
+  LOAD_PROFILE_SUCCESS,
+  LOAD_PROFILE_FAIL,
+  GET_STORY_COMMENTS_SUCCESS,
+  GET_STORY_COMMENTS_FAIL,
 } from '../actions/types';
 
 const initialState = {
@@ -66,6 +71,37 @@ const initialState = {
   }
 ],
 
+profile: [
+  {username: '',
+  email: '',
+  first_name: '',
+  last_name: '',
+  avatar: '',
+  address_line: '',
+  zip_code: '',
+  state: '',
+  coutry: '',
+  date_joined: '',
+  last_logged_in: '',
+  is_available: '',
+  company_name: '',
+  possition: '',
+  website: ' ',
+  tools: [],
+  work_fields: [],
+  skills: [],
+  is_staff: false,
+  is_designer: false,
+  is_admin: false,
+  is_active: false,
+  password: '',
+}
+],
+
+storyComments: [
+
+
+],
 
 comments: [
   {post: '',
@@ -120,7 +156,23 @@ export default function (state = initialState, action) {
                 ...state,
                 comments
               };
-    case LOGIN_SUCCESS:
+    case GET_STORY_COMMENTS_SUCCESS:
+    localStorage.setItem('storyComments', action.payload)
+          return {
+            ...state,
+            ...action.payload,
+            isLoading: false,
+            storyComments: action.payload,
+            };
+    case LOAD_PROFILE_SUCCESS:
+      localStorage.setItem('profile', action.payload)
+      return {
+        ...state,
+        ...action.payload,
+        isLoading: false,
+        profile: action.payload,
+      };
+      case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       localStorage.setItem('token', action.payload.token);
       return {

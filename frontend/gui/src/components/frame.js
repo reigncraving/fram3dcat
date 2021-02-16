@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import {Link} from 'react-router-dom'
 import FrameModal from './frameModal'
 import {
   List,
@@ -16,10 +17,12 @@ import {
 
 const { Meta } = Card;
 
-const AvatarText = ({ source, text }) => (
-  <span>
+const AvatarText = ({ source, text, link }) => (
+  <span style={{float:"left", marginLeft:"30px"}}>
+    <Link to={link}>
     <Avatar size={32} src={source} />
-    <b style={{fontSize:"12pt"}}>{text}</b>
+    <b style={{fontSize:"12pt", marginLeft:"5px"}}>{text}</b>
+    </Link>
   </span>
 );
 
@@ -53,8 +56,10 @@ const Frame = (props) => {
         <List.Item>
           <Card
             actions={[
-                <AvatarText source={item.author.avatar} text={item.author.username} key="Views" />,
-                <IconText icon={EyeOutlined} text={item.views} key="Likes" />,
+                <>
+                <AvatarText source={item.author.avatar} text={item.author.username} key="Views" link={"/profile/"+item.author.id} />
+                <IconText icon={EyeOutlined} text={item.views} key="Likes" />
+                </>
              ]}
             loading={props.loading}
             hoverable

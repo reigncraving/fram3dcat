@@ -17,7 +17,7 @@ import {
   CloudUploadOutlined,
   EyeOutlined
  } from '@ant-design/icons';
-
+import { Link } from 'react-router-dom';
 
 const IconText = ({ icon, text }) => (
   <span>
@@ -105,7 +105,10 @@ class FrameModal extends React.Component {
            <div name="info">
             <b style={{paddingLeft: "10px", fontSize:"16pt"}}>{this.props.data.title}</b>
               <br/>
-                <span style={{marginLeft:"10px"}}> by:</span> <b style={{color:"blue", fontSize:"14pt"}}>{this.props.data.author.username}</b>
+                <span style={{marginLeft:"10px"}}> by  </span>
+                  <Link to={"/profile/"+ this.props.data.author.id}>
+                    <b style={{color:"blue", fontSize:"14pt"}}>{this.props.data.author.username}</b>
+                  </Link>
               </div>
           <br/>
             <div name="canvas" style= {{width: "100%" }}>

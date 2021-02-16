@@ -184,21 +184,6 @@ handleResize = (e) => {
                         </>
 
                           : null}
-                  <SubMenu key="sub4" icon={<SettingOutlined />} title="Settings">
-                      <Menu.Item key="9" style={{height:"60px"}}>
-                        <p style={{float:'left', marginTop:'5px'}}>Change theme</p>
-                          <Switch
-                            checked={
-                              this.state.theme === 'dark',
-                              this.state.drawer_color === '#000C17'
-                            }
-                            onChange={this.changeTheme}
-                            checkedChildren="Dark"
-                            unCheckedChildren="Light"
-                            style={{float:'right', marginTop:'14px'}}
-                          />
-                      </Menu.Item>
-                  </SubMenu>
                 <Menu.Item key="10" onClick={this.onCloseAccDrawer, event =>  window.location.href='/'}>
                   <Button  type= "danger" icon={<LogoutOutlined />} onClick={this.props.logout} style ={{float:"right"}}> Logout</Button>
                 </Menu.Item>
@@ -256,9 +241,6 @@ handleResize = (e) => {
             </Menu.Item>
 
              <SubMenu title="Hire">
-                 <Menu.Item key="Hire">
-                  <Link to="/jobs/post">Post job</Link>
-                 </Menu.Item>
                  <Menu.Item key="SearchDesigner">
                   <Link to="/search/designer">Search Designers</Link>
                  </Menu.Item>
@@ -284,8 +266,8 @@ handleResize = (e) => {
            </Menu>
          </Menu>
           </Header>
-          <Content className="site-layout" style={{ padding: '0', paddingLeft:"10%", paddingRight:"10%", marginTop: "0", backgroundColor: "white"  }}>
-              <div className="site-layout-background" style={{ padding: 0, minHeight: 380, height:"90%", backgroundColor:"white"}}>
+          <Content className="site-layout" style={{ padding: '0', paddingLeft:"10%", paddingRight:"10%", marginTop: "0", backgroundColor: "#FAFAFA"  }}>
+              <div className="site-layout-background" style={{ padding: 0, minHeight: 380, height:"90%", backgroundColor:"#FAFAFA"}}>
 
               { this.props.children}
 

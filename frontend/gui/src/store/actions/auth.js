@@ -36,6 +36,11 @@ import {
   STORY_LOADING,
   GET_STORY_SUCCESS,
   GET_STORY_FAIL,
+  LOAD_PROFILE,
+  LOAD_PROFILE_SUCCESS,
+  LOAD_PROFILE_FAIL,
+  GET_STORY_COMMENTS_SUCCESS,
+  GET_STORY_COMMENTS_FAIL
 } from './types';
 
 // CHECK TOKEN & LOAD USER
@@ -86,6 +91,36 @@ export const login = (username, password) => (dispatch) => {
       });
     });
 };
+
+//load user profile
+export const loadProfile = (user_ID) => (dispatch) => {
+
+  dispatch({ type: LOAD_PROFILE });
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  axios
+    .get('http://127.0.0.1:8000/accounts/auth/user/'+user_ID+'/')
+    .then((res) => {
+      dispatch({
+        type: LOAD_PROFILE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: LOAD_PROFILE_FAIL,
+      });
+    });
+  };
+
+
+
 
 // REGISTER USER
 export const register = ({ username, password, email, is_designer}) => (dispatch) => {
@@ -585,7 +620,55 @@ export const deleteJob = (job_ID) => (dispatch, getState) => {
       });
     });
 };
+//Get my STORY comments by post_ID
+export const getStoryComments = (post_ID) => (dispatch, getState) => {
 
+  dispatch({ type: GET_COMMENTS });
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  axios
+    .get(`http://127.0.0.1:8000/stories/comments/?post__id=${post_ID}`, config)
+    .then((res) => {
+      dispatch({
+        type: GET_STORY_COMMENTS_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: GET_STORY_COMMENTS_FAIL,
+      });
+    });
+
+};
+
+//Create  STORY Comment
+export const postStoryComment = (post, content, author) => (dispatch, getState) => {
+
+const body = JSON.stringify({post, content, author});
+  axios
+    .post('http://127.0.0.1:8000/stories/comment_author/', body, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: CREATE_COMMENT_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .then(() => { dispatch(getStoryComments(post));})
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: CREATE_COMMENT_FAIL,
+      });
+    });
+
+};
 
 //Get my comments by post_ID
 export const getComments = (post_ID) => (dispatch, getState) => {

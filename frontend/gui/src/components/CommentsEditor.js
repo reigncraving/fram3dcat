@@ -19,12 +19,18 @@ const CommentList = (props) => (
 
 
       <Comment
-        author={ <> <b>{item.author.username}</b> <p>{item.pub_date} </p> </>}
+        author={ <> <Link to={"/profile/"+item.author.id}> <b style={{color:"blue", fontSize:"12pt"}}>{item.author.username}</b></Link> <p>{item.pub_date} </p> </>}
         avatar={
+          <>
+          {item.content ?
           <Avatar
             src={item.author.avatar}
             alt="avatar"
           />
+          :
+          null
+          }
+          </>
         }
         content={item.content}
         />

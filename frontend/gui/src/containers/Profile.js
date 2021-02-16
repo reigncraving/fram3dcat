@@ -30,41 +30,14 @@ import {
 } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logout, auth, loadUser } from '../store/actions/auth';
+import { logout, auth, loadProfile } from '../store/actions/auth';
 import MyFrames from '../containers/MyFrames'
 import { Link, withRouter, Redirect } from 'react-router-dom';
+import moment from 'moment';
 
+const { Meta } = Card;
 
-
-//avatar:
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
-
-
-//avatar/
-
-class Dashboard extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.LoadUser = this.LoadUser.bind(this)
-  }
-
+class Profile extends React.Component {
 
 
   static propTypes = {
@@ -76,406 +49,102 @@ class Dashboard extends React.Component {
     work_fields: [],
   };
 
-onImageUploadFinish = e => {
-  this.props.auth.user.avatar = this.state.avatar;
-};
+  onLinkClick = e => {
+    window.open(`https://${this.props.profile.website}`, '_blank')
+  }
+  componentDidMount(){
+    const user_ID = this.props.match.params.user_ID;
+    this.props.loadProfile(user_ID)
 
-//avatar: magic here....
-handleChange = info => {
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        }),
-      );
-    }
-  };
-
-  LoadUser() {
-    this.props.loadUser()
-  };
-  // static getDerivedStateFromProps(props, state) {
-  //     // return an object to update the state.
-  //     return props.auth;
-  // }
-
-
-  // get user info
-//   componentDidMount(){
-//     const UserID = this.props.match.params.UserID;
-//     Axios.get(`http://127.0.0.1:8000/accounts/auth/user/${UserID}`)
-//     .then(res => {
-//         this.setState({User: res.data}); //res = response data
-//     })
-// }
+  }
 
   render() {
-    const { user } = this.props.userData;
-    const { loading, imageUrl } = this.state;
-    const tabName = "";
-    const tabIcon = null;
-    const uploadButton = (
-       <div>
-         {loading ? <LoadingOutlined /> : <PlusOutlined />}
-         <div style={{ marginTop: 8 }}>Upload</div>
-       </div>
-     );
-     const DesignerView = (
-      <>
-        <Card>
-          <div id="avatar" style={{marginTop:'8px',  marginRight:"50px", float:"left"}} >
-            <span className="avatar-item">
-              <Avatar
-              size={128}
-              shape="circle"
-              src={user.avatar}
-              backgroundColor='#87d068' />
-            </span>
-          </div>
-          <div style={{fontSize:"16pt", marginTop:'8px', }}>
-          <b>{user.username}</b>
-          </div>
-          <div style={{fontSize:"12pt", marginTop:'8px', }}>
-          {user.email}
-          </div>
-          <div style={{fontSize:"12pt", marginTop:'8px', }}>
-          </div>
-          <div style={{fontSize:"14pt", marginTop:'8px', color:"blue" }}>
-
-          </div>
-
-        </Card>
-        <Card>
-        <Tabs tabPosition="left" defaultActiveKey="1">
-          <TabPane
-            tab={
-              <span>
-                <SettingOutlined/>
-                Account
-              </span>
-            }
-            key="1"
-          >
-            <span name="UpdatePersonalInfo" style={{float:"right"}} >
-              <UpdatePersonalInfo
-                loadUser = {this.LoadUser}
-                userID = {user.id}
-                firstName = {user.first_name}
-                lastName = {user.last_name}
-                website = {user.website}
-                />
-            </span>
-            <InfoCircleOutlined /> Information:
-              <br/>
-              <br/>
-              username:
-            <b style={{marginLeft:"5px"}}>{user.username}</b>
-              <br/>
-              Names:
-            <b style={{marginLeft:"5px"}}>{user.first_name}</b>
-            <b style={{marginLeft:"5px"}}>{user.last_name}</b>
-              <br/>
-              Email:
-            <b style={{marginLeft:"5px"}}>{user.email}</b>
-              <br/>
-              Website:
-            <a style={{marginLeft:"5px"}} href={user.website}>{user.website}</a>
-              <br/>
-              Member since:
-            <b style={{marginLeft:"5px"}}>{user.date_joined}</b>
-              <br/>
-              <br/>
-              <hr style={{borderColor : '#ffffff', height:"0.5px"}}/>
-              <br/>
-              <span name="UpdatePersonalInfo" style={{float:"right"}} >
-              <UpdateProffesionalInfo
-                userID = {user.id}
-                work_fields = {user.work_fields}
-                company_name = {user.company_name}
-                position = {user.position}
-                skills = {user.skills}
-                />
-            </span>
-              <RocketOutlined/>
-              Profesional:
-              <br/>
-              <br/>
-              Field of work:
-              <b style={{marginLeft:"5px"}}><Tag>{user.work_fields}</Tag></b>
-              <br/>
-              Company / Project:
-              <b style={{marginLeft:"5px"}}>{user.company_name}</b>
-              <br/>
-              Position:
-              <b style={{marginLeft:"5px"}}>{user.possition}</b>
-              <br/>
-              Skills:
-              <b style={{marginLeft:"5px"}}><Tag>{user.skills}</Tag></b>
-              <br/>
-              <br/>
-              <hr style={{borderColor : '#ffffff', height:"0.5px"}}/>
-              <br/>
-              <span name="UpdatePersonalInfo" style={{float:"right"}} >
-              <UpdateLocation
-                userID = {user.id}
-                address_line = {user.address_line}
-                zip_code = {user.zip_code}
-                state = {user.state}
-                country = {user.country}
-                />
-              </span>
-    
-              <EnvironmentOutlined />
-              Location:
-              <br/>
-              <br/>
-              Country: <b>{user.country}</b><br/>
-              Zip code: <b>{user.zip_code}</b><br/>
-              State: <b>{user.state}</b><br/>
-              Address: <b>{user.address_line}</b><br/>
-              <br/>
-              <br/>
-              <br/>
-              <hr style={{borderColor : '#ffffff', height:"0.5px"}}/>
-              <Link to="/update/password">
-                    <Button icon={<KeyOutlined />}type="primary" style={{float:"left"}}>Change Password</Button>
-              </Link>
-
-
-          </TabPane>
-          <TabPane
-            tab={
-              <span>
-                <UserOutlined />
-                Avatar
-              </span>
-            }
-            key="2"
-          >
-            <p>Avatar</p>
-            <form method="Post" enctype="multipart/form-data">
-              <Upload
-                  name="avatar"
-                  listType="picture-card"
-                  className="avatar-uploader"
-                  showUploadList= { false | {showRemoveIcon : true} }
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                  beforeUpload={beforeUpload}
-                  onChange={this.handleChange}
-                >
-                    {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-              </Upload>
-              <Button type="submit">Update</Button>
-
-              <Button>Clear</Button>
-            </form>
-          </TabPane>
-          
-          <TabPane
-            tab={
-              <span>
-                <AppstoreOutlined />
-                Frames
-              </span>
-            }
-            key="3"
-          >
-            <div style={{float:"right"}}><AddFrame/></div>
-            <p>My Frames:</p>
-            <MyFrames></MyFrames>
-          </TabPane>
-
-
-          <TabPane
-            tab={
-              <span>
-                <EditOutlined />
-                Stories
-              </span>
-            }
-            key="4"
-          >
-            Tab 3
-          </TabPane>
-          <TabPane
-            tab={
-              <span>
-                <UsergroupAddOutlined />
-                Followers
-              </span>
-            }
-            key="5"
-          >
-            Tab 4
-          </TabPane>
-        </Tabs>
-        </Card>
-        
-      </>
-     );
-
-     const CompanyView = (
-      <>
-      <Card>
-        <div id="avatar" style={{marginTop:'8px',  marginRight:"50px", float:"left"}} >
-          <span className="avatar-item">
-            <Avatar
-            size={128}
-            shape="circle"
-            src={user.avatar}
-            backgroundColor='#87d068' />
-          </span>
-        </div>
-        <div style={{fontSize:"16pt", marginTop:'8px', }}>
-        <b>{user.username}</b>
-        </div>
-        <div style={{fontSize:"12pt", marginTop:'8px', }}>
-        {user.email}
-        </div>
-        <div style={{fontSize:"12pt", marginTop:'8px', }}>
-        </div>
-        <div style={{fontSize:"14pt", marginTop:'8px', color:"blue" }}>
-
-        </div>
-
-      </Card>
-      <Card>
-      <Tabs tabPosition="left" defaultActiveKey="1">
-        <TabPane
-          tab={
-            <span>
-              <SettingOutlined/>
-              Account
-            </span>
-          }
-          key="1"
-        >
-          <span name="UpdatePersonalInfo" style={{float:"right"}} >
-            <UpdatePersonalInfo
-              id = {user.id}
-              website = {user.website}
-              first_name = {user.first_name}
-              last_name = {user.last_name}
-          
-              />
-          </span>
-          <InfoCircleOutlined /> Information:
-            <br/>
-            <br/>
-            username:
-          <b style={{marginLeft:"5px"}}>{user.username}</b>
-            <br/>
-            <br/>
-            Email:
-          <b style={{marginLeft:"5px"}}>{user.email}</b>
-            <br/>
-            Website:
-          <a style={{marginLeft:"5px"}} href={user.website}>{user.website}</a>
-            <br/>
-            Member since:
-          <b style={{marginLeft:"5px"}}>{user.date_joined}</b>
-            <br/>
-            <br/>
-           
-            <br/>
-   
-      
-            <Link to="/update/password">
-                  <Button icon={<KeyOutlined />}type="primary" style={{float:"left"}}>Change Password</Button>
-            </Link>
-        </TabPane>
-        <TabPane
-          tab={
-            <span>
-              <UserOutlined />
-              Avatar
-            </span>
-          }
-          key="2"
-        >
-          <p>Avatar</p>
-          <form method="Post" enctype="multipart/form-data">
-            <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList= { false | {showRemoveIcon : true} }
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={this.handleChange}
-              >
-                  {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-            </Upload>
-            <Button type="submit">Update</Button>
-
-            <Button>Clear</Button>
-          </form>
-        </TabPane>
-        
-        <TabPane
-          tab={
-            <span>
-              <BankOutlined />
-              Comapany
-            </span>
-          }
-          key="3"
-        >
-          <div style={{float:"right"}}><Button>Add Comapny</Button></div>
-          <p>My Comapny:</p>
-          <RocketOutlined/>
-            <b>Profesional: </b>
-                <br/>
-                <br/>
-                Company:
-                <b style={{marginLeft:"5px"}}>{user.company_name}</b>
-                <br/>
-                Website:
-                <b style={{marginLeft:"5px"}}>{user.website}</b>
-                <br/>
-                Field of work:
-                <b style={{marginLeft:"5px"}}>{user.work_fields}</b>
-                <br/>
-                <br/>
-      
-          <EnvironmentOutlined />
-            <b>Location:</b>
-            <br/>
-            <br/>
-            Country: <b>{user.country}</b><br/>
-            Zip code: <b>{user.zip_code}</b><br/>
-            State: <b>{user.state}</b><br/>
-            Address: <b>{user.address_line}</b><br/>
-            <br/>
-            <br/>
-            <br/>
-            
-
-        </TabPane>
-      </Tabs>
-      </Card>
-      
-    </>
-
-     );
 
     return (
       <>
-      {user.is_designer ? DesignerView : CompanyView}
+        <Card
+        >
+          <Meta
+              avatar = {<Avatar
+              size={128}
+              shape="circle"
+              src={this.props.profile.avatar}
+              backgroundColor='#87d068' />
+            }
+            title={
+              <>
+              <b style={{fontSize:"14pt"}}>{this.props.profile.username}</b>
+              <br/>
+              <span style={{color:"blue"}}>{this.props.profile.first_name}</span>
+              <span style={{color:"blue", marginLeft:"5px"}}>{this.props.profile.last_name}</span>
+              </>
+
+            }
+            description={
+              <>
+              {this.props.profile.email}<br/>
+              <div>member since: {moment(this.props.profile.date_joined).format('DD-MM-YYYY')}</div>
+
+              <a href={"https://"+this.props.profile.website} target="_blank">{this.props.profile.website}</a>
+              </>
+            }
+          />
+         <br/>
+         <br/>
+
+          {this.props.profile.company_name ?
+            <>
+            <span style={{color:"gray", marginRight:"5px"}}>works at: </span>
+            {this.props.profile.company_name}</>
+            :
+            null
+          }
+          {this.props.profile.position ?
+            <>
+                {this.props.profile.company_name != "" ?
+                <span style={{color:"gray", marginRight:"5px", marginLeft:"5px"}}>as </span>
+                :
+                null
+                }
+             {this.props.profile.position}</>
+            :
+            null
+          }
+            <br/>
+          {this.props.profile.work_fields ?
+            <> Fields of work: <Tag> {this.props.profile.work_fields}</Tag></>
+            :
+            null
+          }
+          {this.props.profile.skills ?
+            <> Skills: <Tag> {this.props.profile.skills}</Tag></>
+            :
+            null
+          }
+          <br/>
+          <br/>
+            { this.props.profile.Location != " " ?
+              <>
+              <EnvironmentOutlined />
+              <b>{this.props.profile.state}</b>
+              <b>, </b>
+              <b>{this.props.profile.country}</b><br/>
+              </>
+              :
+              null
+            }
+
+          <Button style={{float: "right"}}>Send Message</Button>
+          <br/>
+        </Card>
       </>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  userData: state.auth,
+  profile: state.auth.profile,
 });
 
 
-export default withRouter(connect(mapStateToProps, { logout, loadUser })(Dashboard));
+export default withRouter(connect(mapStateToProps, { loadProfile })(Profile));

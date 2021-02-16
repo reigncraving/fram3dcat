@@ -45,3 +45,16 @@ class CommentSerializer(serializers.ModelSerializer):
             'likes',
             'pub_date'
             )
+
+class AuthorCommentSerializer(serializers.ModelSerializer):
+
+        class Meta:
+            model = Comment
+            fields = (
+            'id',
+            'post',
+            'author',
+            'content',
+            'likes',
+            'pub_date'
+            )
