@@ -170,7 +170,7 @@ REST_FRAMEWORK = {
     ( 'knox.auth.TokenAuthentication',),
     'DATETIME_FORMAT': "%m/%d/%Y %H:%M:%S",
     "DATE_INPUT_FORMATS": ["%d-%m-%Y"],
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+   'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 CORS_ORIGIN_ALLOW_ALL = True

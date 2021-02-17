@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 from GlobalModels.models import Skills
+import django_filters
 
 User = get_user_model()
 # User Serializer
@@ -65,6 +66,7 @@ class AllPublicUsersSerializer(serializers.ModelSerializer):
     'address_line','zip_code','state','country',
     'date_joined', 'last_logged_in', 'is_available', 'company_name', 'position',
     'website','tools', 'work_fields', 'skills', 'is_staff', 'is_designer', 'is_admin', 'is_active' )
+  
 
 #serializer for author detail
 class AuthorSerializer(serializers.ModelSerializer):
@@ -96,6 +98,8 @@ class AllPublicDesignersSerializer(serializers.ModelSerializer):
     'address_line','zip_code','state','country',
     'date_joined', 'last_logged_in', 'is_available', 'company_name', 'position',
     'website','tools', 'work_fields', 'skills', 'is_staff', 'is_designer', 'is_admin', 'is_active' )
+
+
 
 
 #CompanyInfoSerializer

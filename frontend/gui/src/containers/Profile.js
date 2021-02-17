@@ -1,41 +1,29 @@
 import React from 'react';
-
+import Axios from 'axios';
 import {
-  Menu,
   Card,
   Avatar,
-  Badge,
   Button,
-  Tabs,Upload,
-  message,
-  Form,
-  List,
   Tag,
+  Collapse,
 } from 'antd';
 import {
-  AppstoreOutlined,
-  MailOutlined,
-  BankOutlined,
-  SettingOutlined,
-  UsergroupAddOutlined,
-  UserOutlined,
-  LogoutOutlined,
-  InfoCircleOutlined,
-  EditOutlined,
-  RocketOutlined,
   EnvironmentOutlined,
-  KeyOutlined,
-  LoadingOutlined,
-  PlusOutlined
 } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logout, auth, loadProfile } from '../store/actions/auth';
-import MyFrames from '../containers/MyFrames'
-import { Link, withRouter, Redirect } from 'react-router-dom';
+import {  loadProfile } from '../store/actions/auth';
+import {  withRouter } from 'react-router-dom';
 import moment from 'moment';
-
+import FrameList from '../components/frameList';
+import Story from '../components/Story';
 const { Meta } = Card;
+
+const { Panel } = Collapse;
+
+function callback(key) {
+  console.log(key);
+}
 
 class Profile extends React.Component {
 
@@ -47,6 +35,8 @@ class Profile extends React.Component {
    state = {
     loading: false,
     work_fields: [],
+    Frame: [],
+    stories: [],
   };
 
   onLinkClick = e => {
@@ -55,6 +45,17 @@ class Profile extends React.Component {
   componentDidMount(){
     const user_ID = this.props.match.params.user_ID;
     this.props.loadProfile(user_ID)
+
+      Axios.get(`http://127.0.0.1:8000/global/frame_author/?author__id=${user_ID}`)
+      .then(res => {
+          this.setState({Frame: res.data}); //res = response data
+      })
+
+      Axios.get(`http://127.0.0.1:8000/stories/author_info/?author__id=${user_ID}`)
+      .then(res => {
+          this.setState({stories: res.data}); //res = response data
+          console.log(res.data);
+      })
 
   }
 
@@ -101,7 +102,7 @@ class Profile extends React.Component {
           }
           {this.props.profile.position ?
             <>
-                {this.props.profile.company_name != "" ?
+                {this.props.profile.company_name !== "" ?
                 <span style={{color:"gray", marginRight:"5px", marginLeft:"5px"}}>as </span>
                 :
                 null
@@ -111,19 +112,19 @@ class Profile extends React.Component {
             null
           }
             <br/>
-          {this.props.profile.work_fields ?
+          {this.props.profile.work_fields !== "" ?
             <> Fields of work: <Tag> {this.props.profile.work_fields}</Tag></>
             :
             null
           }
-          {this.props.profile.skills ?
+          {this.props.profile.skills !== "" ?
             <> Skills: <Tag> {this.props.profile.skills}</Tag></>
             :
             null
           }
           <br/>
           <br/>
-            { this.props.profile.Location != " " ?
+            { this.props.profile.Location !== "" ?
               <>
               <EnvironmentOutlined />
               <b>{this.props.profile.state}</b>
@@ -134,9 +135,30 @@ class Profile extends React.Component {
               null
             }
 
-          <Button style={{float: "right"}}>Send Message</Button>
+      
           <br/>
+        {this.props.profile.is_designer ?
+        <>
+          <Card>
+          <Collapse defaultActiveKey={['0']} onChange={callback}>
+            <Panel header="View Models" key="1">
+              <FrameList data={this.state.Frame} />
+            </Panel>
+            </Collapse>
         </Card>
+        <Card>
+          <Collapse defaultActiveKey={['0']} onChange={callback}>
+            <Panel header="View Stories" key="2">
+              <Story data={this.state.stories} />
+            </Panel>
+            </Collapse>
+        </Card>
+          </>
+        :
+       null
+        }
+        </Card>
+        
       </>
     );
   }

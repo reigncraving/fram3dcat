@@ -16,7 +16,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 class StoryAuthorInfoViewSet(viewsets.ModelViewSet):
     serializer_class = StoryAuthorInfoSerializer
     queryset = Story.objects.all()
-    filterset_fields = ('author__username', )
+    filterset_fields = ('author__username', 'author__id' )
 
 class AuthorCommentViewSet(viewsets.ModelViewSet):
     serializer_class = AuthorCommentSerializer
