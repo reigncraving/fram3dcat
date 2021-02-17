@@ -301,17 +301,7 @@ handleChange = info => {
           <MyStories username={user.username}></MyStories>
           </TabPane>
 
-          <TabPane
-            tab={
-              <span>
-                <UsergroupAddOutlined />
-                Chat
-              </span>
-            }
-            key="5"
-          >
-            Tab 4
-          </TabPane>
+         
         </Tabs>
         </Card>
 

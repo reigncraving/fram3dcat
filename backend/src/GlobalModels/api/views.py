@@ -91,7 +91,7 @@ class FrameCreateView(generics.CreateAPIView):
 class FrameByAuthor(viewsets.ModelViewSet):
     serializer_class = FrameGetAuthorSerializer
     queryset = Frame.objects.all()
-    filterset_fields = ('author__username', )
+    filterset_fields = ('author__username', 'author__id' )
 
 
 

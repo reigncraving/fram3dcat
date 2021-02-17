@@ -77,8 +77,8 @@ class FrameModal extends React.Component {
         style={{padding: "0"}}
         >
         <img
-        width="100%"
-         height="100%"
+        width="200px"
+         height="200px"
          src= {this.props.data.frame_picture}
          />
         </Card>

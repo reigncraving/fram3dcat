@@ -1,4 +1,6 @@
-from rest_framework import generics, mixins, permissions, status
+from rest_framework import (
+    generics, mixins, permissions, status,
+)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -21,7 +23,7 @@ AuthorSerializer,
 )
 
 from rest_framework.permissions import IsAuthenticated
-
+import django_filters
 
 User = get_user_model()
 
@@ -101,6 +103,38 @@ class AllDesignersAPIView(generics.ListAPIView):
 
     serializer_class = AllPublicDesignersSerializer
     queryset = User.objects.filter(is_designer=True)
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['username']
+    #filter_backends = [filters.SearchFilter]
+    #search_fields = ['username', 'skills']
+    
+#all Designers:
+#seach designers by Skills
+#http://127.0.0.1:8000/accounts/auth/alldesigners/skills/User/?skills=TIME_MANAGEMENT
+class SearchDesignersBySkills(generics.ListAPIView):
+
+    serializer_class = AllPublicDesignersSerializer
+    def get_queryset(self):
+       
+        queryset = User.objects.filter(is_designer=True)
+        skills = self.request.query_params.get('skills', None)
+        if skills is not None:
+            queryset = queryset.filter(skills__contains=skills, is_designer=True)
+        return queryset
+
+#all Designers:
+#seach designers by Work_Fields
+#http://127.0.0.1:8000/accounts/auth/alldesigners/work/user/?work_fields=MODELLING
+class SearchDesignersByWork(generics.ListAPIView):
+
+    serializer_class = AllPublicDesignersSerializer
+    def get_queryset(self):
+       
+        queryset = User.objects.all()
+        work_fields = self.request.query_params.get('work_fields', None)
+        if work_fields is not None:
+            queryset = queryset.filter(work_fields__contains=work_fields, is_designer=True)
+        return queryset
 
 #changePassword api
 # class PasswordChangeAPI(generics.RetrieveUpdateAPIView):

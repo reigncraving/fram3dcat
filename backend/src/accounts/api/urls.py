@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 from .api import (
@@ -14,6 +14,8 @@ UserAvatarUploadAPIview,
 CompanyInfoUpdateAPI,
 DestroyUserAPIview,
 GetAuthorAPIiew,
+SearchDesignersBySkills,
+SearchDesignersByWork,
 
 )
 from .views import ChangePasswordView, AllUsersAPIView, UserDetail
@@ -27,7 +29,7 @@ urlpatterns = [
     path('auth/login', LoginAPI.as_view()),
     path('auth/user', UserAPI.as_view()),
     path('auth/allusers', AllUsersAPIView.as_view()),
-    path('auth/alldesigners', AllDesignersAPIView.as_view()),
+    path('auth/alldesigners/', AllDesignersAPIView.as_view()),
     path('auth/author/<int:pk>', GetAuthorAPIiew.as_view()),
     path('auth/user/<int:pk>/', UserDetail.as_view()),
     path('api/auth/logout', knox_views.LogoutView.as_view(), name='knox_logout'),
@@ -38,6 +40,8 @@ urlpatterns = [
     path('auth/update/avatar/<int:pk>', UserAvatarUploadAPIview.as_view()),
     path('auth/update/company-info/<int:pk>', CompanyInfoUpdateAPI.as_view()),
     path('auth/destroy/user/<int:pk>/', DestroyUserAPIview.as_view()),
+    re_path('^auth/alldesigners/skills/(?P<skills>.+)/$', SearchDesignersBySkills.as_view()),
+    re_path('^auth/alldesigners/work/(?P<work>.+)/$', SearchDesignersByWork.as_view()),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

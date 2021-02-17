@@ -24,6 +24,12 @@ const MyFrameList = (props) => {
         }}
       size="Small"
       Loading = "true"
+      pagination={{
+        onChange: page => {
+          console.log(page);
+        },
+        pageSize:10,
+      }}
       dataSource={props.data}
       renderItem={item => (
         <List.Item>
@@ -32,7 +38,7 @@ const MyFrameList = (props) => {
                 <FrameModal data={item} action={action}>
                 </FrameModal>
                 <EditFrame data={item}/>
-                <span style={{marginLeft:"70px"}}>
+                <span style={{marginLeft:"125px"}}>
                   <DeleteFrame data={item}/>
                 </span>
               </>

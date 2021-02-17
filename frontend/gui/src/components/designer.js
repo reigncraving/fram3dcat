@@ -1,8 +1,7 @@
 import React from 'react';
 import { List, message, Avatar, Spin, Card } from 'antd';
 import AuthorFramesList from '../containers/FramesByAuthorList';
-import { ClockCircleOutlined } from '@ant-design/icons';
-import { applyProps } from 'react-three-fiber';
+
 
 
 
