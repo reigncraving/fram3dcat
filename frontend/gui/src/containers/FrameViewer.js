@@ -11,9 +11,6 @@ import {
 } from 'drei'
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette, Draco} from 'react-postprocessing'
 
-
-
-
 const Camera = () => {
   const camera = useRef()
   const { aspect, size, setDefaultCamera } = useThree()
@@ -117,9 +114,6 @@ function FrameViewer(props) {
               </Suspense>
              <OrbitControls />
            </Canvas>
-           <Controls
-              title="Options"
-            />
          </ControlsProvider>
         </FullScreen>
             <button onClick={fullScreenHandle.enter}>

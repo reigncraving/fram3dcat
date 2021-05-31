@@ -25,8 +25,6 @@ const IconText = ({ icon, text }) => (
   </Space>
 );
 
-
-
 const Job = (props) => {
 
     return (
@@ -47,8 +45,7 @@ const Job = (props) => {
               <List.Item
                 actions={[
                   <>
-                    <AvatarText source={item.author.avatar} text={item.author.username} key="author"  link = {"/profile/"+item.author.id} />
-
+                    {/* <AvatarText source={item.author.avatar} text={item.author.username} key="author"  link = {"/profile/"+item.author.id} /> */}
                   </>
                 ]}
               >

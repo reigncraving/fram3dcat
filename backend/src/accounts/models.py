@@ -4,8 +4,6 @@ from multiselectfield import MultiSelectField
 from GlobalModels.models import Skills, Tools, Field_of_work
 from GlobalModels.cleaner import avatar_cleanup
 
-
-
 def upload_path(instance, filename):
     return '/'.join(str('avatar', instance.username) , filename )
 

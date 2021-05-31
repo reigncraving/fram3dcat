@@ -7,11 +7,8 @@ import DeleteFrame from '../containers/DeleteFrame'
 
 
 class MyStoriesListView extends React.Component {
-
              state = {
-
                stories: [],
-
           };
 
   //Get the data from django

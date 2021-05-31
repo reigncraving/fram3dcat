@@ -22,7 +22,6 @@ class MyJobsListView extends React.Component {
     //console.log(this.state.data)
   };
 
-
     render(){
         return(
           <>
