@@ -31,8 +31,6 @@ import {
   GET_COMMENTS,
   GET_COMMENTS_SUCCESS,
   GET_COMMENTS_FAIL,
-  CREATE_STORY_SUCCESS,
-  CREATE_STORY_FAIL,
   STORY_LOADING,
   GET_STORY_SUCCESS,
   GET_STORY_FAIL,
@@ -47,7 +45,6 @@ import {
 export const loadUser = () => (dispatch, getState) => {
   // User Loading
   dispatch({ type: USER_LOADING });
-
   axios
     .get('http://127.0.0.1:8000/accounts/auth/user', tokenConfig(getState))
     .then((res) => {
@@ -94,17 +91,10 @@ export const login = (username, password) => (dispatch) => {
 
 //load user profile
 export const loadProfile = (user_ID) => (dispatch) => {
-
   dispatch({ type: LOAD_PROFILE });
 
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
   axios
-    .get('http://127.0.0.1:8000/accounts/auth/user/'+user_ID+'/')
+    .get('http://127.0.0.1:8000/accounts/auth/user/' + user_ID + '/')
     .then((res) => {
       dispatch({
         type: LOAD_PROFILE_SUCCESS,
@@ -117,13 +107,10 @@ export const loadProfile = (user_ID) => (dispatch) => {
         type: LOAD_PROFILE_FAIL,
       });
     });
-  };
-
-
-
+};
 
 // REGISTER USER
-export const register = ({ username, password, email, is_designer}) => (dispatch) => {
+export const register = ({ username, password, email, is_designer }) => (dispatch) => {
   // Headers
   const config = {
     headers: {
@@ -132,14 +119,7 @@ export const register = ({ username, password, email, is_designer}) => (dispatch
   };
 
   // Request Body
-  const body = JSON.stringify({ username, password, email, is_designer});
-
-  // const data = {
-  //   'username': username,
-  //   'password': password,
-  //   'email': email,
-  // };
-
+  const body = JSON.stringify({ username, password, email, is_designer });
   axios
     .post('http://127.0.0.1:8000/accounts/auth/register', body, config)
     .then((res) => {
@@ -172,11 +152,8 @@ export const logout = () => (dispatch, getState) => {
     });
 };
 
-
-
-
 // UPDATE PASSWORD
-export const updatePassword = ({ old_password, new_password,}) => (dispatch, getState) => {
+export const updatePassword = ({ old_password, new_password, }) => (dispatch, getState) => {
   // User Loading
   dispatch({ type: USER_LOADING });
 
@@ -200,26 +177,25 @@ export const updatePassword = ({ old_password, new_password,}) => (dispatch, get
 
 };
 
-
 // DELETE Account email username password is req...
-export const deleteAccount = ({password}) => (dispatch, getState) => {
+export const deleteAccount = ({ password }) => (dispatch, getState) => {
 
-    const username = getState().auth.username;
-    const email = getState().auth.email;
-    const user_ID = getState().auth.id;
+  const username = getState().auth.username;
+  const email = getState().auth.email;
+  const user_ID = getState().auth.id;
 
   // Request Body
   const body = JSON.stringify({ username, email, password });
 
   axios
-    .delete('http://127.0.0.1:8000/accounts/auth/destroy/user/' + user_ID, body, tokenConfig(getState) )
+    .delete('http://127.0.0.1:8000/accounts/auth/destroy/user/' + user_ID, body, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: DELETE_SUCCESS,
         payload: res.data,
       });
     })
-    .then(() => { dispatch(logout());})
+    .then(() => { dispatch(logout()); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -229,10 +205,8 @@ export const deleteAccount = ({password}) => (dispatch, getState) => {
 
 };
 
-
-
 //UPDATE PersonalInfo:
-export const update_PersonalInfo = ({user_ID, first_name, last_name, website }) => (dispatch, getState ) => {
+export const update_PersonalInfo = ({ user_ID, first_name, last_name, website }) => (dispatch, getState) => {
   // Headers
   const config = {
     headers: {
@@ -251,7 +225,7 @@ export const update_PersonalInfo = ({user_ID, first_name, last_name, website }) 
         payload: res.data,
       });
     })
-    .then(() => { dispatch(loadUser());})
+    .then(() => { dispatch(loadUser()); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -262,7 +236,7 @@ export const update_PersonalInfo = ({user_ID, first_name, last_name, website }) 
 };
 
 //UPDATE Proffesional info:
-export const update_ProffesionalInfo = ({user_ID, work_fields, company_name, position, skills }) => (dispatch) => {
+export const update_ProffesionalInfo = ({ user_ID, work_fields, company_name, position, skills }) => (dispatch) => {
   // Headers
   const config = {
     headers: {
@@ -281,7 +255,7 @@ export const update_ProffesionalInfo = ({user_ID, work_fields, company_name, pos
         payload: res.data,
       });
     })
-    .then(() => { dispatch(loadUser());})
+    .then(() => { dispatch(loadUser()); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -291,7 +265,7 @@ export const update_ProffesionalInfo = ({user_ID, work_fields, company_name, pos
 };
 
 //UPDATE Location info:
-export const update_Location = ({user_ID, address_line, zip_code, state, country }) => (dispatch) => {
+export const update_Location = ({ user_ID, address_line, zip_code, state, country }) => (dispatch) => {
   // Headers
   const config = {
     headers: {
@@ -310,7 +284,7 @@ export const update_Location = ({user_ID, address_line, zip_code, state, country
         payload: res.data,
       });
     })
-    .then(() => { dispatch(loadUser());})
+    .then(() => { dispatch(loadUser()); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -319,10 +293,8 @@ export const update_Location = ({user_ID, address_line, zip_code, state, country
     });
 };
 
-
-
 //UPDATE CompanyInfo:
-export const update_CompanyInfo = ({user_ID, website, company_name, work_fields, address_line, zip_code, state, country }) => (dispatch, getState ) => {
+export const update_CompanyInfo = ({ user_ID, website, company_name, work_fields, address_line, zip_code, state, country }) => (dispatch, getState) => {
   // Headers
   const config = {
     headers: {
@@ -341,7 +313,7 @@ export const update_CompanyInfo = ({user_ID, website, company_name, work_fields,
         payload: res.data,
       });
     })
-    .then(() => { dispatch(loadUser());})
+    .then(() => { dispatch(loadUser()); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -352,10 +324,9 @@ export const update_CompanyInfo = ({user_ID, website, company_name, work_fields,
 };
 
 //UPLOAD IMAGE FILE
-export const uploadFile = (url,form_data) => (dispatch, getState) => {
+export const uploadFile = (url, form_data) => (dispatch, getState) => {
   // User Loading
   dispatch({ type: UPLOAD_SUCCESS });
-
   axios
     .put(url, form_data, tokenConfigUpload(getState))
     .then((res) => {
@@ -364,7 +335,7 @@ export const uploadFile = (url,form_data) => (dispatch, getState) => {
         payload: res.data,
       });
     })
-    .then(() => { dispatch(loadUser());})
+    .then(() => { dispatch(loadUser()); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -372,7 +343,6 @@ export const uploadFile = (url,form_data) => (dispatch, getState) => {
       });
     });
 };
-
 
 //Get MyFramews be username
 export const getMyFrames = (username) => (dispatch, getState) => {
@@ -399,9 +369,7 @@ export const getMyFrames = (username) => (dispatch, getState) => {
         type: GET_FRAMES_FAIL,
       });
     });
-
 };
-
 
 //Create Frame
 export const createFrame = (form_data) => (dispatch, getState) => {
@@ -416,9 +384,9 @@ export const createFrame = (form_data) => (dispatch, getState) => {
         payload: res.data,
       });
     })
-    .then(() => { dispatch(loadUser());})
+    .then(() => { dispatch(loadUser()); })
     //update state on my framelist
-    .then(() => { dispatch(getMyFrames(getState().auth.username));})
+    .then(() => { dispatch(getMyFrames(getState().auth.username)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -430,16 +398,16 @@ export const createFrame = (form_data) => (dispatch, getState) => {
 export const updateFrame = (form_data, frame_ID) => (dispatch, getState) => {
 
   axios
-    .patch('http://127.0.0.1:8000/global/frames/' + frame_ID +'/', form_data, tokenConfigUpload(getState))
+    .patch('http://127.0.0.1:8000/global/frames/' + frame_ID + '/', form_data, tokenConfigUpload(getState))
     .then((res) => {
       dispatch({
         type: UPDATE_SUCCESS,
         payload: res.data,
       });
     })
-    .then(() => { dispatch(loadUser());})
+    .then(() => { dispatch(loadUser()); })
     //update state on my framelist
-    .then(() => { dispatch(getMyFrames(getState().auth.username));})
+    .then(() => { dispatch(getMyFrames(getState().auth.username)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -450,18 +418,17 @@ export const updateFrame = (form_data, frame_ID) => (dispatch, getState) => {
 
 //DeleteFrame
 export const deleteFrame = (frame_ID) => (dispatch, getState) => {
-
   axios
-    .delete('http://127.0.0.1:8000/global/frames/' + frame_ID +'/', tokenConfigUpload(getState))
+    .delete('http://127.0.0.1:8000/global/frames/' + frame_ID + '/', tokenConfigUpload(getState))
     .then((res) => {
       dispatch({
         type: DELETE_SUCCESS,
         payload: res.data,
       });
     })
-    .then(() => { dispatch(loadUser());})
+    .then(() => { dispatch(loadUser()); })
     //update state on my framelist
-    .then(() => { dispatch(getMyFrames(getState().auth.username));})
+    .then(() => { dispatch(getMyFrames(getState().auth.username)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -473,20 +440,19 @@ export const deleteFrame = (frame_ID) => (dispatch, getState) => {
 //Add views to Frame
 export const addViews = (frame_ID, views) => (dispatch, getState) => {
 
-
-const body = JSON.stringify({ views });
+  const body = JSON.stringify({ views });
 
   axios
-    .patch('http://127.0.0.1:8000/global/frames/' + frame_ID +'/', body, tokenConfig(getState))
+    .patch('http://127.0.0.1:8000/global/frames/' + frame_ID + '/', body, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: UPDATE_SUCCESS,
         payload: res.data,
       });
     })
-    .then(() => { dispatch(loadUser());})
+    .then(() => { dispatch(loadUser()); })
     //update state on my framelist
-    .then(() => { dispatch(getMyFrames(getState().auth.username));})
+    .then(() => { dispatch(getMyFrames(getState().auth.username)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -495,24 +461,8 @@ const body = JSON.stringify({ views });
     });
 };
 
-
 //Create Jobs post
 export const createJob = (headline,
-description,
-body_text,
-salary,
-due_date,
-number_of_comments,
-rating,
-is_remote,
-is_active,
-submition_url,
-experience,) => (dispatch, getState) => {
-
-
-const author = getState().auth.id;
-  // Request Body
-  const body = JSON.stringify({ headline,
   description,
   body_text,
   salary,
@@ -522,36 +472,47 @@ const author = getState().auth.id;
   is_remote,
   is_active,
   submition_url,
-  experience,
-  author
- });
+  experience,) => (dispatch, getState) => {
 
-  axios
-    .post('http://127.0.0.1:8000/jobs/auth/', body, tokenConfig(getState))
-    .then((res) => {
-      dispatch({
-        type: ADD_JOB_SUCCESS,
-        payload: res.data,
-      });
-    })
-    .then(() => { dispatch(loadUser());})
-    //update state on my framelist
-    //.then(() => { dispatch(getMyFrames(getState().auth.username));})
-    .catch((err) => {
-      dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({
-        type: ADD_JOB_FAIL,
-      });
+    const author = getState().auth.id;
+    // Request Body
+    const body = JSON.stringify({
+      headline,
+      description,
+      body_text,
+      salary,
+      due_date,
+      number_of_comments,
+      rating,
+      is_remote,
+      is_active,
+      submition_url,
+      experience,
+      author
     });
-};
+
+    axios
+      .post('http://127.0.0.1:8000/jobs/auth/', body, tokenConfig(getState))
+      .then((res) => {
+        dispatch({
+          type: ADD_JOB_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .then(() => { dispatch(loadUser()); })
+      //update state on my framelist
+      //.then(() => { dispatch(getMyFrames(getState().auth.username));})
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+        dispatch({
+          type: ADD_JOB_FAIL,
+        });
+      });
+  };
 
 //Update Jobs post
 export const updateJob = (jobID, form_data) => (dispatch, getState) => {
-
-
-const author = getState().auth.id;
   // Request Body
-
 
   axios
     .patch(`http://127.0.0.1:8000/jobs/auth/${jobID}/`, form_data, tokenConfigUpload(getState))
@@ -561,9 +522,8 @@ const author = getState().auth.id;
         payload: res.data,
       });
     })
-
     //update state on my framelist
-    .then(() => { dispatch(getMyJobs(getState().auth.username));})
+    .then(() => { dispatch(getMyJobs(getState().auth.username)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -604,7 +564,7 @@ export const getMyJobs = (username) => (dispatch, getState) => {
 export const deleteJob = (job_ID) => (dispatch, getState) => {
 
   axios
-    .delete('http://127.0.0.1:8000/jobs/auth/' + job_ID +'/', tokenConfig(getState))
+    .delete('http://127.0.0.1:8000/jobs/auth/' + job_ID + '/', tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: DELETE_SUCCESS,
@@ -612,7 +572,7 @@ export const deleteJob = (job_ID) => (dispatch, getState) => {
       });
     })
     //update state on my framelist
-    .then(() => { dispatch(getMyJobs(getState().auth.username));})
+    .then(() => { dispatch(getMyJobs(getState().auth.username)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -651,7 +611,7 @@ export const getStoryComments = (post_ID) => (dispatch, getState) => {
 //Create  STORY Comment
 export const postStoryComment = (post, content, author) => (dispatch, getState) => {
 
-const body = JSON.stringify({post, content, author});
+  const body = JSON.stringify({ post, content, author });
   axios
     .post('http://127.0.0.1:8000/stories/comment_author/', body, tokenConfig(getState))
     .then((res) => {
@@ -660,14 +620,13 @@ const body = JSON.stringify({post, content, author});
         payload: res.data,
       });
     })
-    .then(() => { dispatch(getStoryComments(post));})
+    .then(() => { dispatch(getStoryComments(post)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: CREATE_COMMENT_FAIL,
       });
     });
-
 };
 
 //Get my comments by post_ID
@@ -702,7 +661,7 @@ export const getComments = (post_ID) => (dispatch, getState) => {
 //Create Comment
 export const postComment = (post, content, author) => (dispatch, getState) => {
 
-const body = JSON.stringify({post, content, author});
+  const body = JSON.stringify({ post, content, author });
   axios
     .post('http://127.0.0.1:8000/global/comment/', body, tokenConfig(getState))
     .then((res) => {
@@ -711,16 +670,14 @@ const body = JSON.stringify({post, content, author});
         payload: res.data,
       });
     })
-    .then(() => { dispatch(getComments(post));})
+    .then(() => { dispatch(getComments(post)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: CREATE_COMMENT_FAIL,
       });
     });
-
 };
-
 
 //Create story post
 export const createStory = (form_data) => (dispatch, getState) => {
@@ -733,8 +690,8 @@ export const createStory = (form_data) => (dispatch, getState) => {
         payload: res.data,
       });
     })
-    .then(() => { dispatch(loadUser());})
-    .then(() => { dispatch(getMyStories(getState().auth.username));})
+    .then(() => { dispatch(loadUser()); })
+    .then(() => { dispatch(getMyStories(getState().auth.username)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -756,7 +713,7 @@ export const updateStory = (form_data, story_ID) => (dispatch, getState) => {
     })
 
     //update state on my framelist
-    .then(() => { dispatch(getMyStories(getState().auth.username));})
+    .then(() => { dispatch(getMyStories(getState().auth.username)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -797,7 +754,7 @@ export const getMyStories = (username) => (dispatch, getState) => {
 export const deleteStory = (story_ID) => (dispatch, getState) => {
 
   axios
-    .delete('http://127.0.0.1:8000/stories/auth/' + story_ID +'/', tokenConfig(getState))
+    .delete('http://127.0.0.1:8000/stories/auth/' + story_ID + '/', tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: DELETE_SUCCESS,
@@ -805,7 +762,7 @@ export const deleteStory = (story_ID) => (dispatch, getState) => {
       });
     })
     //update state on my framelist
-    .then(() => { dispatch(getMyStories(getState().auth.username));})
+    .then(() => { dispatch(getMyStories(getState().auth.username)); })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -813,9 +770,6 @@ export const deleteStory = (story_ID) => (dispatch, getState) => {
       });
     });
 };
-
-
-
 
 // Setup config with token - helper function
 export const tokenConfig = (getState) => {
@@ -828,12 +782,10 @@ export const tokenConfig = (getState) => {
       'Content-Type': 'application/json',
     },
   };
-
   // If token, add to headers config
   if (token) {
     config.headers['Authorization'] = `Token ${token}`;
   }
-
   return config;
 };
 
@@ -841,18 +793,15 @@ export const tokenConfig = (getState) => {
 export const tokenConfigUpload = (getState) => {
   // Get token from state
   const token = getState().auth.token;
-
   // Headers
   const config = {
     headers: {
       'content-type': 'multipart/form-data',
     },
   };
-
   // If token, add to headers config
   if (token) {
     config.headers['Authorization'] = `Token ${token}`;
   }
-
   return config;
 };

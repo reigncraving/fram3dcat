@@ -1,19 +1,19 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import StoryListView from './containers/StoryListView';
-import StoryDetailView from './containers/StoryDetailView';
-import Login from './containers/Login';
-import Register from './containers/Register';
-import UpdatePass from './containers/UpdatePassword';
-import DeleteAccount from './containers/DeleteAccount';
-import Dashboard from './containers/Dashboard';
-import FrameViewer from './containers/FrameViewer';
-import FramesListView from './containers/FramesListView';
-import JobsListView from './containers/JobsList';
-import JobsDetailView from './containers/jobDetail';
-import DesignersListView from './containers/DesignersListView';
-import Profile from './containers/Profile';
-import SearchDesigner from './containers/SearchDesigner';
+import StoryListView from './features/story/StoryListView';
+import StoryDetailView from './features/story/StoryDetailView';
+import Login from './features/auth/Login';
+import Register from './features/auth/Register';
+import UpdatePass from './features/profile/UpdatePassword';
+import DeleteAccount from './features/profile/DeleteAccount';
+import Dashboard from './features/dashboard/Dashboard';
+import FrameViewer from './features/frame/FrameViewer';
+import FramesListView from './features/frame/FramesListView';
+import JobsListView from './features/job/JobsList';
+import JobsDetailView from './features/job/jobDetail';
+import DesignersListView from './features/designers/DesignersListView';
+import Profile from './features/profile/Profile';
+import SearchDesigner from './features/designers/SearchDesigner';
 
 //basic router
 const MainRouter = () => (

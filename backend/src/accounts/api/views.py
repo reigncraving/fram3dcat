@@ -67,10 +67,6 @@ class LoginAPIView(generics.GenericAPIView):
             "token": AuthToken.objects.create(user)[1]
         })
 
-
-
-
-
 class ChangePasswordView(generics.GenericAPIView):
 
         serializer_class = ChangePasswordSerializer

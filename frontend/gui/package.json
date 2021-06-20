@@ -39,6 +39,7 @@
     "redux-thunk": "^2.3.0",
     "slate": "^0.59.0",
     "slate-react": "^0.59.0",
+    "styled-components": "^5.3.0",
     "three": "^0.120.1"
   },
   "scripts": {
